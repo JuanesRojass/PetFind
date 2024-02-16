@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mascotas_bga/config/router/app_router.dart';
+import 'package:mascotas_bga/config/theme/app_theme.dart';
 
 void main() {
   runApp(const MainApp());
@@ -11,13 +13,11 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp.router(
+      routerConfig: router,
+      theme: AppTheme().getTheme(),
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+        
     );
   }
 }
