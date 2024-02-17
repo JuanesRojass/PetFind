@@ -7,7 +7,7 @@ class PetsRefugioScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Mascotas En Adopción'),
+        title: const Text('Mascotas en Adopción'),
       ),
     );
   }

@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:mascotas_bga/features/auth/screens/register_screen_test.dart';
+// import 'package:mascotas_bga/features/auth/screens/register_screen_test.dart';
 import 'package:mascotas_bga/features/auth/screens/screens.dart';
 import 'package:mascotas_bga/features/content/screens/screens.dart';
 
@@ -16,7 +16,7 @@ final GoRouter router = GoRouter(
 
   GoRoute(
     path: '/register',
-    builder: (context, state) => const RegisterScreenTest(),
+    builder: (context, state) => const RegisterScreen(),
     ),
 
   GoRoute(
