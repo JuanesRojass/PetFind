@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 class PetsRefugioScreen extends StatelessWidget {
   const PetsRefugioScreen({super.key});
 
@@ -9,6 +10,9 @@ class PetsRefugioScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Mascotas en Adopción'),
       ),
+      body: const Center(
+        child: Text('INTERFAZ REFUGIO'),
+      )
     );
   }
 }
