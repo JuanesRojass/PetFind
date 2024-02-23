@@ -41,6 +41,7 @@ class AppTheme {
     ///* AppBar
     appBarTheme: AppBarTheme(
       color: scaffoldBackgroundColor,
+      centerTitle: true,
       titleTextStyle: GoogleFonts.montserratAlternates()
         .copyWith( fontSize: 25, fontWeight: FontWeight.bold, color: Colors.black ),
     )
