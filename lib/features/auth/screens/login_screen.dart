@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:mascotas_bga/features/auth/blocs/all_blocs.dart';
+import 'package:mascotas_bga/features/providers/connect_provider.dart';
 
 import '../../shared/widgets/widgets.dart';
 
@@ -16,13 +17,15 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
+
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
 
   String mensaje = '';
 
   Future<void> login() async {
-    String uri = "http://192.168.1.7/mascotas/login.php";
+    String uri = "http://$ipConnect/mascotas/login.php";
     var res = await http.post(Uri.parse(uri),
         body: {"email": email.text, "password": password.text});
 

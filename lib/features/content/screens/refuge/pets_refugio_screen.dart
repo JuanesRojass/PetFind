@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import 'package:mascotas_bga/features/providers/connect_provider.dart';
+
 class PetsRefugioScreen extends StatefulWidget {
   const PetsRefugioScreen({super.key});
 
@@ -16,7 +18,7 @@ class _PetsRefugioScreenState extends State<PetsRefugioScreen> {
   List mascotasadp = [];
 
   Future<void> getMascotasAdp() async {
-    String uri = "http://192.168.1.7/mascotas/view_mascotas_adp.php";
+    String uri = "http://$ipConnect/mascotas/view_mascotas_adp.php";
     try {
       var response = await http.get(Uri.parse(uri));
 
@@ -38,7 +40,6 @@ class _PetsRefugioScreenState extends State<PetsRefugioScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: false,
           title: const Text('Mascotas Adopción'),
         ),
         body: ListView.builder(

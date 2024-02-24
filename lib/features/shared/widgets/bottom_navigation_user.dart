@@ -1,40 +1,70 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class BottomNavigationUser extends StatefulWidget {
+class BottomNavigationUser extends StatelessWidget {
   const BottomNavigationUser({super.key});
 
-  @override
-  State<BottomNavigationUser> createState() => _BottomNavigationUserState();
-}
+  int getCurrentIndex(BuildContext context) {
+    final String location = GoRouterState.of(context).uri.toString();
 
-class _BottomNavigationUserState extends State<BottomNavigationUser> {
-  int paginaActual = 0;
-  
+    switch (location) {
+      case '/pets':
+        return 0;
 
-  List paginas = ['/pets', '/lost'];
+      case '/lost':
+        return 1;
+
+      case '/street':
+        return 2;
+
+      default:
+        return 0;
+    }
+  }
+
+  void onItemTapped(BuildContext context, int index) {
+    switch (index) {
+      case 0:
+        context.go('/pets');
+        break;
+      case 1:
+        context.go('/lost');
+        break;
+      case 2:
+        context.go('/street');
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-        onTap: (index) {
-          setState(() {
-            paginaActual = index;
-            context.push(paginas[paginaActual]);
-          });
-        },
-        currentIndex: paginaActual,
-        type: BottomNavigationBarType.fixed,
         elevation: 0,
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: const Color.fromARGB(206, 247, 151, 8),
+        currentIndex: getCurrentIndex(context),
+        onTap: (index) => onItemTapped(context, index),
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.pets_outlined), label: 'Adopta'),
+            icon: Icon(
+              Icons.pets_outlined,
+              color: Colors.white,
+            ),
+            activeIcon: Icon(Icons.pets_rounded),
+            label: 'Adopta',
+          ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.question_mark_outlined), label: 'Perdidos'),
+              icon: Icon(Icons.question_mark_outlined, color: Colors.white),
+              activeIcon: Icon(Icons.question_mark_rounded),
+              label: 'Perdidos'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.book_outlined), label: 'Encontrados'),
+              icon: Icon(Icons.book_sharp, color: Colors.white),
+              activeIcon: Icon(Icons.book_rounded),
+              label: 'Encontrados'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.house_outlined), label: 'Refugios'),
+              icon: Icon(Icons.house_sharp, color: Colors.white),
+              activeIcon: Icon(Icons.house_rounded),
+              label: 'Refugios'),
         ]);
   }
 }

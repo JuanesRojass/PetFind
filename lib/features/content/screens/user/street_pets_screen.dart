@@ -2,28 +2,27 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:mascotas_bga/features/providers/connect_provider.dart';
 
-import 'package:mascotas_bga/features/shared/shared.dart';
+import '../../../shared/shared.dart';
 
-class PetsScreen extends StatefulWidget {
-  const PetsScreen({super.key});
+class StreetPetsScreen extends StatefulWidget {
+  const StreetPetsScreen({super.key});
 
   @override
-  State<PetsScreen> createState() => _PetsScreenState();
+  State<StreetPetsScreen> createState() => _StreetPetsScreenState();
 }
 
-class _PetsScreenState extends State<PetsScreen> {
-  TextEditingController name = TextEditingController();
-
-  List mascotasadp = [];
+class _StreetPetsScreenState extends State<StreetPetsScreen> {
+  List mascotasCalle = [];
 
   Future<void> getMascotasAdp() async {
-    String uri = "http://192.168.1.7/mascotas/view_mascotas_adp.php";
+    String uri = "http://$ipConnect/mascotas/view_mascotas_street.php";
     try {
       var response = await http.get(Uri.parse(uri));
 
       setState(() {
-        mascotasadp = jsonDecode(response.body);
+        mascotasCalle = jsonDecode(response.body);
       });
     } catch (e) {
       print(e);
@@ -36,21 +35,21 @@ class _PetsScreenState extends State<PetsScreen> {
     super.initState();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: const Text('Mascotas En Adopción'),
+          title: const Text('Mascotas En Calle'),
         ),
         body: ListView.builder(
-          itemCount: mascotasadp.length,
+          itemCount: mascotasCalle.length,
           itemBuilder: (context, index) {
             return Card(
               margin: const EdgeInsets.all(10),
               child: ListTile(
-                title: Text(mascotasadp[index]["nombre_mascota_adp"]),
-                subtitle: Text(mascotasadp[index]["raza_mascota_adp"]),
+                title: Text(mascotasCalle[index]["direccion_mascota_calle"]),
+                subtitle: Text(mascotasCalle[index]["imagen_mascota_calle"]),
               ),
             );
           },

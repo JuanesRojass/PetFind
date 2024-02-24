@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:mascotas_bga/features/auth/blocs/all_blocs.dart';
+import 'package:mascotas_bga/features/providers/connect_provider.dart';
 
 import '../../shared/widgets/widgets.dart';
 
@@ -25,7 +26,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         controllPass.text != "" ||
         controllEmail.text != "") {
       try {
-        String uri = "http://192.168.1.7/mascotas/insert_record.php";
+        String uri = "http://$ipConnect/mascotas/insert_record.php";
         var res = await http.post(Uri.parse(uri), body: {
           "username": controllUser.text,
           "password": controllPass.text,

@@ -4,6 +4,7 @@ import 'package:mascotas_bga/features/auth/screens/screens.dart';
 import 'package:mascotas_bga/features/content/screens/screens.dart';
 
 
+
 final GoRouter router = GoRouter(
   initialLocation: '/login',
   routes: [
@@ -37,6 +38,11 @@ final GoRouter router = GoRouter(
   GoRoute(
     path: '/user',
     builder: (context, state) => const UserProfileScreen(),
+    ),
+
+  GoRoute(
+    path: '/street',
+    builder: (context, state) => const StreetPetsScreen(),
     ),
   
 
