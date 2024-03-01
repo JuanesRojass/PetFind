@@ -17,6 +17,9 @@ class BottomNavigationUser extends StatelessWidget {
       case '/street':
         return 2;
 
+      case '/refugios':
+        return 3;
+
       default:
         return 0;
     }
@@ -32,6 +35,9 @@ class BottomNavigationUser extends StatelessWidget {
         break;
       case 2:
         context.go('/street');
+        break;
+      case 3:
+        context.go('/refugios');
         break;
     }
   }

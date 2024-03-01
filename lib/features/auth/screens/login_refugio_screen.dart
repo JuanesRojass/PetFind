@@ -9,23 +9,25 @@ import 'package:mascotas_bga/features/providers/connect_provider.dart';
 
 import '../../shared/widgets/widgets.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class LoginRefugioScreen extends StatefulWidget {
+  const LoginRefugioScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<LoginRefugioScreen> createState() => _LoginRefugioScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
+class _LoginRefugioScreenState extends State<LoginRefugioScreen> {
+  TextEditingController emailRefugio = TextEditingController();
+  TextEditingController passwordRefugio = TextEditingController();
 
   String mensaje = '';
 
   Future<void> login() async {
-    String uri = "http://$ipConnect/mascotas/login.php";
-    var res = await http.post(Uri.parse(uri),
-        body: {"email": email.text, "password": password.text});
+    String uri = "http://$ipConnect/mascotas/login_refugios.php";
+    var res = await http.post(Uri.parse(uri), body: {
+      "email_refugio": emailRefugio.text,
+      "password_refugio": passwordRefugio.text
+    });
 
     var datauser = jsonDecode(res.body);
 
@@ -34,18 +36,9 @@ class _LoginScreenState extends State<LoginScreen> {
         mensaje = "Correo o Contraseña incorrectas";
       });
     } else {
-      if (datauser[0]['rol'] == 'usuario') {
-        context.push('/pets');
-        email.clear();
-        password.clear();
-      } else if (datauser[0]['rol'] == 'refugio') {
-        context.push('/petsRefugio');
-        email.clear();
-        password.clear();
-      }
-      setState(() {
-        // username = datauser[0]['username'];
-      });
+      context.go('/petsRefugio');
+      emailRefugio.clear();
+      passwordRefugio.clear();
     }
     return datauser;
   }
@@ -61,40 +54,40 @@ class _LoginScreenState extends State<LoginScreen> {
           body: BlocProvider(
               create: (context) => LoginCubit(),
               child: GeometricalBackground(
-                color: Colors.orange,
+                  color: Colors.purple,
                   child: SingleChildScrollView(
-                physics: const ClampingScrollPhysics(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const SizedBox(height: 80),
-                    // Icon Banner
-                    const Icon(
-                      Icons.pets_rounded,
-                      color: Colors.white,
-                      size: 100,
+                    physics: const ClampingScrollPhysics(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: 80),
+                        // Icon Banner
+                        const Icon(
+                          Icons.house_rounded,
+                          color: Colors.white,
+                          size: 120,
+                        ),
+                        const SizedBox(height: 80),
+
+                        Container(
+                          height: size.height -
+                              160, // 80 los dos sizebox y 100 el ícono
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: scaffoldBackgroundColor,
+                            borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(100)),
+                          ),
+
+                          child: _LoginForm(
+                            email: emailRefugio,
+                            password: passwordRefugio,
+                            login: login,
+                          ),
+                        )
+                      ],
                     ),
-                    const SizedBox(height: 80),
-
-                    Container(
-                      height: size.height -
-                          160, // 80 los dos sizebox y 100 el ícono
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: scaffoldBackgroundColor,
-                        borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(100)),
-                      ),
-
-                      child: _LoginForm(
-                        email: email,
-                        password: password,
-                        login: login,
-                      ),
-                    )
-                  ],
-                ),
-              ))),
+                  ))),
         ));
   }
 }
@@ -143,36 +136,25 @@ class _LoginForm extends StatelessWidget {
               height: 60,
               child: CustomFilledButton(
                 text: 'Ingresar',
-                buttonColor: Colors.orange,
+                buttonColor: Colors.purple,
                 onPressed: () {
                   login();
                   loginCubit.onSubmit();
                 },
               ),
             ),
-            const SizedBox(height: 20,),
-            SizedBox(
-              width: 180,
-              height: 50,
-              child: CustomFilledButton(
-                text: "Eres un Refugio?",
-                buttonColor: Colors.purple,
-                onPressed: () {
-                  context.go('/loginRefugio');
-                },
-              ),
+            const SizedBox(
+              height: 30,
             ),
-            const SizedBox(height: 30,),  
-            Row(
+            Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text('¿No tienes cuenta?'),
+                const Text('¿No eres un Refugio?'),
                 TextButton(
-                    onPressed: () => context.push('/register'),
-                    child: const Text('Crea una aquí'))
+                    onPressed: () => context.push('/login'),
+                    child: const Text('Ingresar Como Usuario'))
               ],
             ),
-          
           ],
         ),
       ),

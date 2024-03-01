@@ -64,6 +64,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           body: BlocProvider(
               create: (context) => LoginCubit(),
               child: GeometricalBackground(
+                color: Colors.orange,
                   child: SingleChildScrollView(
                 physics: const ClampingScrollPhysics(),
                 child: Column(

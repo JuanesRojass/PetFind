@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-// import 'package:mascotas_bga/features/auth/screens/register_screen_test.dart';
+import 'package:mascotas_bga/features/auth/screens/login_refugio_screen.dart';
 import 'package:mascotas_bga/features/auth/screens/screens.dart';
 import 'package:mascotas_bga/features/content/screens/screens.dart';
 
@@ -14,6 +14,12 @@ final GoRouter router = GoRouter(
     path: '/login',
     builder: (context, state) => const LoginScreen(),
     ),
+
+  GoRoute(
+    path: '/loginRefugio',
+    builder: (context, state) => const LoginRefugioScreen(),
+    ),
+
 
   GoRoute(
     path: '/register',
@@ -43,6 +49,16 @@ final GoRouter router = GoRouter(
   GoRoute(
     path: '/street',
     builder: (context, state) => const StreetPetsScreen(),
+    ),
+
+  GoRoute(
+    path: '/refugios',
+    builder: (context, state) => const RefugiosScreen(),
+    ),
+
+  GoRoute(
+    path: '/refugiosPerfil',
+    builder: (context, state) => const RefugioPerfil(),
     ),
   
 
