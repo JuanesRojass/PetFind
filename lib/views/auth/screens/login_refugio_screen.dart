@@ -2,10 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:mascotas_bga/controllers/auth/blocs/all_blocs.dart';
 import 'package:mascotas_bga/config/connect/connect_server.dart';
+import 'package:mascotas_bga/controllers/infrastructure/inputs/inputs.dart';
+import 'package:mascotas_bga/controllers/providers/providers.dart';
 
 import '../../../helpers/widgets/widgets.dart';
 
@@ -74,8 +77,8 @@ class _LoginRefugioScreenState extends State<LoginRefugioScreen> {
                         const SizedBox(height: 50),
 
                         Container(
-                          height:
-                              size.height + 400, // 80 los dos sizebox y 100 el ícono
+                          height: size.height +
+                              400, // 80 los dos sizebox y 100 el ícono
                           width: double.infinity,
                           decoration: BoxDecoration(
                             color: scaffoldBackgroundColor,
@@ -100,13 +103,14 @@ class _LoginRefugioScreenState extends State<LoginRefugioScreen> {
   }
 }
 
-class _LoginForm extends StatelessWidget {
+class _LoginForm extends ConsumerWidget {
   final TextEditingController username;
   final TextEditingController email;
   final TextEditingController password;
   final TextEditingController telefono;
   final TextEditingController description;
   final TextEditingController mision;
+
   final Function login;
   const _LoginForm(
       {required this.email,
@@ -114,17 +118,17 @@ class _LoginForm extends StatelessWidget {
       required this.login,
       required this.username,
       required this.description,
-      required this.mision, 
-      required this.telefono
-      });
+      required this.mision,
+      required this.telefono,});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+
     final loginCubit = context.watch<LoginCubit>();
     final usernameCubit = loginCubit.state.username;
     final emailCubit = loginCubit.state.email;
     final passwordCubit = loginCubit.state.password;
-    final telefonoCubit = loginCubit.state.telefono;    
+    final telefonoCubit = loginCubit.state.telefono;
     final descriptionCubit = loginCubit.state.description;
     final misionCubit = loginCubit.state.mision;
 
@@ -185,6 +189,23 @@ class _LoginForm extends StatelessWidget {
               errorMessage: misionCubit.errorMessage,
             ),
             const SizedBox(height: 30),
+            const SizedBox(
+                width: double.infinity, height: 60,
+                child: DropdownCiudades()),
+            const SizedBox(height: 30),
+            const SizedBox(
+                width: double.infinity,
+                height: 60,
+                child: DropdownBarrios()),
+            const SizedBox(height: 30),
+            CustomTextFormField(
+              label: 'Dirección Refugio',
+              keyboardType: TextInputType.text,
+              controller: description,
+              onChanged: loginCubit.descriptionChanged,
+              errorMessage: descriptionCubit.errorMessage,
+            ),
+            const SizedBox(height: 30),
             SizedBox(
               width: double.infinity,
               height: 60,
@@ -197,12 +218,6 @@ class _LoginForm extends StatelessWidget {
                 },
               ),
             ),
-            const SizedBox(height: 30),
-            const SizedBox(
-              width:  double.infinity,
-              height: 60,
-              child: DropdownMenuItem(child: Text("Ciudades")),
-            ), 
             const SizedBox(
               height: 30,
             ),
