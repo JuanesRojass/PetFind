@@ -26,6 +26,8 @@ class _LoginRefugioScreenState extends State<LoginRefugioScreen> {
   TextEditingController telefonoRefugio = TextEditingController();
   TextEditingController descriptionRefugio = TextEditingController();
   TextEditingController misionRefugio = TextEditingController();
+  TextEditingController direccionRefugio = TextEditingController();
+  //todo añadir ciudadRefugio, barrioRefugio
 
   String mensaje = '';
 
@@ -93,6 +95,7 @@ class _LoginRefugioScreenState extends State<LoginRefugioScreen> {
                             telefono: telefonoRefugio,
                             description: descriptionRefugio,
                             mision: misionRefugio,
+                            direccion: direccionRefugio,
                             login: login,
                           ),
                         )
@@ -110,16 +113,20 @@ class _LoginForm extends ConsumerWidget {
   final TextEditingController telefono;
   final TextEditingController description;
   final TextEditingController mision;
+  final TextEditingController direccion;
+  
 
   final Function login;
-  const _LoginForm(
+  const _LoginForm( 
       {required this.email,
       required this.password,
       required this.login,
       required this.username,
       required this.description,
       required this.mision,
-      required this.telefono,});
+      required this.telefono,
+      required this.direccion,
+      });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

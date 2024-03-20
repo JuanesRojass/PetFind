@@ -18,6 +18,26 @@ class DropdownBarriosState extends ConsumerState<DropdownBarrios> {
   List<dynamic> barrios = [];
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final String idCiudad = ref.read(idCiudadProvider);
+      if (idCiudad != "0") {
+        _cargarBarrios(idCiudad);
+      }
+    });
+  }
+
+  @override
+  void didUpdateWidget(covariant DropdownBarrios oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    final String idCiudad = ref.read(idCiudadProvider);
+    if (idCiudad != "0" && idCiudad != ref.read(idCiudadProvider)) {
+      _cargarBarrios(idCiudad);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final String idCiudad = ref.watch(idCiudadProvider);
     if (idCiudad != "0") {
@@ -59,7 +79,10 @@ class DropdownBarriosState extends ConsumerState<DropdownBarrios> {
       var barriosJson = jsonDecode(response.body);
       setState(() {
         barrios = barriosJson;
-        selectedBarrios = null;
+        if (!barrios.any(
+            (barrio) => barrio['id_barrio'].toString() == selectedBarrios)) {
+          selectedBarrios = null;
+        }
       });
     } else {
       // Manejo de errores
