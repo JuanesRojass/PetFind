@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:mascotas_bga/controllers/auth/blocs/all_blocs.dart';
 import 'package:mascotas_bga/config/connect/connect_server.dart';
 
-import '../../../helpers/widgets/widgets.dart';
+import '../../../../helpers/widgets/widgets.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -193,7 +193,7 @@ class _RegisterForm extends StatelessWidget {
                     if (context.canPop()) {
                       return context.pop();
                     }
-                    context.go('/login');
+                    context.push('/login');
                   },
                   child: const Text('Ingresa aquí'))
             ],

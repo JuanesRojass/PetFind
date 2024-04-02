@@ -9,7 +9,8 @@ import 'package:mascotas_bga/controllers/providers/providers.dart';
 import 'package:riverpod/riverpod.dart';
 
 class DropdownCiudades extends ConsumerStatefulWidget {
-  const DropdownCiudades({Key? key}) : super(key: key);
+  final TextEditingController controller;
+  const DropdownCiudades({super.key, required this.controller});
 
   @override
   DropdownCiudadesState createState() => DropdownCiudadesState();

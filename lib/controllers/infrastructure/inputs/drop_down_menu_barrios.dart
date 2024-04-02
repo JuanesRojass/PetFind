@@ -7,7 +7,8 @@ import 'package:mascotas_bga/config/connect/connect_server.dart';
 import 'package:mascotas_bga/controllers/providers/providers.dart';
 
 class DropdownBarrios extends ConsumerStatefulWidget {
-  const DropdownBarrios({Key? key}) : super(key: key);
+  final TextEditingController controller;
+  const DropdownBarrios({super.key, required this.controller});
 
   @override
   DropdownBarriosState createState() => DropdownBarriosState();
@@ -53,6 +54,7 @@ class DropdownBarriosState extends ConsumerState<DropdownBarrios> {
       onChanged: (String? newValue) {
         setState(() {
           selectedBarrios = newValue!;
+          ref.read(idBarrioProvider.notifier).setId(newValue);
         });
       },
       items: barrios.map<DropdownMenuItem<String>>((barrio) {

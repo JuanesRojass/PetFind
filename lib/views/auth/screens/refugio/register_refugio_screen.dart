@@ -9,47 +9,119 @@ import 'package:mascotas_bga/controllers/auth/blocs/all_blocs.dart';
 import 'package:mascotas_bga/config/connect/connect_server.dart';
 import 'package:mascotas_bga/controllers/infrastructure/inputs/inputs.dart';
 import 'package:mascotas_bga/controllers/providers/providers.dart';
+import 'package:mascotas_bga/helpers/shared.dart';
 
-import '../../../helpers/widgets/widgets.dart';
-
-class LoginRefugioScreen extends StatefulWidget {
-  const LoginRefugioScreen({super.key});
+class RegisterRefugioScreen extends StatefulWidget {
+  const RegisterRefugioScreen({super.key});
 
   @override
-  State<LoginRefugioScreen> createState() => _LoginRefugioScreenState();
+  State<RegisterRefugioScreen> createState() => _RegisterRefugioScreenState();
 }
 
-class _LoginRefugioScreenState extends State<LoginRefugioScreen> {
+class _RegisterRefugioScreenState extends State<RegisterRefugioScreen> {
   TextEditingController usernameRefugio = TextEditingController();
   TextEditingController emailRefugio = TextEditingController();
   TextEditingController passwordRefugio = TextEditingController();
   TextEditingController telefonoRefugio = TextEditingController();
   TextEditingController descriptionRefugio = TextEditingController();
   TextEditingController misionRefugio = TextEditingController();
+  TextEditingController ciudadRefugio = TextEditingController();
+  TextEditingController barrioRefugio = TextEditingController();
   TextEditingController direccionRefugio = TextEditingController();
-  //todo añadir ciudadRefugio, barrioRefugio
 
   String mensaje = '';
 
-  Future<void> login() async {
-    String uri = "http://$ipConnect/mascotas/login_refugios.php";
+  Future<void> registrarRefugio(WidgetRef ref) async {
+    
+
+    String uri = "http://$ipConnect/mascotas/insert_refugio.php";
     var res = await http.post(Uri.parse(uri), body: {
+      "nombre_refugio": usernameRefugio.text,
       "email_refugio": emailRefugio.text,
-      "password_refugio": passwordRefugio.text
+      "password_refugio": passwordRefugio.text,
+      "telefono_refugio": telefonoRefugio.text,
+      "desc_refugio": descriptionRefugio.text,
+      "mision_refugio": misionRefugio.text,
+      "ciudad_refugio": ref.watch(idCiudadProvider),
+      "barrio_refugio": ref.watch(idBarrioProvider),
+      "direccion_refugio": direccionRefugio.text,
+      "estado_refugio": '2',
     });
 
-    var datauser = jsonDecode(res.body);
-
-    if (datauser.length == 0) {
-      setState(() {
-        mensaje = "Correo o Contraseña incorrectas";
-      });
-    } else {
-      context.go('/petsRefugio');
-      emailRefugio.clear();
-      passwordRefugio.clear();
+     if(usernameRefugio.text.isEmpty ||
+      emailRefugio.text.isEmpty ||
+      passwordRefugio.text.isEmpty ||
+      telefonoRefugio.text.isEmpty ||
+      descriptionRefugio.text.isEmpty ||
+      misionRefugio.text.isEmpty ||
+      ciudadRefugio.text.isEmpty ||
+      barrioRefugio.text.isEmpty ||
+      direccionRefugio.text.isEmpty){
+    
+      // ignore: use_build_context_synchronously
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Datos Incorrectos'),
+            content: const Text(
+                "Ha habido un error en el envio de datos en la solicitud, revisa si no te falto algún campo por llenar o si ingresaste bien los datos en el lado correcto"),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+        
+      ); 
+      return;
     }
-    return datauser;
+
+    var response = jsonDecode(res.body);
+    // var datauser = jsonDecode(res.body);
+
+    if (response['success']) {
+      print(response['message']);
+      // ignore: use_build_context_synchronously
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Solicitud Enviada'),
+            content: const Text(
+                'Tu Solicitud ha sido enviada, la revisión puede tardar un tiempo, en el correo registrado llegará el aviso de el estado de tu cuenta al ser revisada por Nosotros, Gracias.".'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  usernameRefugio.clear();
+                  emailRefugio.clear();
+                  passwordRefugio.clear();
+                  telefonoRefugio.clear();
+                  descriptionRefugio.clear();
+                  misionRefugio.clear();
+                  ciudadRefugio.clear();
+                  barrioRefugio.clear();
+                  direccionRefugio.clear();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    } // "Insertado con éxito en ambas tablas"
+    // Manejar éxito
+   
+    // emailRefugio.clear();
+    // passwordRefugio.clear();
+    // ciudadRefugio.clear();
+    // barrioRefugio.clear();
   }
 
   @override
@@ -95,8 +167,10 @@ class _LoginRefugioScreenState extends State<LoginRefugioScreen> {
                             telefono: telefonoRefugio,
                             description: descriptionRefugio,
                             mision: misionRefugio,
+                            ciudad: ciudadRefugio,
+                            barrio: barrioRefugio,
                             direccion: direccionRefugio,
-                            login: login,
+                            registarRefugio: registrarRefugio,
                           ),
                         )
                       ],
@@ -113,24 +187,26 @@ class _LoginForm extends ConsumerWidget {
   final TextEditingController telefono;
   final TextEditingController description;
   final TextEditingController mision;
+  final TextEditingController ciudad;
+  final TextEditingController barrio;
   final TextEditingController direccion;
-  
 
-  final Function login;
-  const _LoginForm( 
-      {required this.email,
-      required this.password,
-      required this.login,
-      required this.username,
-      required this.description,
-      required this.mision,
-      required this.telefono,
-      required this.direccion,
-      });
+  final Function registarRefugio;
+  const _LoginForm({
+    required this.email,
+    required this.password,
+    required this.registarRefugio,
+    required this.username,
+    required this.description,
+    required this.mision,
+    required this.telefono,
+    required this.direccion,
+    required this.ciudad,
+    required this.barrio,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     final loginCubit = context.watch<LoginCubit>();
     final usernameCubit = loginCubit.state.username;
     final emailCubit = loginCubit.state.email;
@@ -176,7 +252,7 @@ class _LoginForm extends ConsumerWidget {
             CustomTextFormField(
                 label: 'Telefono Refugio',
                 keyboardType: TextInputType.number,
-                controller: password,
+                controller: telefono,
                 onChanged: loginCubit.telefonoChanged,
                 errorMessage: telefonoCubit.errorMessage),
             const SizedBox(height: 30),
@@ -196,19 +272,24 @@ class _LoginForm extends ConsumerWidget {
               errorMessage: misionCubit.errorMessage,
             ),
             const SizedBox(height: 30),
-            const SizedBox(
-                width: double.infinity, height: 60,
-                child: DropdownCiudades()),
-            const SizedBox(height: 30),
-            const SizedBox(
+            SizedBox(
                 width: double.infinity,
                 height: 60,
-                child: DropdownBarrios()),
+                child: DropdownCiudades(
+                  controller: ciudad,
+                )),
+            const SizedBox(height: 30),
+            SizedBox(
+                width: double.infinity,
+                height: 60,
+                child: DropdownBarrios(
+                  controller: barrio,
+                )),
             const SizedBox(height: 30),
             CustomTextFormField(
               label: 'Dirección Refugio',
               keyboardType: TextInputType.text,
-              controller: description,
+              controller: direccion,
               onChanged: loginCubit.descriptionChanged,
               errorMessage: descriptionCubit.errorMessage,
             ),
@@ -217,10 +298,10 @@ class _LoginForm extends ConsumerWidget {
               width: double.infinity,
               height: 60,
               child: CustomFilledButton(
-                text: 'Ingresar',
+                text: 'Enviar Solicitud',
                 buttonColor: Colors.purple,
                 onPressed: () {
-                  login();
+                  registarRefugio(ref);
                   loginCubit.onSubmit();
                 },
               ),
@@ -243,3 +324,26 @@ class _LoginForm extends ConsumerWidget {
     );
   }
 }
+
+
+
+// Future<void> login() async {
+//     String uri = "http://$ipConnect/mascotas/login_refugios.php";
+//     var res = await http.post(Uri.parse(uri), body: {
+//       "email_refugio": emailRefugio.text,
+//       "password_refugio": passwordRefugio.text
+//     });
+
+//     var datauser = jsonDecode(res.body);
+
+//     if (datauser.length == 0) {
+//       setState(() {
+//         mensaje = "Correo o Contraseña incorrectas";
+//       });
+//     } else {
+//       context.go('/petsRefugio');
+//       emailRefugio.clear();
+//       passwordRefugio.clear();
+//     }
+//     return datauser;
+//   }

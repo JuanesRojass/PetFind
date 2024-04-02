@@ -7,25 +7,28 @@ import 'package:http/http.dart' as http;
 import 'package:mascotas_bga/controllers/auth/blocs/all_blocs.dart';
 import 'package:mascotas_bga/config/connect/connect_server.dart';
 
-import '../../../helpers/widgets/widgets.dart';
+import '../../../../helpers/widgets/widgets.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class LoginRefugioScreen extends StatefulWidget {
+  const LoginRefugioScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<LoginRefugioScreen> createState() => _LoginRefugioScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
+class _LoginRefugioScreenState extends State<LoginRefugioScreen> {
+  TextEditingController emailRefugio = TextEditingController();
+  TextEditingController passwordRefugio = TextEditingController();
 
   String mensaje = '';
 
-  Future<void> login() async {
-    String uri = "http://$ipConnect/mascotas/login.php";
+  Future<void> login(BuildContext context) async {
+    String uri = "http://$ipConnect/mascotas/login_refugios.php";
     var res = await http.post(Uri.parse(uri),
-        body: {"email": email.text, "password": password.text});
+        body: {
+          "email_refugio": emailRefugio.text,
+          "password_refugio": passwordRefugio.text
+        });
 
     var datauser = jsonDecode(res.body);
 
@@ -34,14 +37,55 @@ class _LoginScreenState extends State<LoginScreen> {
         mensaje = "Correo o Contraseña incorrectas";
       });
     } else {
-      if (datauser[0]['rol'] == 'cliente') {
-        context.push('/pets');
-        email.clear();
-        password.clear();
-      } else if (datauser[0]['rol'] == 'administrador') {
+      if (datauser[0]['id_estado_refugio_fk'] == '1') {
+        // ignore: use_build_context_synchronously
         context.push('/petsRefugio');
-        email.clear();
-        password.clear();
+        emailRefugio.clear();
+        passwordRefugio.clear();
+      } else if (datauser[0]['id_estado_refugio_fk'] == '2') {
+         // ignore: use_build_context_synchronously
+         showDialog(
+          context: context,
+           builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Refugio En Revisión'),
+              content: const Text('Lo sentimos, el refugio aún no ha sido aprobada para poder ingresar al sistema - Estado de cuenta "Pendiente".'),
+              actions: <Widget>[
+                  TextButton(
+                  onPressed: () {
+                  Navigator.of(context).pop();
+                  emailRefugio.clear();
+                  passwordRefugio.clear();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );  
+      }
+
+      else if (datauser[0]['id_estado_refugio_fk'] == '3') {
+         // ignore: use_build_context_synchronously
+         showDialog(
+          context: context,
+           builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Refugio Rechazado'),
+              content: const Text('Lo sentimos, el refugio ha sido rechazado del sistema, - Estado de cuenta "Rechazada".'),
+              actions: <Widget>[
+                  TextButton(
+                  onPressed: () {
+                  Navigator.of(context).pop();
+                  emailRefugio.clear();
+                  passwordRefugio.clear();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );  
       }
       setState(() {
         // username = datauser[0]['username'];
@@ -61,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
           body: BlocProvider(
               create: (context) => LoginCubit(),
               child: GeometricalBackground(
-                color: Colors.orange,
+                color: Colors.purple,
                   child: SingleChildScrollView(
                 physics: const ClampingScrollPhysics(),
                 child: Column(
@@ -70,9 +114,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: 80),
                     // Icon Banner
                     const Icon(
-                      Icons.pets_rounded,
-                      color: Colors.white,
-                      size: 100,
+                      Icons.house_rounded,
+                        color: Colors.white,
+                        size: 120,
                     ),
                     const SizedBox(height: 80),
 
@@ -87,8 +131,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
 
                       child: _LoginForm(
-                        email: email,
-                        password: password,
+                        email: emailRefugio,
+                        password: passwordRefugio,
                         login: login,
                       ),
                     )
@@ -143,10 +187,10 @@ class _LoginForm extends StatelessWidget {
               height: 60,
               child: CustomFilledButton(
                 text: 'Ingresar',
-                buttonColor: Colors.orange,
+                buttonColor: const Color.fromARGB(255, 190, 82, 209),
                 onPressed: () {
-                  login();
                   loginCubit.onSubmit();
+                  login(context);
                 },
               ),
             ),
@@ -155,21 +199,21 @@ class _LoginForm extends StatelessWidget {
               width: 180,
               height: 50,
               child: CustomFilledButton(
-                text: "Eres un Refugio?",
+                text: "Mandar Solicitud",
                 buttonColor: Colors.purple,
                 onPressed: () {
-                  context.go('/loginRefugio');
+                  context.push('/RegisterRefugio');
                 },
               ),
             ),
             const SizedBox(height: 30,),  
-            Row(
+            Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text('¿No tienes cuenta?'),
+                const Text('¿No eres un refugio?'),
                 TextButton(
-                    onPressed: () => context.push('/register'),
-                    child: const Text('Crea una aquí'))
+                    onPressed: () => context.push('/login'),
+                    child: const Text('Ingresa como Usuario'))
               ],
             ),
           

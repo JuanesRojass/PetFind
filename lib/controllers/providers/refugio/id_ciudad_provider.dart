@@ -13,3 +13,16 @@ class CiudadIdNotifier extends StateNotifier<String> {
 final idCiudadProvider = StateNotifierProvider<CiudadIdNotifier, String>((ref) {
   return CiudadIdNotifier();
 });
+
+
+class BarrioIdNotifier extends StateNotifier<String> {
+  BarrioIdNotifier() : super("0");
+
+  void setId(String newId) {
+  state = newId;
+}
+}
+
+final idBarrioProvider = StateNotifierProvider<BarrioIdNotifier, String>((ref) {
+  return BarrioIdNotifier();
+});
