@@ -54,8 +54,6 @@ class _RegisterRefugioScreenState extends State<RegisterRefugioScreen> {
       telefonoRefugio.text.isEmpty ||
       descriptionRefugio.text.isEmpty ||
       misionRefugio.text.isEmpty ||
-      ciudadRefugio.text.isEmpty ||
-      barrioRefugio.text.isEmpty ||
       direccionRefugio.text.isEmpty){
     
       // ignore: use_build_context_synchronously
@@ -115,13 +113,7 @@ class _RegisterRefugioScreenState extends State<RegisterRefugioScreen> {
           );
         },
       );
-    } // "Insertado con éxito en ambas tablas"
-    // Manejar éxito
-   
-    // emailRefugio.clear();
-    // passwordRefugio.clear();
-    // ciudadRefugio.clear();
-    // barrioRefugio.clear();
+    } 
   }
 
   @override

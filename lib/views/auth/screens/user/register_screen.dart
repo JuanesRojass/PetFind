@@ -30,17 +30,62 @@ class _RegisterScreenState extends State<RegisterScreen> {
         var res = await http.post(Uri.parse(uri), body: {
           "username": controllUser.text,
           "password": controllPass.text,
-          "rol": 'usuario',
+          "rol": 'cliente',
           "email": controllEmail.text,
         });
+
+         if(controllUser.text.isEmpty ||
+            controllPass.text.isEmpty ||
+            controllEmail.text.isEmpty
+          ){
+    
+      // ignore: use_build_context_synchronously
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Campos Vacios'),
+            content: const Text(
+                "Ha habido un error en el envio de datos en la solicitud, revisa si no te falto algún campo por llenar"),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+        
+      ); 
+      return;
+    }
 
         var response = jsonDecode(res.body);
 
         if (response["success"] == "true") {
-          print("Record Inserted");
-          controllUser.clear();
-          controllEmail.clear();
-          controllPass.clear();
+          // ignore: use_build_context_synchronously
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text('Registro Exitoso'),
+                content: const Text(
+                    'Te has registrado de manera exitosa, ya puedes iniciar sesión, por favor usa nuestros servicios con responsabilidad.'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      context.go("/login");
+                    },
+                    child: const Text('OK'),
+                  ),
+                ],
+              );
+            },
+          );
         } else {
           print("some issue");
         }
@@ -64,53 +109,53 @@ class _RegisterScreenState extends State<RegisterScreen> {
           body: BlocProvider(
               create: (context) => LoginCubit(),
               child: GeometricalBackground(
-                color: Colors.orange,
+                  color: Colors.orange,
                   child: SingleChildScrollView(
-                physics: const ClampingScrollPhysics(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const SizedBox(height: 80),
-                    // Icon Banner
-                    Row(
+                    physics: const ClampingScrollPhysics(),
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        IconButton(
-                            onPressed: () {
-                              if (!context.canPop()) return;
-                              context.pop();
-                            },
-                            icon: const Icon(Icons.arrow_back_rounded,
-                                size: 40, color: Colors.white)),
-                        const Spacer(flex: 1),
-                        Text('Crear cuenta',
-                            style: textStyles.titleLarge
-                                ?.copyWith(color: Colors.white)),
-                        const Spacer(flex: 2),
+                        const SizedBox(height: 80),
+                        // Icon Banner
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            IconButton(
+                                onPressed: () {
+                                  if (!context.canPop()) return;
+                                  context.pop();
+                                },
+                                icon: const Icon(Icons.arrow_back_rounded,
+                                    size: 40, color: Colors.white)),
+                            const Spacer(flex: 1),
+                            Text('Crear cuenta',
+                                style: textStyles.titleLarge
+                                    ?.copyWith(color: Colors.white)),
+                            const Spacer(flex: 2),
+                          ],
+                        ),
+
+                        const SizedBox(height: 50),
+
+                        Container(
+                          height: size.height -
+                              110, 
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: scaffoldBackgroundColor,
+                            borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(100)),
+                          ),
+                          child: _RegisterForm(
+                            userController: controllUser,
+                            passController: controllPass,
+                            emailController: controllEmail,
+                            insertRecord: insertrecord,
+                          ),
+                        )
                       ],
                     ),
-
-                    const SizedBox(height: 50),
-
-                    Container(
-                      height: size.height -
-                          260, // 80 los dos sizebox y 100 el ícono
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: scaffoldBackgroundColor,
-                        borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(100)),
-                      ),
-                      child: _RegisterForm(
-                        userController: controllUser,
-                        passController: controllPass,
-                        emailController: controllEmail,
-                        insertRecord: insertrecord,
-                      ),
-                    )
-                  ],
-                ),
-              ))),
+                  ))),
         ));
   }
 }
@@ -176,14 +221,14 @@ class _RegisterForm extends StatelessWidget {
               width: double.infinity,
               height: 60,
               child: CustomFilledButton(
-                text: 'Crear',
+                text: 'Crear Cuenta',
                 buttonColor: Colors.orange,
                 onPressed: () {
                   insertRecord();
                   loginCubit.onSubmit();
                 },
               )),
-          const Spacer(flex: 2),
+          const SizedBox(height: 15,),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -198,7 +243,7 @@ class _RegisterForm extends StatelessWidget {
                   child: const Text('Ingresa aquí'))
             ],
           ),
-          const Spacer(flex: 1),
+          
         ],
       ),
     );

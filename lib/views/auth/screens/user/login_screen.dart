@@ -61,40 +61,40 @@ class _LoginScreenState extends State<LoginScreen> {
           body: BlocProvider(
               create: (context) => LoginCubit(),
               child: GeometricalBackground(
-                color: Colors.orange,
+                  color: Colors.orange,
                   child: SingleChildScrollView(
-                physics: const ClampingScrollPhysics(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const SizedBox(height: 80),
-                    // Icon Banner
-                    const Icon(
-                      Icons.pets_rounded,
-                      color: Colors.white,
-                      size: 100,
+                    physics: const ClampingScrollPhysics(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: 80),
+                        // Icon Banner
+                        const Icon(
+                          Icons.pets_rounded,
+                          color: Colors.white,
+                          size: 100,
+                        ),
+                        const SizedBox(height: 80),
+
+                        Container(
+                          height: size.height -
+                              160, // 80 los dos sizebox y 100 el ícono
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: scaffoldBackgroundColor,
+                            borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(100)),
+                          ),
+
+                          child: _LoginForm(
+                            email: email,
+                            password: password,
+                            login: login,
+                          ),
+                        )
+                      ],
                     ),
-                    const SizedBox(height: 80),
-
-                    Container(
-                      height: size.height -
-                          160, // 80 los dos sizebox y 100 el ícono
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: scaffoldBackgroundColor,
-                        borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(100)),
-                      ),
-
-                      child: _LoginForm(
-                        email: email,
-                        password: password,
-                        login: login,
-                      ),
-                    )
-                  ],
-                ),
-              ))),
+                  ))),
         ));
   }
 }
@@ -150,7 +150,9 @@ class _LoginForm extends StatelessWidget {
                 },
               ),
             ),
-            const SizedBox(height: 20,),
+            const SizedBox(
+              height: 20,
+            ),
             SizedBox(
               width: 180,
               height: 50,
@@ -162,17 +164,22 @@ class _LoginForm extends StatelessWidget {
                 },
               ),
             ),
-            const SizedBox(height: 30,),  
+            const SizedBox(
+              height: 30,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text('¿No tienes cuenta?'),
                 TextButton(
-                    onPressed: () => context.push('/register'),
+                    onPressed: () {
+                      context.push('/register');
+                      email.clear();
+                      password.clear();      
+                    },
                     child: const Text('Crea una aquí'))
               ],
             ),
-          
           ],
         ),
       ),

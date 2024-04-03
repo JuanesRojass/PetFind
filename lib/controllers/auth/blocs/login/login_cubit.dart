@@ -87,4 +87,5 @@ class LoginCubit extends Cubit<LoginState> {
         mision: mision,
         isValid: Formz.validate([mision, state.description, state.email, state.password, state.username])));
   }
+
 }
