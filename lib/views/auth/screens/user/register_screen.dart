@@ -1,12 +1,8 @@
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:http/http.dart' as http;
 import 'package:mascotas_bga/controllers/auth/blocs/all_blocs.dart';
-import 'package:mascotas_bga/config/connect/connect_server.dart';
-
+import 'package:mascotas_bga/controllers/register/register_controller.dart';
+import 'package:mascotas_bga/views/auth/forms/forms.dart';
 import '../../../../helpers/widgets/widgets.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -17,85 +13,10 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  TextEditingController controllUser = TextEditingController();
-  TextEditingController controllEmail = TextEditingController();
-  TextEditingController controllPass = TextEditingController();
-
-  Future<void> insertrecord() async {
-    if (controllUser.text != "" ||
-        controllPass.text != "" ||
-        controllEmail.text != "") {
-      try {
-        String uri = "http://$ipConnect/mascotas/insert_record.php";
-        var res = await http.post(Uri.parse(uri), body: {
-          "username": controllUser.text,
-          "password": controllPass.text,
-          "rol": 'cliente',
-          "email": controllEmail.text,
-        });
-
-         if(controllUser.text.isEmpty ||
-            controllPass.text.isEmpty ||
-            controllEmail.text.isEmpty
-          ){
-    
-      // ignore: use_build_context_synchronously
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Campos Vacios'),
-            content: const Text(
-                "Ha habido un error en el envio de datos en la solicitud, revisa si no te falto algún campo por llenar"),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  
-                },
-                child: const Text('OK'),
-              ),
-            ],
-          );
-        },
-        
-      ); 
-      return;
-    }
-
-        var response = jsonDecode(res.body);
-
-        if (response["success"] == "true") {
-          // ignore: use_build_context_synchronously
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: const Text('Registro Exitoso'),
-                content: const Text(
-                    'Te has registrado de manera exitosa, ya puedes iniciar sesión, por favor usa nuestros servicios con responsabilidad.'),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      context.go("/login");
-                    },
-                    child: const Text('OK'),
-                  ),
-                ],
-              );
-            },
-          );
-        } else {
-          print("some issue");
-        }
-      } catch (e) {
-        print(e);
-      }
-    } else {
-      print("please Fill All fields");
-    }
-  }
+  final TextEditingController _controllUser = TextEditingController();
+  final TextEditingController _controllEmail = TextEditingController();
+  final TextEditingController _controllPass = TextEditingController();
+  final RegisterController _registerController = RegisterController();
 
   @override
   Widget build(BuildContext context) {
@@ -138,19 +59,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         const SizedBox(height: 50),
 
                         Container(
-                          height: size.height -
-                              110, 
+                          height: size.height - 110,
                           width: double.infinity,
                           decoration: BoxDecoration(
                             color: scaffoldBackgroundColor,
                             borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(100)),
                           ),
-                          child: _RegisterForm(
-                            userController: controllUser,
-                            passController: controllPass,
-                            emailController: controllEmail,
-                            insertRecord: insertrecord,
+                          child: RegisterForm(
+                            userController: _controllUser,
+                            passController: _controllPass,
+                            emailController: _controllEmail,
+                            insertRecord: _registerController.register,
                           ),
                         )
                       ],
@@ -160,92 +80,4 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 }
 
-class _RegisterForm extends StatelessWidget {
-  final TextEditingController userController;
-  final TextEditingController passController;
-  final TextEditingController emailController;
-  final Function insertRecord;
-  const _RegisterForm(
-      {required this.userController,
-      required this.passController,
-      required this.emailController,
-      required this.insertRecord});
 
-  @override
-  Widget build(BuildContext context) {
-    final textStyles = Theme.of(context).textTheme;
-
-    final loginCubit = context.watch<LoginCubit>();
-    final usernameCubit = loginCubit.state.username;
-    final emailCubit = loginCubit.state.email;
-    final passwordCubit = loginCubit.state.password;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 50),
-      child: Column(
-        children: [
-          const SizedBox(height: 50),
-          Text('Nueva cuenta', style: textStyles.titleMedium),
-          const SizedBox(height: 50),
-          CustomTextFormField(
-            label: 'Nombre de Usuario',
-            keyboardType: TextInputType.emailAddress,
-            controller: userController,
-            onChanged: loginCubit.usernameChanged,
-            errorMessage: usernameCubit.errorMessage,
-          ),
-          const SizedBox(height: 30),
-          CustomTextFormField(
-            label: 'Correo',
-            keyboardType: TextInputType.emailAddress,
-            controller: emailController,
-            onChanged: loginCubit.emailChanged,
-            errorMessage: emailCubit.errorMessage,
-          ),
-          const SizedBox(height: 30),
-          CustomTextFormField(
-            label: 'Contraseña',
-            obscureText: true,
-            controller: passController,
-            onChanged: loginCubit.passwordChanged,
-            errorMessage: passwordCubit.errorMessage,
-          ),
-          // const SizedBox(height: 30),
-          // CustomTextFormField(
-          //   label: 'Repita la contraseña',
-          //   obscureText: true,
-          //   controller: passController,
-          // ),
-          const SizedBox(height: 30),
-          SizedBox(
-              width: double.infinity,
-              height: 60,
-              child: CustomFilledButton(
-                text: 'Crear Cuenta',
-                buttonColor: Colors.orange,
-                onPressed: () {
-                  insertRecord();
-                  loginCubit.onSubmit();
-                },
-              )),
-          const SizedBox(height: 15,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text('¿Ya tienes cuenta?'),
-              TextButton(
-                  onPressed: () {
-                    if (context.canPop()) {
-                      return context.pop();
-                    }
-                    context.push('/login');
-                  },
-                  child: const Text('Ingresa aquí'))
-            ],
-          ),
-          
-        ],
-      ),
-    );
-  }
-}
