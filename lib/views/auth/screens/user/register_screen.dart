@@ -16,6 +16,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _controllUser = TextEditingController();
   final TextEditingController _controllEmail = TextEditingController();
   final TextEditingController _controllPass = TextEditingController();
+  final TextEditingController _controllTelefono = TextEditingController();
   final RegisterController _registerController = RegisterController();
 
   @override
@@ -59,7 +60,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         const SizedBox(height: 50),
 
                         Container(
-                          height: size.height - 110,
+                          height: size.height - 20,
                           width: double.infinity,
                           decoration: BoxDecoration(
                             color: scaffoldBackgroundColor,
@@ -70,6 +71,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             userController: _controllUser,
                             passController: _controllPass,
                             emailController: _controllEmail,
+                            telefonoController: _controllTelefono,
                             insertRecord: _registerController.register,
                           ),
                         )

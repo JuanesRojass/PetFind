@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mascotas_bga/controllers/providers/general/rol_provider.dart';
 import 'package:mascotas_bga/models/auth/login_model_refugio.dart';
 import 'package:go_router/go_router.dart';
 
@@ -7,10 +9,11 @@ class LoginControllerRefugio {
   final TextEditingController emailRefugio;
   final TextEditingController passwordRefugio;
 
-  LoginControllerRefugio({required this.emailRefugio, required this.passwordRefugio});
+  LoginControllerRefugio(
+      {required this.emailRefugio, required this.passwordRefugio});
 
-  Future<List> login(
-      BuildContext context, String email, String password) async {
+  Future<List> login(BuildContext context, WidgetRef ref, String email,
+      String password) async {
     var dataUser = await _model.login(email, password);
     if (dataUser.isEmpty) {
       // ignore: use_build_context_synchronously
@@ -18,8 +21,9 @@ class LoginControllerRefugio {
           const SnackBar(content: Text("Correo o Contraseña incorrectas")));
     } else {
       if (dataUser[0]['id_estado_refugio_fk'] == '1') {
+        ref.read(rolProvider.notifier).state = "Refugio";
         // ignore: use_build_context_synchronously
-        context.push('/petsRefugio');
+        context.push('/pets');
         emailRefugio.clear();
         passwordRefugio.clear();
       } else if (dataUser[0]['id_estado_refugio_fk'] == '2') {

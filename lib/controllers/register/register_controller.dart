@@ -7,8 +7,8 @@ class RegisterController {
   final RegisterModel _model = RegisterModel();
 
   Future<void> register(BuildContext context, String username, String email,
-      String password) async {
-    if (username.isEmpty || password.isEmpty || email.isEmpty) {
+      String password, String telefono) async {
+    if (username.isEmpty || password.isEmpty || email.isEmpty || telefono.isEmpty) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -31,7 +31,7 @@ class RegisterController {
       return;
     }
 
-    var response = await _model.insertRecord(username, email, password);
+    var response = await _model.insertRecord(username, email, password, telefono);
     if (response.isEmpty) {
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(

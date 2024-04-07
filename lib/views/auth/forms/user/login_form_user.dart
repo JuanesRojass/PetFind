@@ -1,21 +1,23 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mascotas_bga/controllers/auth/blocs/all_blocs.dart';
+import 'package:mascotas_bga/controllers/providers/general/rol_provider.dart';
 import 'package:mascotas_bga/helpers/shared.dart';
 
-class LoginForm extends StatelessWidget {
+class LoginForm extends ConsumerWidget {
   final TextEditingController email;
   final TextEditingController password;
   final Function controllerLogin;
 
-  const LoginForm({
-    super.key, required this.email,
-    required this.password,
-    required this.controllerLogin});
-
+  const LoginForm(
+      {super.key,
+      required this.email,
+      required this.password,
+      required this.controllerLogin});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final loginCubit = context.watch<LoginCubit>();
     final emailCubit = loginCubit.state.email;
     final passwordCubit = loginCubit.state.password;
@@ -32,7 +34,7 @@ class LoginForm extends StatelessWidget {
             Text('Iniciar Sesión', style: textStyles.titleLarge),
             const SizedBox(height: 40),
             CustomTextFormField(
-              label: 'Correo',
+              label: 'Correo Electrónico',
               keyboardType: TextInputType.emailAddress,
               controller: email,
               onChanged: loginCubit.emailChanged,
@@ -53,7 +55,7 @@ class LoginForm extends StatelessWidget {
                 text: 'Ingresar',
                 buttonColor: Colors.orange,
                 onPressed: () {
-                  controllerLogin(context, email.text, password.text);
+                  controllerLogin(context, ref, email.text, password.text);
                   loginCubit.onSubmit();
                 },
               ),
@@ -73,7 +75,20 @@ class LoginForm extends StatelessWidget {
               ),
             ),
             const SizedBox(
-              height: 30,
+              height: 15,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                    onPressed: () {
+                      ref.read(rolProvider.notifier).state = "Invitado";
+                      context.push('/pets');
+                      email.clear();
+                      password.clear();
+                    },
+                    child: const Text('Ingresar Como Invitado'))
+              ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

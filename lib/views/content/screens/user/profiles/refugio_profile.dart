@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-class RefugioPerfil extends StatefulWidget {
-  const RefugioPerfil({super.key, required this.refugio});
+class RefugioProfile extends StatefulWidget {
+  const RefugioProfile({super.key, required this.refugio});
 
   @override
-  State<RefugioPerfil> createState() => _RefugioPerfilState();
+  State<RefugioProfile> createState() => _RefugioProfileState();
   final Map refugio;
 }
 
-class _RefugioPerfilState extends State<RefugioPerfil> {
+class _RefugioProfileState extends State<RefugioProfile> {
 
   @override
   Widget build(BuildContext context) {

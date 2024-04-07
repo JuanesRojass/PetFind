@@ -7,15 +7,16 @@ class RegisterForm extends StatelessWidget {
   final TextEditingController userController;
   final TextEditingController passController;
   final TextEditingController emailController;
+  final TextEditingController telefonoController;
   final Function insertRecord;
 
-  const RegisterForm({
-    super.key, required this.userController,
-    required this.passController,
-    required this.emailController,
-    required this.insertRecord
-    });
-  
+  const RegisterForm(
+      {super.key,
+      required this.userController,
+      required this.passController,
+      required this.emailController,
+      required this.insertRecord,
+      required this.telefonoController});
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +26,7 @@ class RegisterForm extends StatelessWidget {
     final usernameCubit = loginCubit.state.username;
     final emailCubit = loginCubit.state.email;
     final passwordCubit = loginCubit.state.password;
+    final telefonoCubit = loginCubit.state.telefono;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 50),
@@ -34,19 +36,27 @@ class RegisterForm extends StatelessWidget {
           Text('Nueva cuenta', style: textStyles.titleMedium),
           const SizedBox(height: 50),
           CustomTextFormField(
-            label: 'Nombre de Usuario',
-            keyboardType: TextInputType.emailAddress,
+            label: 'Nombre Completo',
+            keyboardType: TextInputType.text,
             controller: userController,
             onChanged: loginCubit.usernameChanged,
             errorMessage: usernameCubit.errorMessage,
           ),
           const SizedBox(height: 30),
           CustomTextFormField(
-            label: 'Correo',
+            label: 'Correo Electrónico',
             keyboardType: TextInputType.emailAddress,
             controller: emailController,
             onChanged: loginCubit.emailChanged,
             errorMessage: emailCubit.errorMessage,
+          ),
+          const SizedBox(height: 50),
+          CustomTextFormField(
+            label: 'Número De Telefono',
+            keyboardType: TextInputType.number,
+            controller: telefonoController,
+            onChanged: loginCubit.telefonoChanged,
+            errorMessage: telefonoCubit.errorMessage,
           ),
           const SizedBox(height: 30),
           CustomTextFormField(
@@ -64,7 +74,8 @@ class RegisterForm extends StatelessWidget {
                 text: 'Crear Cuenta',
                 buttonColor: Colors.orange,
                 onPressed: () {
-                  insertRecord(context, userController.text, emailController.text, passController.text);
+                  insertRecord(context, userController.text,
+                      emailController.text, passController.text, telefonoController.text);
                   loginCubit.onSubmit();
                 },
               )),

@@ -1,61 +1,102 @@
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mascotas_bga/controllers/gets/lost_pets_controller.dart';
+import 'package:mascotas_bga/controllers/providers/general/rol_provider.dart';
 import 'package:mascotas_bga/helpers/shared.dart';
 
-import 'package:mascotas_bga/config/connect/connect_server.dart';
-
-class LostPetsScreen extends StatefulWidget {
-  const LostPetsScreen({super.key});
+class LostPetsScreen extends ConsumerStatefulWidget {
+  const LostPetsScreen({Key? key}) : super(key: key);
 
   @override
-  State<LostPetsScreen> createState() => _LostPetsScreenState();
+  LostPetsScreenState createState() => LostPetsScreenState();
 }
 
-class _LostPetsScreenState extends State<LostPetsScreen> {
-  TextEditingController name = TextEditingController();
+class LostPetsScreenState extends ConsumerState<LostPetsScreen> {
+  final LostPetsController _controller = LostPetsController();
 
-  List mascotasLost = [];
-
-  Future<void> getMascotasAdp() async {
-    String uri = "http://$ipConnect/mascotas/view_mascotas_lost.php";
-    try {
-      var response = await http.get(Uri.parse(uri));
-
-      setState(() {
-        mascotasLost = jsonDecode(response.body);
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
+  List mascotaslost = [];
 
   @override
   void initState() {
-    getMascotasAdp();
+    getMascotasLost();
     super.initState();
+  }
+
+  Future<void> getMascotasLost() async {
+    final mascotasLost = await _controller.getMascotasLost();
+    setState(() {
+      mascotaslost = mascotasLost;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final rolActual = ref.watch(rolProvider);
+
     return Scaffold(
         appBar: AppBar(
           title: const Text('Mi Mascota Perdida'),
         ),
         body: ListView.builder(
-          itemCount: mascotasLost.length,
+          itemCount: mascotaslost.length,
           itemBuilder: (context, index) {
-            return Card(
-              margin: const EdgeInsets.all(10),
-              child: ListTile(
-                title: Text(mascotasLost[index]["nombre_mascota_lost"]),
-                subtitle: Text(mascotasLost[index]["raza_mascota_lost"]),
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                child: Stack(children: [
+                  Padding(
+                    padding: const EdgeInsets.all(50),
+                    child: GestureDetector(
+                      onTap: () {
+                        context.push('/petsLostProfile',
+                            extra: mascotaslost[index]);
+                      },
+                      child: Row(
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.fromLTRB(1.0, 1.0, 30, 1.0),
+                            child: Icon(
+                              Icons.question_mark_outlined,
+                              size: 60,
+                            ),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(mascotaslost[index]["nombre_mascota_lost"]),
+                              Text(mascotaslost[index]["raza_mascota_lost"]),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                      right: 10,
+                      bottom: 10,
+                      child: Row(
+                        children: [
+                          TextButton(
+                            onPressed: () => context.push('/petsLostProfile',
+                                extra: mascotaslost[index]),
+                            child: const Text(
+                              "Mas Información",
+                            ),
+                          ),
+                          const Icon(Icons.arrow_forward_ios_rounded)
+                        ],
+                      ))
+                ]),
               ),
             );
           },
         ),
-        bottomNavigationBar: const BottomNavigationUser()
-        );
+        floatingActionButton: rolActual == "Cliente"
+            ? FloatingActionButton(
+                onPressed: () {},
+                child: const Icon(Icons.add),
+              )
+            : null,
+        bottomNavigationBar: const BottomNavigationUser());
   }
 }

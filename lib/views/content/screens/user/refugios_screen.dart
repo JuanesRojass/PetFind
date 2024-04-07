@@ -55,7 +55,7 @@ class _RefugiosScreenState extends State<RefugiosScreen> {
                     padding: const EdgeInsets.all(50),
                     child: GestureDetector(
                       onTap: () {
-                        context.push('/refugiosPerfil', extra: refugios[index]);
+                        context.push('/refugiosProfile', extra: refugios[index]);
                       },
                       child: Row(
                         children: [
@@ -83,7 +83,7 @@ class _RefugiosScreenState extends State<RefugiosScreen> {
                     child: Row(
                     children: [
                       TextButton(
-                        onPressed: () => context.push('/refugiosPerfil', extra: refugios[index]),
+                        onPressed: () => context.push('/refugiosProfile', extra: refugios[index]),
                         child: const Text("Información y Mascotas",),
                     ),
                     const Icon(Icons.arrow_forward_ios_rounded)

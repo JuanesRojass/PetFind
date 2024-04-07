@@ -44,10 +44,31 @@ final GoRouter router = GoRouter(initialLocation: '/login', routes: [
     builder: (context, state) => const RefugiosScreen(),
   ),
   GoRoute(
-    path: '/refugiosPerfil',
+    path: '/refugiosProfile',
     builder: (context, state) {
       final refugio = state.extra as Map<dynamic, dynamic>? ?? {};
-      return RefugioPerfil(refugio: refugio);
+      return RefugioProfile(refugio: refugio);
+    },
+  ),
+  GoRoute(
+    path: '/petsAdpProfile',
+    builder: (context, state) {
+      final mascotaAdp = state.extra as Map<dynamic, dynamic>? ?? {};
+      return PetsAdoptProfile(petsAdp: mascotaAdp);
+    },
+  ),
+  GoRoute(
+    path: '/petsLostProfile',
+    builder: (context, state) {
+      final mascotaLost = state.extra as Map<dynamic, dynamic>? ?? {};
+      return PetsLostProfile(petsLost: mascotaLost);
+    },
+  ),
+  GoRoute(
+    path: '/petsStreetProfile',
+    builder: (context, state) {
+      final mascotaStreet = state.extra as Map<dynamic, dynamic>? ?? {};
+      return PetsStreetProfile(petsAdp: mascotaStreet);
     },
   ),
 ]);

@@ -1,59 +1,102 @@
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:mascotas_bga/config/connect/connect_server.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mascotas_bga/controllers/gets/street_pets_controller.dart';
+import 'package:mascotas_bga/controllers/providers/general/rol_provider.dart';
 import '../../../../helpers/shared.dart';
 
-class StreetPetsScreen extends StatefulWidget {
-  const StreetPetsScreen({super.key});
+class StreetPetsScreen extends ConsumerStatefulWidget {
+  const StreetPetsScreen({Key? key}) : super(key: key);
 
   @override
-  State<StreetPetsScreen> createState() => _StreetPetsScreenState();
+  StreetPetsScreenState createState() => StreetPetsScreenState();
 }
 
-class _StreetPetsScreenState extends State<StreetPetsScreen> {
-  List mascotasCalle = [];
-
-  Future<void> getMascotasAdp() async {
-    String uri = "http://$ipConnect/mascotas/view_mascotas_street.php";
-    try {
-      var response = await http.get(Uri.parse(uri));
-
-      setState(() {
-        mascotasCalle = jsonDecode(response.body);
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
+class StreetPetsScreenState extends ConsumerState<StreetPetsScreen> {
+  final PetsStreetController _controller = PetsStreetController();
+  List mascotascalle = [];
 
   @override
   void initState() {
-    getMascotasAdp();
+    getMascotasStreet();
     super.initState();
   }
 
+  Future<void> getMascotasStreet() async {
+    final mascotasCalle = await _controller.getMascotasStreet();
+    setState(() {
+      mascotascalle = mascotasCalle;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    final rolActual = ref.watch(rolProvider);
+
     return Scaffold(
         appBar: AppBar(
           title: const Text('Mascotas En Calle'),
         ),
         body: ListView.builder(
-          itemCount: mascotasCalle.length,
+          itemCount: mascotascalle.length,
           itemBuilder: (context, index) {
-            return Card(
-              margin: const EdgeInsets.all(10),
-              child: ListTile(
-                title: Text(mascotasCalle[index]["direccion_mascota_calle"]),
-                subtitle: Text(mascotasCalle[index]["imagen_mascota_calle"]),
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                child: Stack(children: [
+                  Padding(
+                    padding: const EdgeInsets.all(50),
+                    child: GestureDetector(
+                      onTap: () {
+                        context.push('/petsStreetProfile',
+                            extra: mascotascalle[index]);
+                      },
+                      child: Row(
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.fromLTRB(1.0, 1.0, 30, 1.0),
+                            child: Icon(
+                              Icons.book,
+                              size: 60,
+                            ),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(mascotascalle[index]
+                                  ["direccion_mascota_calle"]),
+                              Text(mascotascalle[index]["raza_mascota_calle"]),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                      right: 10,
+                      bottom: 10,
+                      child: Row(
+                        children: [
+                          TextButton(
+                            onPressed: () => context.push('/petsStreetProfile',
+                                extra: mascotascalle[index]),
+                            child: const Text(
+                              "Mas Información",
+                            ),
+                          ),
+                          const Icon(Icons.arrow_forward_ios_rounded)
+                        ],
+                      ))
+                ]),
               ),
             );
           },
         ),
+        floatingActionButton: rolActual == "Cliente" || rolActual == "Refugio"
+            ? FloatingActionButton(
+                onPressed: () {},
+                child: const Icon(Icons.add),
+              )
+            : null,
         bottomNavigationBar: const BottomNavigationUser());
   }
 }

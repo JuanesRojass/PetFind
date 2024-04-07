@@ -1,9 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mascotas_bga/controllers/auth/blocs/all_blocs.dart';
 import 'package:mascotas_bga/helpers/shared.dart';
 
-class LoginFormRefugio extends StatelessWidget {
+class LoginFormRefugio extends ConsumerWidget {
   final TextEditingController email;
   final TextEditingController password;
   final Function loginRefugio;
@@ -14,7 +15,7 @@ class LoginFormRefugio extends StatelessWidget {
       required this.loginRefugio});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final loginCubit = context.watch<LoginCubit>();
     final emailCubit = loginCubit.state.email;
     final passwordCubit = loginCubit.state.password;
@@ -53,7 +54,7 @@ class LoginFormRefugio extends StatelessWidget {
                 buttonColor: const Color.fromARGB(255, 190, 82, 209),
                 onPressed: () {
                   loginCubit.onSubmit();
-                  loginRefugio(context, email.text, password.text);
+                  loginRefugio(context, ref, email.text, password.text);
                 },
               ),
             ),

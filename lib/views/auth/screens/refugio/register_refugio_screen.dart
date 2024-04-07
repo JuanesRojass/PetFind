@@ -61,7 +61,7 @@ class _RegisterRefugioScreenState extends State<RegisterRefugioScreen> {
 
                         Container(
                           height: size.height +
-                              400, // 80 los dos sizebox y 100 el ícono
+                              450,
                           width: double.infinity,
                           decoration: BoxDecoration(
                             color: scaffoldBackgroundColor,
