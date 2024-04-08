@@ -8,15 +8,15 @@ import 'package:mascotas_bga/controllers/providers/general/rol_provider.dart';
 import 'package:mascotas_bga/helpers/shared.dart';
 
 
-class PetsScreen extends ConsumerStatefulWidget {
-  const PetsScreen({Key? key}) : super(key: key);
+class AdpPetsScreen extends ConsumerStatefulWidget {
+  const AdpPetsScreen({Key? key}) : super(key: key);
 
   @override
-  PetsScreenState createState() => PetsScreenState();
+  AdpPetsScreenState createState() => AdpPetsScreenState();
 }
 
-class PetsScreenState extends ConsumerState<PetsScreen> {
-  final PetsController _controller = PetsController();
+class AdpPetsScreenState extends ConsumerState<AdpPetsScreen> {
+  final AdpPetsController _controller = AdpPetsController();
   List mascotasadp = [];
 
   @override

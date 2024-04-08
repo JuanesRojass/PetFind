@@ -12,7 +12,7 @@ class StreetPetsScreen extends ConsumerStatefulWidget {
 }
 
 class StreetPetsScreenState extends ConsumerState<StreetPetsScreen> {
-  final PetsStreetController _controller = PetsStreetController();
+  final StreetPetsController _controller = StreetPetsController();
   List mascotascalle = [];
 
   @override

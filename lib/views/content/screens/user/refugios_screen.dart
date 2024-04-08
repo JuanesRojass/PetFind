@@ -1,11 +1,7 @@
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:http/http.dart' as http;
-
+import 'package:mascotas_bga/controllers/gets/refugios_controller.dart';
 import 'package:mascotas_bga/helpers/shared.dart';
-import 'package:mascotas_bga/config/connect/connect_server.dart';
+
 
 class RefugiosScreen extends StatefulWidget {
   const RefugiosScreen({super.key});
@@ -15,27 +11,21 @@ class RefugiosScreen extends StatefulWidget {
 }
 
 class _RefugiosScreenState extends State<RefugiosScreen> {
-  TextEditingController name = TextEditingController();
+  final RefugiosController _controller = RefugiosController();
 
   List refugios = [];
 
-  Future<void> getMascotasAdp() async {
-    String uri = "http://$ipConnect/mascotas/view_refugios.php";
-    try {
-      var response = await http.get(Uri.parse(uri));
-
-      setState(() {
-        refugios = jsonDecode(response.body);
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
-
   @override
   void initState() {
-    getMascotasAdp();
+    getRefugios();
     super.initState();
+  }
+
+  Future<void> getRefugios() async {
+    final refugiosL = await _controller.getRefugios();
+    setState(() {
+      refugios = refugiosL;
+    });
   }
 
   @override
@@ -50,12 +40,13 @@ class _RefugiosScreenState extends State<RefugiosScreen> {
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: Card(
-                child: Stack(
-                  children: [Padding(
+                child: Stack(children: [
+                  Padding(
                     padding: const EdgeInsets.all(50),
                     child: GestureDetector(
                       onTap: () {
-                        context.push('/refugiosProfile', extra: refugios[index]);
+                        context.push('/refugiosProfile',
+                            extra: refugios[index]);
                       },
                       child: Row(
                         children: [
@@ -78,17 +69,20 @@ class _RefugiosScreenState extends State<RefugiosScreen> {
                     ),
                   ),
                   Positioned(
-                    right: 10,
-                    bottom: 10,
-                    child: Row(
-                    children: [
-                      TextButton(
-                        onPressed: () => context.push('/refugiosProfile', extra: refugios[index]),
-                        child: const Text("Información y Mascotas",),
-                    ),
-                    const Icon(Icons.arrow_forward_ios_rounded)
-                    ],
-                  ))
+                      right: 10,
+                      bottom: 10,
+                      child: Row(
+                        children: [
+                          TextButton(
+                            onPressed: () => context.push('/refugiosProfile',
+                                extra: refugios[index]),
+                            child: const Text(
+                              "Información y Mascotas",
+                            ),
+                          ),
+                          const Icon(Icons.arrow_forward_ios_rounded)
+                        ],
+                      ))
                 ]),
               ),
             );

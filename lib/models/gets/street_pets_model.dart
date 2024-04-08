@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:mascotas_bga/config/connect/connect_server.dart';
 
-class PetsStreetModel {
+class StreetPetsModel {
   Future<List> getMascotasStreet() async {
     String uri = "http://$ipConnect/mascotas/view_mascotas_street.php";
     try {
