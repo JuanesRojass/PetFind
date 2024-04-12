@@ -61,9 +61,15 @@ class UploadLostPetsState extends ConsumerState<UploadLostPets> {
     var getimage2 = await imagePicker.pickImage(source: ImageSource.gallery);
 
     setState(() {
-      imagepath2 = File(getimage2!.path);
-      imagename2 = getimage2.path.split('/').last;
-      imagedata2 = base64Encode(imagepath2!.readAsBytesSync());
+      if (getimage2 != null) {
+        imagepath2 = File(getimage2.path);
+        imagename2 = getimage2.path.split('/').last;
+        imagedata2 = base64Encode(imagepath2!.readAsBytesSync());
+      } else {
+        imagepath2 = null;
+        imagename2 = null;
+        imagedata2 = null;
+      }
     });
   }
 
@@ -71,9 +77,15 @@ class UploadLostPetsState extends ConsumerState<UploadLostPets> {
     var getimage3 = await imagePicker.pickImage(source: ImageSource.gallery);
 
     setState(() {
-      imagepath3 = File(getimage3!.path);
-      imagename3 = getimage3.path.split('/').last;
-      imagedata3 = base64Encode(imagepath3!.readAsBytesSync());
+      if (getimage3 != null) {
+        imagepath3 = File(getimage3.path);
+        imagename3 = getimage3.path.split('/').last;
+        imagedata3 = base64Encode(imagepath3!.readAsBytesSync());
+      } else {
+        imagepath3 = null;
+        imagename3 = null;
+        imagedata3 = null;
+      }
     });
   }
 
@@ -96,10 +108,10 @@ class UploadLostPetsState extends ConsumerState<UploadLostPets> {
           "idCliente": idCliente,
           "data": imagedata,
           "name": imagename,
-          "data2": imagedata2,
-          "name2": imagename2,
-          "data3": imagedata3,
-          "name3": imagename3,
+          "data2": imagedata2 ?? "",
+          "name2": imagename2 ?? "",
+          "data3": imagedata3 ?? "",
+          "name3": imagename3 ?? "",
         });
         print('Response body: ${res.body}');
 
@@ -251,7 +263,8 @@ class UploadLostPetsState extends ConsumerState<UploadLostPets> {
                             onPressed: () {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                  content: Text('Selecciona imagen 1 y 2 para agregar mas'),
+                                  content: Text(
+                                      'Selecciona imagen 1 y 2 para agregar mas'),
                                 ),
                               );
                             },
@@ -292,29 +305,17 @@ class UploadLostPetsState extends ConsumerState<UploadLostPets> {
                     controller: razaMascota,
                   )),
               const SizedBox(height: 30),
-              CustomTextFormField(
-                label: 'Tamaño Mascota',
-                keyboardType: TextInputType.text,
+              DropDownMenuTamano(
                 controller: tamanoMascota,
-                // onChanged: loginCubit.telefonoChanged,
-                // errorMessage: telefonoCubit.errorMessage
               ),
               const SizedBox(height: 30),
-              CustomTextFormField(
-                label: 'Color Mascota',
-                keyboardType: TextInputType.text,
-                controller: colorMascota,
-                // onChanged: loginCubit.descriptionChanged,
-                // errorMessage: descriptionCubit.errorMessage,
-              ),
+              DropDownMenuColor(
+                controller: colorMascota
+                ),
               const SizedBox(height: 30),
-              CustomTextFormField(
-                label: 'Sexo Mascota',
-                keyboardType: TextInputType.text,
-                controller: sexoMascota,
-                // onChanged: loginCubit.misionChanged,
-                // errorMessage: misionCubit.errorMessage,
-              ),
+              DropDownMenuSexo(
+                controller: sexoMascota
+                ),
               const SizedBox(height: 30),
               CustomTextFormField(
                 label: 'Descripción Mascota',
