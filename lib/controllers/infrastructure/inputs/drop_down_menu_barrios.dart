@@ -75,7 +75,7 @@ class DropdownBarriosState extends ConsumerState<DropdownBarrios> {
   Future<void> _cargarBarrios(String idCiudad) async {
     String uri =
         "http://$ipConnect/mascotas/input_barrios.php?idCiudad=$idCiudad";
-    print("Id de ciudad actualizada $idCiudad");
+    // print("Id de ciudad actualizada $idCiudad");
     var response = await http.get(Uri.parse(uri));
     if (response.statusCode == 200) {
       var barriosJson = jsonDecode(response.body);

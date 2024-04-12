@@ -44,6 +44,10 @@ final GoRouter router = GoRouter(initialLocation: '/login', routes: [
     builder: (context, state) => const RefugiosScreen(),
   ),
   GoRoute(
+    path: '/uploadLostPets',
+    builder: (context, state) => const UploadLostPets(),
+  ),
+  GoRoute(
     path: '/refugiosProfile',
     builder: (context, state) {
       final refugio = state.extra as Map<dynamic, dynamic>? ?? {};

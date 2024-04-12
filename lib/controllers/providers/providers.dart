@@ -1,1 +1,1 @@
-export 'package:mascotas_bga/controllers/providers/refugio/id_ciudad_provider.dart';
+export 'package:mascotas_bga/controllers/providers/general/id_ciudad_provider.dart';

@@ -1,16 +1,17 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mascotas_bga/controllers/gets/refugios_controller.dart';
 import 'package:mascotas_bga/helpers/shared.dart';
+import 'package:mascotas_bga/controllers/providers/general/id_refugio_info.dart';
 
-
-class RefugiosScreen extends StatefulWidget {
+class RefugiosScreen extends ConsumerStatefulWidget {
   const RefugiosScreen({super.key});
 
   @override
-  State<RefugiosScreen> createState() => _RefugiosScreenState();
+  RefugiosScreenState createState() => RefugiosScreenState();
 }
 
-class _RefugiosScreenState extends State<RefugiosScreen> {
+class RefugiosScreenState extends ConsumerState<RefugiosScreen> {
   final RefugiosController _controller = RefugiosController();
 
   List refugios = [];
@@ -45,6 +46,8 @@ class _RefugiosScreenState extends State<RefugiosScreen> {
                     padding: const EdgeInsets.all(50),
                     child: GestureDetector(
                       onTap: () {
+                        ref.read(idRefugioInfoProvider.notifier).state =
+                                  refugios[index]["id_refugio"].toString();
                         context.push('/refugiosProfile',
                             extra: refugios[index]);
                       },
@@ -74,8 +77,12 @@ class _RefugiosScreenState extends State<RefugiosScreen> {
                       child: Row(
                         children: [
                           TextButton(
-                            onPressed: () => context.push('/refugiosProfile',
-                                extra: refugios[index]),
+                            onPressed: () {
+                              ref.read(idRefugioInfoProvider.notifier).state =
+                                  refugios[index]["id_refugio"].toString();
+                              context.push('/refugiosProfile',
+                                  extra: refugios[index]);
+                            },
                             child: const Text(
                               "Información y Mascotas",
                             ),

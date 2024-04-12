@@ -93,7 +93,9 @@ class LostPetsScreenState extends ConsumerState<LostPetsScreen> {
         ),
         floatingActionButton: rolActual == "Cliente"
             ? FloatingActionButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.push("/uploadLostPets");
+                },
                 child: const Icon(Icons.add),
               )
             : null,
