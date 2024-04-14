@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mascotas_bga/controllers/providers/general/rol_provider.dart';
 import 'package:mascotas_bga/models/auth/login_model_user.dart';
-import 'package:mascotas_bga/controllers/providers/general/id_cliente_provider.dart';
+import 'package:mascotas_bga/controllers/providers/providers.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginController {
@@ -19,6 +18,7 @@ class LoginController {
       if (dataUser[0]['rol'] == 'cliente') {
         ref.read(rolProvider.notifier).state = "Cliente";
         ref.read(idClienteProvider.notifier).state = dataUser[0]['id'];
+        ref.read(idUsuarioProvider.notifier).state = dataUser[0]['id'];
         print(idClienteProvider);
         // ignore: use_build_context_synchronously
         context.push('/pets');

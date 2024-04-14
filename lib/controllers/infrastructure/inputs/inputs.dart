@@ -13,3 +13,4 @@ export "package:mascotas_bga/controllers/infrastructure/inputs/drop_down_menu_ta
 
 export "drop_down_menu_color.dart";
 export 'drop_down_menu_sexo.dart';
+export "package:mascotas_bga/controllers/infrastructure/inputs/drop_down_menu_edad.dart";

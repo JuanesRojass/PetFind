@@ -135,9 +135,9 @@ class RegisterFormRefugio extends ConsumerWidget {
                     telefono.text,
                     description.text,
                     mision.text,
-                    direccion.text,
                     ciudad.text,
-                    barrio.text
+                    barrio.text,
+                    direccion.text,
                     );
                   loginCubit.onSubmit();
                 },

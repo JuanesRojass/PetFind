@@ -43,7 +43,8 @@ class RegisterRefugioController {
     if (username.isEmpty ||
         password.isEmpty ||
         email.isEmpty ||
-        telefono.isEmpty) {
+        telefono.isEmpty ||
+        direccion.isEmpty) {
       showDialog(
         context: context,
         builder: (BuildContext context) {

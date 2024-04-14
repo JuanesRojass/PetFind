@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:mascotas_bga/config/connect/connect_server.dart';
 import 'package:mascotas_bga/controllers/providers/general/id_tipo_mascota_provider.dart';
-import 'package:mascotas_bga/controllers/providers/providers.dart';
-import 'package:riverpod/riverpod.dart';
+
 
 class DropdownTipo extends ConsumerStatefulWidget {
   final TextEditingController controller;

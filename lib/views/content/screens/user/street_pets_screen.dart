@@ -93,7 +93,9 @@ class StreetPetsScreenState extends ConsumerState<StreetPetsScreen> {
         ),
         floatingActionButton: rolActual == "Cliente" || rolActual == "Refugio"
             ? FloatingActionButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.push("/uploadStreetPets");
+                },
                 child: const Icon(Icons.add),
               )
             : null,

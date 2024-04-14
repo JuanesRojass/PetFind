@@ -1,12 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:go_router/go_router.dart';
+
 import 'package:mascotas_bga/controllers/gets/adp_pets_controller.dart';
 
-import 'package:mascotas_bga/controllers/providers/general/rol_provider.dart';
+
 
 import 'package:mascotas_bga/helpers/shared.dart';
-
 
 class AdpPetsScreen extends ConsumerStatefulWidget {
   const AdpPetsScreen({Key? key}) : super(key: key);
@@ -17,7 +16,7 @@ class AdpPetsScreen extends ConsumerStatefulWidget {
 
 class AdpPetsScreenState extends ConsumerState<AdpPetsScreen> {
   final AdpPetsController _controller = AdpPetsController();
-  List mascotasadp = [];
+  List<Map<String, dynamic>> mascotasadp = [];
 
   @override
   void initState() {
@@ -34,77 +33,55 @@ class AdpPetsScreenState extends ConsumerState<AdpPetsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final rolActual = ref.watch(rolProvider);
+    // final rolActual = ref.watch(rolProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Mascotas En Adopción'),
+        title: const Text('Mascotas en Adopción'),
       ),
-      body: ListView.builder(
-        itemCount: mascotasadp.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Card(
-              child: Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(50),
-                    child: GestureDetector(
-                      onTap: () {
-                        context.push('/petsAdpProfile', extra: mascotasadp[index]);
-                      },
-                      child: Row(
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.fromLTRB(1.0, 1.0, 30, 1.0),
-                            child: Icon(
-                              Icons.pets,
-                              size: 60,
-                            ),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(mascotasadp[index]["nombre_mascota_adp"]),
-                              Text(mascotasadp[index]["raza_mascota_adp"]),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    right: 10,
-                    bottom: 10,
-                    child: Row(
+      body: mascotasadp.isEmpty
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : ListView.builder(
+              itemCount: mascotasadp.length,
+              itemBuilder: (context, index) {
+                final pet = mascotasadp[index];
+                return Card(
+                  child: ListTile(
+                    leading: Image.network(pet['imagen_mascota']),
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TextButton(
-                          onPressed: () =>
-                              context.push('/petsAdpProfile', extra: mascotasadp[index]),
-                          child: const Text(
-                            "Mas Información",
+                        Text(pet['nombre_mascota_adp']),
+                        Text(
+                          'Refugio: ${pet['nombre_refugio']}',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const Icon(Icons.arrow_forward_ios_rounded)
+                        Text(
+                          'Teléfono: ${pet['telefono_refugio']}',
+                        ),
+                        Text(
+                          'Ciudad: ${pet['ciudad_refugio']}',
+                        ),
                       ],
                     ),
-                  )
-                ],
-              ),
-            ),
-          );
-        },
-      ),
-      floatingActionButton: rolActual == "Refugio"
-          ? FloatingActionButton(
-              onPressed: () {
-                // Acción al presionar el botón
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Raza: ${pet['raza_mascota_adp']}'),
+                        Text('Tamaño: ${pet['tamano_mascota_adp']}'),
+                        Text('Edad: ${pet['edad_mascota_adp']}'),
+                        Text('Color: ${pet['color_mascota_adp']}'),
+                        Text('Descripción: ${pet['desc_mascota_adp']}'),
+                      ],
+                    ),
+                  ),
+                );
               },
-              child: const Icon(Icons.add),
-            )
-          : null,
-      bottomNavigationBar: const BottomNavigationUser(),
+            ),
     );
   }
 }

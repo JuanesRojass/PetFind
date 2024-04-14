@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import 'package:mascotas_bga/config/connect/connect_server.dart';
 import 'package:mascotas_bga/controllers/providers/general/id_tipo_mascota_provider.dart';
 import 'package:mascotas_bga/controllers/providers/providers.dart';
@@ -61,13 +60,17 @@ class DropdownRazasState extends ConsumerState<DropdownRazas> {
       items: razas.map<DropdownMenuItem<String>>((raza) {
         return DropdownMenuItem<String>(
           value: raza['id_raza'].toString(),
-          child: Text(
-            raza['nombre_raza'],
+          child: SizedBox(
+            width: 200,
+            child: Text(
+              raza['nombre_raza'],
             style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: Colors.black45),
           ),
+            )
+            
         );
       }).toList(),
     );
@@ -78,7 +81,7 @@ class DropdownRazasState extends ConsumerState<DropdownRazas> {
         "http://$ipConnect/mascotas/input_razas.php?idTipo=$idTipo";
     // print("Id de Tipo actualizado $idTipo");
     var response = await http.get(Uri.parse(uri));
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 && mounted) {
       var razasJson = jsonDecode(response.body);
       setState(() {
         razas = razasJson;

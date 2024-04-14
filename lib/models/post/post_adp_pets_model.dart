@@ -3,20 +3,18 @@ import 'package:http/http.dart' as http;
 import 'package:mascotas_bga/config/connect/connect_server.dart';
 
 
-class PostLostPetsModel {
-  Future<void> registrarMascotaPerdida({
+class PostAdpPetsModel {
+  Future<void> registrarMascotaAdopcion({
     required String nombreMascota,
     required String tipoMascota,
     required String razaMascota,
     required String tamanoMascota,
     required String colorMascota,
     required String sexoMascota,
+    required String edadMascota,
     required String descMascota,
-    required String recomMascota,
-    required String ciudadMascota,
-    required String barrioMascota,
-    required String direccionMascota,
-    required String idCliente,
+    required String saludMascota,
+    required String idRefugio,
     required String? imagedata,
     required String? imagename,
     required String? imagedata2,
@@ -26,20 +24,18 @@ class PostLostPetsModel {
   }) async {
     if (nombreMascota.isNotEmpty) {
       try {
-        String uri = "http://$ipConnect/mascotas/insert_pet_lost.php";
+        String uri = "http://$ipConnect/mascotas/insert_pet_adp.php";
         var res = await http.post(Uri.parse(uri), body: {
-          "nombre_mascota_lost": nombreMascota,
-          "tipo_mascota_lost": tipoMascota,
-          "raza_mascota_lost": razaMascota,
-          "tamano_mascota_lost": tamanoMascota,
-          "color_mascota_lost": colorMascota,
-          "sexo_mascota_lost": sexoMascota,
-          "desc_mascota_lost": descMascota,
-          "recom_mascota_lost": recomMascota,
-          "ciudad_mascota_lost": ciudadMascota,
-          "barrio_mascota_lost": barrioMascota,
-          "direccion_mascota_lost": direccionMascota,
-          "idCliente": idCliente,
+          "nombre_mascota_adp": nombreMascota,
+          "tipo_mascota_adp": tipoMascota,
+          "raza_mascota_adp": razaMascota,
+          "tamano_mascota_adp": tamanoMascota,
+          "color_mascota_adp": colorMascota,
+          "sexo_mascota_adp": sexoMascota,
+          "edad_mascota_adp": edadMascota,
+          "desc_mascota_adp": descMascota,
+          "salud_mascota_adp": saludMascota,
+          "idRefugio": idRefugio,
           "data": imagedata,
           "name": imagename,
           "data2": imagedata2 ?? "",

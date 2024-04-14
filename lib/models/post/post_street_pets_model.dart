@@ -3,20 +3,19 @@ import 'package:http/http.dart' as http;
 import 'package:mascotas_bga/config/connect/connect_server.dart';
 
 
-class PostLostPetsModel {
-  Future<void> registrarMascotaPerdida({
-    required String nombreMascota,
+class PostStreetsPetsModel {
+  Future<void> registrarMascotaCalle({
     required String tipoMascota,
     required String razaMascota,
     required String tamanoMascota,
     required String colorMascota,
     required String sexoMascota,
     required String descMascota,
-    required String recomMascota,
     required String ciudadMascota,
     required String barrioMascota,
     required String direccionMascota,
-    required String idCliente,
+    required String idUsuario,
+    required String nombreRol,
     required String? imagedata,
     required String? imagename,
     required String? imagedata2,
@@ -24,22 +23,21 @@ class PostLostPetsModel {
     required String? imagedata3,
     required String? imagename3,
   }) async {
-    if (nombreMascota.isNotEmpty) {
+    if (tipoMascota.isNotEmpty) {
       try {
-        String uri = "http://$ipConnect/mascotas/insert_pet_lost.php";
+        String uri = "http://$ipConnect/mascotas/insert_pet_street.php";
         var res = await http.post(Uri.parse(uri), body: {
-          "nombre_mascota_lost": nombreMascota,
-          "tipo_mascota_lost": tipoMascota,
-          "raza_mascota_lost": razaMascota,
-          "tamano_mascota_lost": tamanoMascota,
-          "color_mascota_lost": colorMascota,
-          "sexo_mascota_lost": sexoMascota,
-          "desc_mascota_lost": descMascota,
-          "recom_mascota_lost": recomMascota,
-          "ciudad_mascota_lost": ciudadMascota,
-          "barrio_mascota_lost": barrioMascota,
-          "direccion_mascota_lost": direccionMascota,
-          "idCliente": idCliente,
+          "tipo_mascota_street": tipoMascota,
+          "raza_mascota_street": razaMascota,
+          "tamano_mascota_street": tamanoMascota,
+          "color_mascota_street": colorMascota,
+          "sexo_mascota_street": sexoMascota,
+          "desc_mascota_street": descMascota,
+          "ciudad_mascota_street": ciudadMascota,
+          "barrio_mascota_street": barrioMascota,
+          "direccion_mascota_street": direccionMascota,
+          "idUsuario": idUsuario,
+          "nombreRol": nombreRol,
           "data": imagedata,
           "name": imagename,
           "data2": imagedata2 ?? "",

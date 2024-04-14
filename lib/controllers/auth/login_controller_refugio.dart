@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mascotas_bga/controllers/providers/general/rol_provider.dart';
+import 'package:mascotas_bga/controllers/providers/providers.dart';
 import 'package:mascotas_bga/models/auth/login_model_refugio.dart';
 import 'package:go_router/go_router.dart';
 
@@ -22,6 +22,8 @@ class LoginControllerRefugio {
     } else {
       if (dataUser[0]['id_estado_refugio_fk'] == '1') {
         ref.read(rolProvider.notifier).state = "Refugio";
+        ref.read(idRefugioProvider.notifier).state = dataUser[0]['id_refugio'];
+        ref.read(idUsuarioProvider.notifier).state = dataUser[0]['id_refugio'];
         // ignore: use_build_context_synchronously
         context.push('/pets');
         emailRefugio.clear();
