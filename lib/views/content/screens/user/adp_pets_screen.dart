@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mascotas_bga/config/connect/connect_server.dart';
 
-
+import 'package:mascotas_bga/controllers/providers/general/rol_provider.dart';
 import 'package:mascotas_bga/controllers/gets/adp_pets_controller.dart';
-
-
 
 import 'package:mascotas_bga/helpers/shared.dart';
 
@@ -33,55 +33,187 @@ class AdpPetsScreenState extends ConsumerState<AdpPetsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final rolActual = ref.watch(rolProvider);
+    final rolActual = ref.watch(rolProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Mascotas en Adopción'),
-      ),
-      body: mascotasadp.isEmpty
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : ListView.builder(
-              itemCount: mascotasadp.length,
-              itemBuilder: (context, index) {
-                final pet = mascotasadp[index];
-                return Card(
-                  child: ListTile(
-                    leading: Image.network(pet['imagen_mascota']),
-                    title: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(pet['nombre_mascota_adp']),
-                        Text(
-                          'Refugio: ${pet['nombre_refugio']}',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          'Teléfono: ${pet['telefono_refugio']}',
-                        ),
-                        Text(
-                          'Ciudad: ${pet['ciudad_refugio']}',
-                        ),
-                      ],
-                    ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Raza: ${pet['raza_mascota_adp']}'),
-                        Text('Tamaño: ${pet['tamano_mascota_adp']}'),
-                        Text('Edad: ${pet['edad_mascota_adp']}'),
-                        Text('Color: ${pet['color_mascota_adp']}'),
-                        Text('Descripción: ${pet['desc_mascota_adp']}'),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-    );
+        appBar: AppBar(
+          title: const Text('Mascotas en Adopción'),
+        ),
+        body: mascotasadp.isEmpty
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : ListView.builder(
+                itemCount: mascotasadp.length,
+                itemBuilder: (context, index) {
+                  final pet = mascotasadp[index];
+                  return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Card(
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Card(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(7.0),
+                                      child: InkWell(
+                                        onTap: () {
+                                          context.push("/refugios");
+                                        },
+                                        child: Row(
+                                          children: [
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(30.0),
+                                              child: const Icon(Icons.house,
+                                                  size: 30),
+                                            ),
+                                            const SizedBox(width: 10),
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    pet['nombre_refugio'],
+                                                    style: const TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 16),
+                                                  ),
+                                                  Row(children: [
+                                                    const Icon(
+                                                      Icons.location_on_rounded,
+                                                      size: 10,
+                                                    ),
+                                                    Expanded(
+                                                      child: Text(
+                                                        ' ${pet['ciudad_refugio']} • ${pet['barrio_refugio']} • ${pet['direccion_refugio']}',
+                                                        style: const TextStyle(
+                                                            fontSize: 12),
+                                                        // overflow: TextOverflow.ellipsis,
+                                                      ),
+                                                    )
+                                                  ]),
+                                                  Row(children: [
+                                                    const Icon(
+                                                      Icons.phone,
+                                                      size: 10,
+                                                    ),
+                                                    Text(
+                                                      ' ${pet['telefono_refugio']}',
+                                                      style: const TextStyle(
+                                                          fontSize: 12),
+                                                    )
+                                                  ])
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0),
+                                      child: InkWell(
+                                        onTap: () {
+                                          context.push("/petsAdpProfile",
+                                          extra: pet);
+                                        },
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(9.0),
+                                                child: Image.network(
+                                                  "http://192.168.1.7/mascotas/" +
+                                                      pet["imagen_mascota"],
+                                                  width: 120,
+                                                  height: 200,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      pet['nombre_mascota_adp'],
+                                                      style: const TextStyle(
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                    ),
+                                                    Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          const Icon(
+                                                            Icons.pets,
+                                                            size: 15,
+                                                          ),
+                                                          Text(
+                                                              "${pet['tipo_mascota_adp']}"),
+                                                        ]),
+                                                    const SizedBox(height: 15),
+                                                    Text(
+                                                        'Raza: ${pet['raza_mascota_adp']}'),
+                                                    Text(
+                                                        'Sexo: ${pet['sexo_mascota_adp']}'),
+                                                    Text(
+                                                        'Tamaño: ${pet['tamano_mascota_adp']}'),
+                                                    Text(
+                                                        'Edad: ${pet['edad_mascota_adp']}'),
+                                                    Text(
+                                                        'Color: ${pet['color_mascota_adp']}'),
+                                                    TextButton(
+                                                        onPressed: () {
+                                                          context.push(
+                                                              "/petsAdpProfile",
+                                                              extra: pet);
+                                                        },
+                                                        child: const Text(
+                                                            "Mas información >"))
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          ])));
+                },
+              ),
+        floatingActionButton: rolActual == "Refugio"
+            ? FloatingActionButton(
+                onPressed: () {
+                  context.push("/uploadAdpPets",
+                  extra: mascotasadp
+                  );
+                },
+                child: const Icon(Icons.add),
+              )
+            : null,
+        bottomNavigationBar: const BottomNavigationUser());
   }
 }

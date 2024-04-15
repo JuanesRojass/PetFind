@@ -65,7 +65,7 @@ final GoRouter router = GoRouter(initialLocation: '/login', routes: [
   GoRoute(
     path: '/petsAdpProfile',
     builder: (context, state) {
-      final mascotaAdp = state.extra as Map<dynamic, dynamic>? ?? {};
+      final mascotaAdp = state.extra as Map<String, dynamic>? ?? {};
       return PetsAdoptProfile(petsAdp: mascotaAdp);
     },
   ),
