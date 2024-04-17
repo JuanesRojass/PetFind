@@ -9,6 +9,7 @@ import 'package:mascotas_bga/controllers/providers/general/rol_provider.dart';
 
 import 'package:mascotas_bga/helpers/shared.dart';
 
+
 class LostPetsScreen extends ConsumerStatefulWidget {
   const LostPetsScreen({Key? key}) : super(key: key);
 
@@ -69,28 +70,25 @@ class LostPetsScreenState extends ConsumerState<LostPetsScreen> {
                                             context: context,
                                             builder: (BuildContext context) {
                                               return AlertDialog(
-                                                title: Text("Teléfono del usuario"),
+                                                title: const Text("Contacto"),
                                                 content: Text("Número de teléfono: ${pet['telefono_usuario']}"),
                                                 actions: [
                                                   TextButton(
                                                     onPressed: () {
-                                                      Navigator.of(context).pop(); // Cerrar el diálogo
+                                                      Navigator.of(context).pop(); 
                                                     },
-                                                    child: Text("Cerrar"),
+                                                    child: const Text("Cerrar"),
                                                   ),
                                                   TextButton(
                                                     onPressed: () {
                                                       Clipboard.setData(ClipboardData(text: pet['telefono_usuario'])); // Copiar el texto al portapapeles
-                                                      Navigator.of(context).pop(); // Cerrar el diálogo
+                                                      Navigator.of(context).pop();
+                                                      ScaffoldMessenger.of(context).showSnackBar(
+                                                      const SnackBar(content: Text("Teléfono copiado al portapapeles")),
+                              );
                                                     },
-                                                    child: Text("Copiar"),
+                                                    child: const Text("Copiar"),
                                                   ),
-                                                  // TextButton(
-                                                  //   onPressed: () {
-                                                  //     launch("tel:${pet['telefono_usuario']}"); // Llamar al número de teléfono
-                                                  //   },
-                                                  //   child: Text("Llamar"),
-                                                  // ),
                                                 ],
                                               );
                                             },
@@ -165,7 +163,7 @@ class LostPetsScreenState extends ConsumerState<LostPetsScreen> {
                                           horizontal: 8.0),
                                       child: InkWell(
                                         onTap: () {
-                                          context.push("/petsAdpProfile",
+                                          context.push("/petsLostProfile",
                                           extra: pet);
                                         },
                                         child: Row(
@@ -225,7 +223,7 @@ class LostPetsScreenState extends ConsumerState<LostPetsScreen> {
                                                     TextButton(
                                                         onPressed: () {
                                                           context.push(
-                                                              "/petsAdpProfile",
+                                                              "/petsLostProfile",
                                                               extra: pet);
                                                         },
                                                         child: const Text(

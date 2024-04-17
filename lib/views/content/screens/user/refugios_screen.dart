@@ -1,11 +1,14 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mascotas_bga/controllers/gets/refugios_controller.dart';
+
+import 'package:mascotas_bga/controllers/providers/general/rol_provider.dart';
+
 import 'package:mascotas_bga/helpers/shared.dart';
-import 'package:mascotas_bga/controllers/providers/general/id_refugio_info.dart';
 
 class RefugiosScreen extends ConsumerStatefulWidget {
-  const RefugiosScreen({super.key});
+  const RefugiosScreen({Key? key}) : super(key: key);
 
   @override
   RefugiosScreenState createState() => RefugiosScreenState();
@@ -13,8 +16,7 @@ class RefugiosScreen extends ConsumerStatefulWidget {
 
 class RefugiosScreenState extends ConsumerState<RefugiosScreen> {
   final RefugiosController _controller = RefugiosController();
-
-  List refugios = [];
+  List<Map<String, dynamic>> refugios = [];
 
   @override
   void initState() {
@@ -23,78 +25,93 @@ class RefugiosScreenState extends ConsumerState<RefugiosScreen> {
   }
 
   Future<void> getRefugios() async {
-    final refugiosL = await _controller.getRefugios();
+    final refugioss = await _controller.getRefugios();
     setState(() {
-      refugios = refugiosL;
+      refugios = refugioss;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final rolActual = ref.watch(rolProvider);
+
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Refugios'),
-        ),
-        body: ListView.builder(
-          itemCount: refugios.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
-                child: Stack(children: [
-                  Padding(
-                    padding: const EdgeInsets.all(50),
-                    child: GestureDetector(
-                      onTap: () {
-                        ref.read(idRefugioInfoProvider.notifier).state =
-                                  refugios[index]["id_refugio"].toString();
-                        context.push('/refugiosProfile',
-                            extra: refugios[index]);
-                      },
-                      child: Row(
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.fromLTRB(1.0, 1.0, 30, 1.0),
-                            child: Icon(
-                              Icons.house_sharp,
-                              size: 60,
-                            ),
-                          ),
-                          Column(
+      appBar: AppBar(
+        title: const Text('Refugios'),
+      ),
+      body: refugios.isEmpty
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : ListView.builder(
+              itemCount: refugios.length,
+              itemBuilder: (context, index) {
+                final refugio = refugios[index];
+                return Card(
+                  margin: const EdgeInsets.all(10),
+                  child: InkWell(
+                    onTap: (){
+                      context.push('/refugiosProfile', extra: refugio);
+                    },
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(Icons.home, size: 100),
+                        ),
+                        Expanded(
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(refugios[index]["nombre_refugio"]),
-                              Text(refugios[index]["email_refugio"]),
+                              Row(children: [
+                                Text(
+                                  refugio["nombre_refugio"],
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                const Icon(
+                                  Icons.verified_user_rounded,
+                                  color: Colors.blue,
+                                )
+                              ]),
+                              Text(
+                                'Ciudad: ${refugio["ciudad_refugio"]}',
+                                style: const TextStyle(fontSize: 14),
+                              ),
+                              Text(
+                                'Barrio: ${refugio["barrio_refugio"]}',
+                                style: const TextStyle(fontSize: 14),
+                              ),
+                              Text(
+                                'Dirección: ${refugio["direccion_refugio"]}',
+                                style: const TextStyle(fontSize: 14),
+                              ),
+                              TextButton.icon(
+                                  onPressed: () {
+                                    context.push('/refugiosProfile', extra: refugio);
+                                  },
+                                  icon: const Icon(Icons.arrow_right_rounded),
+                                  label: const Text("Mas información"))
                             ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                  Positioned(
-                      right: 10,
-                      bottom: 10,
-                      child: Row(
-                        children: [
-                          TextButton(
-                            onPressed: () {
-                              ref.read(idRefugioInfoProvider.notifier).state =
-                                  refugios[index]["id_refugio"].toString();
-                              context.push('/refugiosProfile',
-                                  extra: refugios[index]);
-                            },
-                            child: const Text(
-                              "Información y Mascotas",
-                            ),
-                          ),
-                          const Icon(Icons.arrow_forward_ios_rounded)
-                        ],
-                      ))
-                ]),
-              ),
-            );
-          },
-        ),
-        bottomNavigationBar: const BottomNavigationUser());
+                );
+              },
+            ),
+      floatingActionButton: rolActual == "Cliente"
+          ? FloatingActionButton(
+              onPressed: () {
+                context.push("/refugiosProfile", extra: refugios);
+              },
+              child: const Icon(Icons.add),
+            )
+          : null,
+      bottomNavigationBar: const BottomNavigationUser(),
+    );
   }
 }

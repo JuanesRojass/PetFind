@@ -64,9 +64,9 @@ class BottomNavigationUser extends StatelessWidget {
               activeIcon: Icon(Icons.question_mark_rounded),
               label: 'Perdidos'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.book_sharp, color: Colors.white),
-              activeIcon: Icon(Icons.book_rounded),
-              label: 'Encontrados'),
+              icon: Icon(Icons.forest_rounded, color: Colors.white),
+              activeIcon: Icon(Icons.forest_rounded),
+              label: 'En Calle'),
           BottomNavigationBarItem(
               icon: Icon(Icons.house_sharp, color: Colors.white),
               activeIcon: Icon(Icons.house_rounded),

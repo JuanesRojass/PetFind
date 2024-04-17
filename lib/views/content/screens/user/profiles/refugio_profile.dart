@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mascotas_bga/config/connect/connect_server.dart';
@@ -21,7 +22,7 @@ class _RefugioProfileState extends State<RefugioProfile> {
   @override
   void initState() {
     super.initState();
-    final idRefugio = int.parse(widget.refugio["id_refugio_fk"]);
+    final idRefugio = int.parse(widget.refugio["id_refugio"]);
     cargarMascotas(idRefugio);
   }
 
@@ -43,7 +44,7 @@ class _RefugioProfileState extends State<RefugioProfile> {
               const Icon(Icons.verified_user_rounded, color: Colors.blue, size: 30,)
               ]),
         ),
-        body: Padding(
+        body: Padding( //Mostramos Información del Refugio
           padding: const EdgeInsets.all(20),
           child: SingleChildScrollView(
             child: Column(
@@ -53,8 +54,63 @@ class _RefugioProfileState extends State<RefugioProfile> {
                 buildSeccionInfo("Barrio", widget.refugio["barrio_refugio"]),
                 buildSeccionInfo(
                     "Dirección", widget.refugio["direccion_refugio"]),
-                buildSeccionInfo(
-                    "Telefonos", widget.refugio["telefono_refugio"]),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+
+                    children: [
+                      const Text("Telefonos", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(widget.refugio["telefono_refugio"], style: const TextStyle(fontSize: 16, color: Colors.grey)),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.copy),
+                            onPressed: () {
+                              Clipboard.setData(ClipboardData(text: widget.refugio["telefono_refugio"]));
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text("Teléfono copiado al portapapeles")),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                      if (widget.refugio["telefono_refugio_dos"] != null)
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(widget.refugio["telefono_refugio_dos"], style: const TextStyle(fontSize: 16, color: Colors.grey)),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.copy),
+                            onPressed: () {
+                              Clipboard.setData(ClipboardData(text: widget.refugio["telefono_refugio_dos"]));
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text("Teléfono copiado al portapapeles")),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                      if (widget.refugio["telefono_refugio_tres"] != null)
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(widget.refugio["telefono_refugio_tres"], style: const TextStyle(fontSize: 16, color: Colors.grey)),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.copy),
+                            onPressed: () {
+                              Clipboard.setData(ClipboardData(text: widget.refugio["telefono_refugio_tres"]));
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text("Teléfono copiado al portapapeles")),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 buildSeccionInfo(
                     "Correo electrónico", widget.refugio["email_refugio"]),
                 buildSeccionInfo(
@@ -73,7 +129,8 @@ class _RefugioProfileState extends State<RefugioProfile> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                // Aquí se muestra la lista de imágenes
+
+                //Mostramos Imagenes
                 Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Column(

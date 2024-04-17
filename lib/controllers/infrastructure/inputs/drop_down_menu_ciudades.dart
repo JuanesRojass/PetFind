@@ -46,7 +46,7 @@ class DropdownCiudadesState extends ConsumerState<DropdownCiudades> {
     return DropdownButton(
       value: selectedCiudad,
       hint: const Text(
-        'Ciudad del Refugio',
+        'Ciudad',
         style: TextStyle(
             fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black45),
       ),

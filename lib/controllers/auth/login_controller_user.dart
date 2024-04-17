@@ -21,11 +21,11 @@ class LoginController {
         ref.read(idUsuarioProvider.notifier).state = dataUser[0]['id'];
         print(idClienteProvider);
         // ignore: use_build_context_synchronously
-        context.push('/pets');
+        context.go('/pets');
       } else if (dataUser[0]['rol'] == 'administrador') {
         ref.read(rolProvider.notifier).state = "Administrador";
         // ignore: use_build_context_synchronously
-        context.push('/pets');
+        context.go('/pets');
       }
     }
   }

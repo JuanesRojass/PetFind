@@ -25,7 +25,7 @@ class LoginControllerRefugio {
         ref.read(idRefugioProvider.notifier).state = dataUser[0]['id_refugio'];
         ref.read(idUsuarioProvider.notifier).state = dataUser[0]['id_refugio'];
         // ignore: use_build_context_synchronously
-        context.push('/pets');
+        context.go('/pets');
         emailRefugio.clear();
         passwordRefugio.clear();
       } else if (dataUser[0]['id_estado_refugio_fk'] == '2') {
