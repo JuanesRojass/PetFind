@@ -1,103 +1,145 @@
-import 'dart:convert';
-import 'package:mascotas_bga/config/connect/connect_server.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mascotas_bga/controllers/providers/general/id_refugio_info.dart';
-import 'package:http/http.dart' as http;
+import 'package:go_router/go_router.dart';
+import 'package:mascotas_bga/config/connect/connect_server.dart';
+import 'package:mascotas_bga/controllers/gets/adp_pets_refugio.controller.dart';
+import 'package:mascotas_bga/views/content/screens/user/profiles/adp_pets_profile.dart';
 
-class RefugioProfile extends ConsumerStatefulWidget {
+class RefugioProfile extends StatefulWidget {
   const RefugioProfile({super.key, required this.refugio});
 
   @override
-  RefugioProfileState createState() => RefugioProfileState();
-  final Map refugio;
+  _RefugioProfileState createState() => _RefugioProfileState();
+
+  final Map<String, dynamic> refugio;
 }
 
-class RefugioProfileState extends ConsumerState<RefugioProfile> {
-  List direcciones = [];
-  List telefonos = [];
+class _RefugioProfileState extends State<RefugioProfile> {
+  final AdpPetsRefugioController _controller = AdpPetsRefugioController();
+  List<Map<String, dynamic>> mascotasrefugio = [];
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    cargarDatosRefugio();
+  void initState() {
+    super.initState();
+    final idRefugio = int.parse(widget.refugio["id_refugio_fk"]);
+    cargarMascotas(idRefugio);
   }
 
-  Future<void> cargarDatosRefugio() async {
-    final idRefugio = ref.watch(idRefugioInfoProvider.notifier).state;
-    final url = Uri.parse(
-        'http://$ipConnect/mascotas/view_refugio_info.php?id_refugio=$idRefugio');
-    final response = await http.get(url);
-
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      setState(() {
-        direcciones = data['direcciones'];
-        telefonos = data['telefonos'];
-      });
-    } else {
-      // Manejar el error
-      print("Error al obtener los datos del refugio.");
-    }
+  Future<void> cargarMascotas(int idRefugio) async {
+    final mascotasRefugio = await _controller.getMascotasAdpRefugio(idRefugio);
+    setState(() {
+      mascotasrefugio = mascotasRefugio;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('${widget.refugio["nombre_refugio"] ?? "Refugio"}'),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('${widget.refugio["nombre_refugio"] ?? "Refugio"}'),
+              const Icon(Icons.verified_user_rounded, color: Colors.blue, size: 30,)
+              ]),
         ),
         body: Padding(
-          padding: const EdgeInsets.all(15),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text("Email: ${widget.refugio["email_refugio"] ?? ""}"),
-            const SizedBox(
-              height: 20,
-            ),
-            const Text("Direcciones:"),
-            SizedBox(
-              height: 200,
-              child: ListView.builder(
-                itemCount: direcciones.length,
-                itemBuilder: (context, index) {
-                  final direccion = direcciones[index];
-                  return Card(
-                    child: ListTile(
-                      title: Text("Ciudad: ${direccion["ciudad_refugio"]}"),
-                      subtitle: Text(
-                          "Barrio: ${direccion["barrio_refugio"]}\nDirección: ${direccion["direccion_refugio"]}"),
+          padding: const EdgeInsets.all(20),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                buildSeccionInfo("Ciudad", widget.refugio["ciudad_refugio"]),
+                buildSeccionInfo("Barrio", widget.refugio["barrio_refugio"]),
+                buildSeccionInfo(
+                    "Dirección", widget.refugio["direccion_refugio"]),
+                buildSeccionInfo(
+                    "Telefonos", widget.refugio["telefono_refugio"]),
+                buildSeccionInfo(
+                    "Correo electrónico", widget.refugio["email_refugio"]),
+                buildSeccionInfo(
+                    "Sobre Nosotros", widget.refugio["desc_refugio"]),
+                buildSeccionInfo(
+                    "Nuestra Misión", widget.refugio["mision_refugio"]),
+                const SizedBox(height: 20),
+                const Center(
+                  child: Text(
+                    "Nuestras Mascotas",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Color.fromARGB(255, 132, 31, 150),
                     ),
-                  );
-                },
-              ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                // Aquí se muestra la lista de imágenes
+                Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Column(
+                        children: List.generate(
+                            (mascotasrefugio.length / 2).ceil(), (index) {
+                      final startIndex = index * 2;
+                      final endIndex = (index + 1) * 2;
+                      final mascotas = mascotasrefugio.sublist(
+                          startIndex,
+                          endIndex < mascotasrefugio.length
+                              ? endIndex
+                              : mascotasrefugio.length);
+                      return Row(
+                        children: mascotas.map((mascota) {
+                          return Expanded(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
+                              child: GestureDetector(
+                                onTap: () {
+                                  context.push("/petsAdpProfile", extra: mascota);
+                                },
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.network(
+                                    "http://$ipConnect/mascotas/${mascota["imagen_mascota"]}",
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      );
+                    })))
+              ],
             ),
-            const SizedBox(height: 10,),
-            const Text("Telefonos:"),
-            SizedBox(
-              height: 200,
-              child: ListView.builder(
-                itemCount: telefonos.length,
-                itemBuilder: (context, index) {
-                  final telefono = telefonos[index];
-                  return Card(
-                    child: ListTile(
-                      title: Text("Teléfono: ${telefono["telefono_refugio"]}"),
-                    ),
-                  );
-                },
-              ),
-            ),
-            Text("Sobre Nosotros: ${widget.refugio["desc_refugio"] ?? ""}"),
-            const SizedBox(
-              height: 20,
-            ),
-            const Center(
-                child: Text(
-              "Mascotas",
-              style: TextStyle(fontSize: 20),
-            )),
-          ]),
+          ),
         ));
   }
 }
+
+
+
+
+
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   // cargarDatosRefugio();
+  // }
+
+  // Future<void> cargarDatosRefugio() async {
+  //   final idRefugio = ref.watch(idRefugioInfoProvider.notifier).state;
+  //   final url = Uri.parse(
+  //       'http://$ipConnect/mascotas/view_refugio_info.php?id_refugio=$idRefugio');
+  //   final response = await http.get(url);
+
+  //   if (response.statusCode == 200) {
+  //     final data = json.decode(response.body);
+  //     setState(() {
+  //       direcciones = data['direcciones'];
+  //       telefonos = data['telefonos'];
+  //     });
+  //   } else {
+  //     // Manejar el error
+  //     print("Error al obtener los datos del refugio.");
+  //   }
+  // }

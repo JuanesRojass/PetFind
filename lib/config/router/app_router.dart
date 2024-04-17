@@ -58,7 +58,7 @@ final GoRouter router = GoRouter(initialLocation: '/login', routes: [
   GoRoute(
     path: '/refugiosProfile',
     builder: (context, state) {
-      final refugio = state.extra as Map<dynamic, dynamic>? ?? {};
+      final refugio = state.extra as Map<String, dynamic>? ?? {};
       return RefugioProfile(refugio: refugio);
     },
   ),
@@ -72,7 +72,7 @@ final GoRouter router = GoRouter(initialLocation: '/login', routes: [
   GoRoute(
     path: '/petsLostProfile',
     builder: (context, state) {
-      final mascotaLost = state.extra as Map<dynamic, dynamic>? ?? {};
+      final mascotaLost = state.extra as Map<String, dynamic>? ?? {};
       return PetsLostProfile(petsLost: mascotaLost);
     },
   ),

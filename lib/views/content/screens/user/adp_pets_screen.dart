@@ -63,7 +63,7 @@ class AdpPetsScreenState extends ConsumerState<AdpPetsScreen> {
                                       padding: const EdgeInsets.all(7.0),
                                       child: InkWell(
                                         onTap: () {
-                                          context.push("/refugios");
+                                          context.push("/refugiosProfile", extra: pet);
                                         },
                                         child: Row(
                                           children: [
@@ -79,13 +79,18 @@ class AdpPetsScreenState extends ConsumerState<AdpPetsScreen> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(
-                                                    pet['nombre_refugio'],
-                                                    style: const TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 16),
-                                                  ),
+                                                  Row(
+                                                    children: [
+                                                    Text(
+                                                      pet['nombre_refugio'],
+                                                      style: const TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 16),
+                                                    ),
+                                                    const Icon(Icons.verified_user_rounded,
+                                                    color: Colors.blue, size: 20,)
+                                                ]),
                                                   Row(children: [
                                                     const Icon(
                                                       Icons.location_on_rounded,
@@ -133,7 +138,8 @@ class AdpPetsScreenState extends ConsumerState<AdpPetsScreen> {
                                                 borderRadius:
                                                     BorderRadius.circular(9.0),
                                                 child: Image.network(
-                                                  "http://192.168.1.7/mascotas/" +
+                                                  // ignore: prefer_interpolation_to_compose_strings
+                                                  "http://$ipConnect/mascotas/" +
                                                       pet["imagen_mascota"],
                                                   width: 120,
                                                   height: 200,

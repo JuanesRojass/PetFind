@@ -74,7 +74,7 @@ class PostLostPetsController {
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  context.go("/pets");
+                  context.go("/lost");
                 },
                 child: const Text('OK'),
               ),
