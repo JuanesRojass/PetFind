@@ -103,14 +103,6 @@ class RefugiosScreenState extends ConsumerState<RefugiosScreen> {
                 );
               },
             ),
-      floatingActionButton: rolActual == "Cliente"
-          ? FloatingActionButton(
-              onPressed: () {
-                context.push("/refugiosProfile", extra: refugios);
-              },
-              child: const Icon(Icons.add),
-            )
-          : null,
       bottomNavigationBar: const BottomNavigationUser(),
     );
   }

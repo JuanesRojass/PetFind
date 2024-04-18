@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mascotas_bga/config/connect/connect_server.dart';
-
+import 'package:mascotas_bga/controllers/infrastructure/inputs/inputs.dart';
 import 'package:mascotas_bga/controllers/providers/general/rol_provider.dart';
 import 'package:mascotas_bga/controllers/gets/adp_pets_controller.dart';
 
@@ -16,6 +16,11 @@ class AdpPetsScreen extends ConsumerStatefulWidget {
 
 class AdpPetsScreenState extends ConsumerState<AdpPetsScreen> {
   final AdpPetsController _controller = AdpPetsController();
+  final TextEditingController tipo = TextEditingController();
+  final TextEditingController raza = TextEditingController();
+  final TextEditingController sexo = TextEditingController();
+  final TextEditingController edad = TextEditingController();
+  final TextEditingController tamano = TextEditingController();
   List<Map<String, dynamic>> mascotasadp = [];
 
   @override
@@ -38,6 +43,60 @@ class AdpPetsScreenState extends ConsumerState<AdpPetsScreen> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Mascotas en Adopción'),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: ((context) => AlertDialog(
+                            title: const Text("Busqueda Por Filtros"),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                DropdownTipo(controller: tipo),
+                                DropdownRazas(controller: raza),
+                                DropDownMenuSexo(controller: sexo),
+                                DropDownMenuTamano(controller: tamano),
+                                DropDownMenuEdad(controller: edad)
+                              ],
+                            ),
+                            actions: [
+                              TextButton.icon(
+                                  onPressed: () async {
+                                    String? tipoValue =
+                                        tipo.text.isNotEmpty ? tipo.text : null;
+                                    String? razaValue =
+                                        raza.text.isNotEmpty ? raza.text : null;
+                                    String? sexoValue =
+                                        sexo.text.isNotEmpty ? sexo.text : null;
+                                    String? tamanoValue = tamano.text.isNotEmpty
+                                        ? tamano.text
+                                        : null;
+                                    String? edadValue =
+                                        edad.text.isNotEmpty ? tipo.text : null;
+
+                                    final mascotasFiltradas =
+                                        await _controller.getMascotasAdp(
+                                      tipo: tipoValue,
+                                      raza: razaValue,
+                                      sexo: sexoValue,
+                                      tamano: tamanoValue,
+                                      edad: edadValue,
+                                    );
+
+                                    setState(() {
+                                      mascotasadp = mascotasFiltradas;
+                                    });
+                                    context.pop();
+                                  },
+                                  label: const Text("Filtrar"),
+                                  icon: const Icon(Icons.search_rounded))
+                            ],
+                          )));
+                },
+                icon: const Icon(Icons.search_rounded,
+                    color: Colors.orange, size: 30))
+          ],
         ),
         body: mascotasadp.isEmpty
             ? const Center(
@@ -63,7 +122,8 @@ class AdpPetsScreenState extends ConsumerState<AdpPetsScreen> {
                                       padding: const EdgeInsets.all(7.0),
                                       child: InkWell(
                                         onTap: () {
-                                          context.push("/refugiosProfile", extra: pet);
+                                          context.push("/refugiosProfile",
+                                              extra: pet);
                                         },
                                         child: Row(
                                           children: [
@@ -79,8 +139,7 @@ class AdpPetsScreenState extends ConsumerState<AdpPetsScreen> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Row(
-                                                    children: [
+                                                  Row(children: [
                                                     Text(
                                                       pet['nombre_refugio'],
                                                       style: const TextStyle(
@@ -88,9 +147,13 @@ class AdpPetsScreenState extends ConsumerState<AdpPetsScreen> {
                                                               FontWeight.bold,
                                                           fontSize: 16),
                                                     ),
-                                                    const Icon(Icons.verified_user_rounded,
-                                                    color: Colors.blue, size: 20,)
-                                                ]),
+                                                    const Icon(
+                                                      Icons
+                                                          .verified_user_rounded,
+                                                      color: Colors.blue,
+                                                      size: 20,
+                                                    )
+                                                  ]),
                                                   Row(children: [
                                                     const Icon(
                                                       Icons.location_on_rounded,
@@ -129,7 +192,7 @@ class AdpPetsScreenState extends ConsumerState<AdpPetsScreen> {
                                       child: InkWell(
                                         onTap: () {
                                           context.push("/petsAdpProfile",
-                                          extra: pet);
+                                              extra: pet);
                                         },
                                         child: Row(
                                           children: [
@@ -213,9 +276,7 @@ class AdpPetsScreenState extends ConsumerState<AdpPetsScreen> {
         floatingActionButton: rolActual == "Refugio"
             ? FloatingActionButton(
                 onPressed: () {
-                  context.push("/uploadAdpPets",
-                  extra: mascotasadp
-                  );
+                  context.push("/uploadAdpPets", extra: mascotasadp);
                 },
                 child: const Icon(Icons.add),
               )
