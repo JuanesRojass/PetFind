@@ -8,7 +8,11 @@ import 'package:mascotas_bga/models/gets/refugios_model.dart';
 class RefugiosController {
   final RefugiosModel _model = RefugiosModel();
 
-  Future<List<Map<String, dynamic>>> getRefugios() async {
-    return await _model.getRefugios();
+  Future<List<Map<String, dynamic>>> getRefugios({
+    String? ciudad,
+  }) async {
+    return await _model.getRefugios(
+      ciudad: ciudad
+    );
   }
 }

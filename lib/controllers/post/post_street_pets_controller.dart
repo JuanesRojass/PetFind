@@ -65,7 +65,7 @@ class PostStreetPetsController {
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  context.go("/pets");
+                  context.go("/street");
                 },
                 child: const Text('OK'),
               ),

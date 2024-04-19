@@ -48,6 +48,8 @@ class AdpPetsScreenState extends ConsumerState<AdpPetsScreen> {
           actions: [
             IconButton(
                 onPressed: () {
+                  ref.read(idTipoMascotaProvider.notifier).setId("");
+                  ref.read(idCiudadProvider.notifier).setId("");
                   showDialog(
                       context: context,
                       builder: ((context) => AlertDialog(
@@ -107,7 +109,9 @@ class AdpPetsScreenState extends ConsumerState<AdpPetsScreen> {
                                   label: const Text("Filtrar"),
                                   icon: const Icon(Icons.search_rounded))
                             ],
-                          )));
+                          )
+                        )
+                      );
                 },
                 icon: const Icon(Icons.search_rounded,
                     color: Colors.orange, size: 30))

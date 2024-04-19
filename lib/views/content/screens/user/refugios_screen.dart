@@ -2,7 +2,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mascotas_bga/controllers/gets/refugios_controller.dart';
-
+import 'package:mascotas_bga/controllers/infrastructure/inputs/inputs.dart';
+import 'package:mascotas_bga/controllers/providers/providers.dart';
 import 'package:mascotas_bga/controllers/providers/general/rol_provider.dart';
 
 import 'package:mascotas_bga/helpers/shared.dart';
@@ -16,6 +17,7 @@ class RefugiosScreen extends ConsumerStatefulWidget {
 
 class RefugiosScreenState extends ConsumerState<RefugiosScreen> {
   final RefugiosController _controller = RefugiosController();
+  final TextEditingController ciudad = TextEditingController();
   List<Map<String, dynamic>> refugios = [];
 
   @override
@@ -38,6 +40,48 @@ class RefugiosScreenState extends ConsumerState<RefugiosScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Refugios'),
+        actions: [
+            IconButton(
+                onPressed: () {
+                  ref.read(idTipoMascotaProvider.notifier).setId("");
+                  ref.read(idCiudadProvider.notifier).setId("");
+                  showDialog(
+                      context: context,
+                      builder: ((context) => AlertDialog(
+                            title: const Text("Busqueda Por Filtros"),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                DropdownCiudades(controller: ciudad)
+                              ],
+                            ),
+                            actions: [
+                              TextButton.icon(
+                                  onPressed: () async {
+                                    String? ciudadValue =
+                                        ciudad.text.isNotEmpty ? ciudad.text : null;
+
+                                    final mascotasFiltradas =
+                                        await _controller.getRefugios(
+                                      ciudad: ref.watch(idCiudadProvider),
+                                    );
+
+                                    setState(() {
+                                      refugios = mascotasFiltradas;
+                                    });
+                                    ref.read(idCiudadProvider.notifier).setId("");
+                                    context.pop();
+                                  },
+                                  label: const Text("Filtrar"),
+                                  icon: const Icon(Icons.search_rounded))
+                            ],
+                          )
+                        )
+                      );
+                },
+                icon: const Icon(Icons.search_rounded,
+                    color: Colors.orange, size: 30))
+          ],
       ),
       body: refugios.isEmpty
           ? const Center(

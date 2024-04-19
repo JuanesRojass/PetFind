@@ -299,6 +299,7 @@ class UploadAdpPetsState extends ConsumerState<UploadAdpPets> {
                         imagename3: imagename3,
                         context: context);
                     // loginCubit.onSubmit();
+                        ref.read(idTipoMascotaProvider.notifier).setId("");
                   },
                 ),
               ),

@@ -304,6 +304,8 @@ class UploadStreetPetsState extends ConsumerState<UploadStreetPets> {
                         imagename3: imagename3,
                         context: context);
                     // loginCubit.onSubmit();
+                    ref.read(idTipoMascotaProvider.notifier).setId("");
+                    ref.read(idCiudadProvider.notifier).setId("");
                   },
                 ),
               ),

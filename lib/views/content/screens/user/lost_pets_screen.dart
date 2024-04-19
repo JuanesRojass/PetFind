@@ -3,7 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mascotas_bga/config/connect/connect_server.dart';
 import 'package:mascotas_bga/controllers/gets/lost_pets_controller.dart';
-
+import 'package:mascotas_bga/controllers/infrastructure/inputs/inputs.dart';
+import 'package:mascotas_bga/controllers/providers/providers.dart';
 import 'package:mascotas_bga/controllers/providers/general/rol_provider.dart';
 
 
@@ -19,6 +20,11 @@ class LostPetsScreen extends ConsumerStatefulWidget {
 
 class LostPetsScreenState extends ConsumerState<LostPetsScreen> {
   final LostPetsController _controller = LostPetsController();
+  final TextEditingController tipo = TextEditingController();
+  final TextEditingController raza = TextEditingController();
+  final TextEditingController sexo = TextEditingController();
+  final TextEditingController tamano = TextEditingController();
+  final TextEditingController ciudad = TextEditingController();
   List<Map<String, dynamic>> mascotaslost = [];
 
   @override
@@ -41,6 +47,72 @@ class LostPetsScreenState extends ConsumerState<LostPetsScreen> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Mascotas Perdidas'),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  ref.read(idTipoMascotaProvider.notifier).setId("");
+                  ref.read(idCiudadProvider.notifier).setId("");
+                  showDialog(
+                      context: context,
+                      builder: ((context) => AlertDialog(
+                            title: const Text("Busqueda Por Filtros"),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                DropdownTipo(controller: tipo),
+                                DropdownRazas(controller: raza),
+                                DropDownMenuSexo(controller: sexo),
+                                DropDownMenuTamano(controller: tamano),
+                                DropdownCiudades(controller: ciudad)
+                              ],
+                            ),
+                            actions: [
+                              TextButton.icon(
+                                  onPressed: () async {
+                                    String? tipoValue =
+                                        tipo.text.isNotEmpty ? tipo.text : null;
+                                    String? razaValue =
+                                        raza.text.isNotEmpty ? raza.text : null;
+                                    String? sexoValue =
+                                        sexo.text.isNotEmpty ? sexo.text : null;
+                                    String? tamanoValue = tamano.text.isNotEmpty
+                                        ? tamano.text
+                                        : null;
+                                    String? ciudadValue =
+                                        ciudad.text.isNotEmpty ? ciudad.text : null;
+
+                                    final mascotasFiltradas =
+                                        await _controller.getMascotasLost(
+                                      tipo: ref.watch(nombreTipoProvider),
+                                      raza: ref.watch(nombreRazaProvider),
+                                      // raza: razaValue,
+                                      sexo: sexoValue,
+                                      tamano: tamanoValue,
+                                      ciudad: ref.watch(idCiudadProvider),
+                                    );
+
+                                    setState(() {
+                                      mascotaslost = mascotasFiltradas;
+                                    });
+                                    raza.clear();
+                                    sexo.clear();
+                                    tamano.clear();
+                                    ref.read(nombreTipoProvider.notifier).setName("");
+                                    ref.read(nombreRazaProvider.notifier).setName("");
+                                    ref.read(idTipoMascotaProvider.notifier).setId("");
+                                    ref.read(idCiudadProvider.notifier).setId("");
+                                    context.pop();
+                                  },
+                                  label: const Text("Filtrar"),
+                                  icon: const Icon(Icons.search_rounded))
+                            ],
+                          )
+                        )
+                      );
+                },
+                icon: const Icon(Icons.search_rounded,
+                    color: Colors.orange, size: 30))
+          ],
         ),
         body: mascotaslost.isEmpty
             ? const Center(
