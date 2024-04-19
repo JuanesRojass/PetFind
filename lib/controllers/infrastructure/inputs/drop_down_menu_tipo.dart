@@ -5,7 +5,7 @@ import 'dart:convert';
 
 import 'package:mascotas_bga/config/connect/connect_server.dart';
 import 'package:mascotas_bga/controllers/providers/general/id_tipo_mascota_provider.dart';
-
+import 'package:mascotas_bga/controllers/providers/general/nombre_tipo_provider.dart';
 
 class DropdownTipo extends ConsumerStatefulWidget {
   final TextEditingController controller;
@@ -53,6 +53,8 @@ class DropdownTipoState extends ConsumerState<DropdownTipo> {
         setState(() {
           selectedTipo = newValue!;
           ref.read(idTipoMascotaProvider.notifier).setId(newValue);
+          ref.read(nombreTipoProvider.notifier).setName(tipos
+          .firstWhere((tipo) => tipo['id_tipo_mascota'] == newValue)['nombre_tipo_mascota']);
         });
       },
       items: tipos.map<DropdownMenuItem<String>>((tipo) {

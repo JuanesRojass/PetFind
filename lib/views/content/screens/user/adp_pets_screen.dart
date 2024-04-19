@@ -4,6 +4,7 @@ import 'package:mascotas_bga/config/connect/connect_server.dart';
 import 'package:mascotas_bga/controllers/infrastructure/inputs/inputs.dart';
 import 'package:mascotas_bga/controllers/providers/general/rol_provider.dart';
 import 'package:mascotas_bga/controllers/gets/adp_pets_controller.dart';
+import 'package:mascotas_bga/controllers/providers/providers.dart';
 
 import 'package:mascotas_bga/helpers/shared.dart';
 
@@ -19,8 +20,9 @@ class AdpPetsScreenState extends ConsumerState<AdpPetsScreen> {
   final TextEditingController tipo = TextEditingController();
   final TextEditingController raza = TextEditingController();
   final TextEditingController sexo = TextEditingController();
-  final TextEditingController edad = TextEditingController();
   final TextEditingController tamano = TextEditingController();
+  final TextEditingController edad = TextEditingController();
+  final TextEditingController ciudad = TextEditingController();
   List<Map<String, dynamic>> mascotasadp = [];
 
   @override
@@ -57,7 +59,8 @@ class AdpPetsScreenState extends ConsumerState<AdpPetsScreen> {
                                 DropdownRazas(controller: raza),
                                 DropDownMenuSexo(controller: sexo),
                                 DropDownMenuTamano(controller: tamano),
-                                DropDownMenuEdad(controller: edad)
+                                DropDownMenuEdad(controller: edad),
+                                DropdownCiudades(controller: ciudad)
                               ],
                             ),
                             actions: [
@@ -73,20 +76,32 @@ class AdpPetsScreenState extends ConsumerState<AdpPetsScreen> {
                                         ? tamano.text
                                         : null;
                                     String? edadValue =
-                                        edad.text.isNotEmpty ? tipo.text : null;
+                                        edad.text.isNotEmpty ? edad.text : null;
+                                    String? ciudadValue =
+                                        ciudad.text.isNotEmpty ? ciudad.text : null;
 
                                     final mascotasFiltradas =
                                         await _controller.getMascotasAdp(
-                                      tipo: tipoValue,
-                                      raza: razaValue,
+                                      tipo: ref.watch(nombreTipoProvider),
+                                      raza: ref.watch(nombreRazaProvider),
+                                      // raza: razaValue,
                                       sexo: sexoValue,
                                       tamano: tamanoValue,
                                       edad: edadValue,
+                                      ciudad: ref.watch(idCiudadProvider),
                                     );
 
                                     setState(() {
                                       mascotasadp = mascotasFiltradas;
                                     });
+                                    raza.clear();
+                                    sexo.clear();
+                                    tamano.clear();
+                                    edad.clear();
+                                    ref.read(nombreTipoProvider.notifier).setName("");
+                                    ref.read(nombreRazaProvider.notifier).setName("");
+                                    ref.read(idTipoMascotaProvider.notifier).setId("");
+                                    ref.read(idCiudadProvider.notifier).setId("");
                                     context.pop();
                                   },
                                   label: const Text("Filtrar"),

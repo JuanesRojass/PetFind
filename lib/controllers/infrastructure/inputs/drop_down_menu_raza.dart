@@ -53,45 +53,57 @@ class DropdownRazasState extends ConsumerState<DropdownRazas> {
       ),
       onChanged: (String? newValue) {
         setState(() {
-          selectedRazas = newValue!;
-          ref.read(idRazaProvider.notifier).setId(newValue);
+          if (newValue != null) {
+            var razaEncontrada = razas.firstWhere(
+                (raza) => raza['id_raza'].toString() == newValue,
+                orElse: () =>
+                    null
+                );
+
+            if (razaEncontrada != null) {
+              setState(() {
+                selectedRazas = newValue;
+                ref.read(idRazaProvider.notifier).setId(newValue);
+                ref
+                    .read(nombreRazaProvider.notifier)
+                    .setName(razaEncontrada['nombre_raza']);
+              });
+            } else {
+              print("Raza no encontrada para el id: $newValue");
+            }
+          }
         });
       },
       items: razas.map<DropdownMenuItem<String>>((raza) {
         return DropdownMenuItem<String>(
-          value: raza['id_raza'].toString(),
-          child: SizedBox(
-            width: 200,
-            child: Text(
-              raza['nombre_raza'],
-            style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.black45),
-          ),
-            )
-            
-        );
+            value: raza['id_raza'].toString(),
+            child: SizedBox(
+              width: 200,
+              child: Text(
+                raza['nombre_raza'],
+                style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black45),
+              ),
+            ));
       }).toList(),
     );
   }
 
   Future<void> _cargarRazas(String idTipo) async {
-    String uri =
-        "http://$ipConnect/mascotas/input_razas.php?idTipo=$idTipo";
+    String uri = "http://$ipConnect/mascotas/input_razas.php?idTipo=$idTipo";
     // print("Id de Tipo actualizado $idTipo");
     var response = await http.get(Uri.parse(uri));
     if (response.statusCode == 200 && mounted) {
       var razasJson = jsonDecode(response.body);
       setState(() {
         razas = razasJson;
-        if (!razas.any(
-            (raza) => raza['id_raza'].toString() == selectedRazas)) {
+        if (!razas.any((raza) => raza['id_raza'].toString() == selectedRazas)) {
           selectedRazas = null;
         }
       });
     } else {
-      // Manejo de errores
       print('Solicitud fallida con status: ${response.statusCode}.');
     }
   }

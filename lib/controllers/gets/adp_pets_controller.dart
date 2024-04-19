@@ -10,6 +10,7 @@ class AdpPetsController {
       String? sexo,
       String? tamano,
       String? edad,
+      String? ciudad,
   }) async {
     return await _model.getMascotasAdp(
       tipo: tipo,
@@ -17,6 +18,7 @@ class AdpPetsController {
       sexo: sexo,
       tamano: tamano,
       edad: edad,
+      ciudad: ciudad,
     );
   }
 }

@@ -11,6 +11,7 @@ class AdpPetsModel {
       String? sexo,
       String? tamano,
       String? edad,
+      String? ciudad,
     }
   ) async {
     String uri = "http://$ipConnect/mascotas/view_mascotas_adp.php";
@@ -22,6 +23,7 @@ class AdpPetsModel {
         'sexo': sexo,
         'tamano': tamano,
         'edad': edad,
+        'ciudad': ciudad,
       }
     );
 

@@ -83,7 +83,7 @@ class LoginForm extends ConsumerWidget {
                 TextButton(
                     onPressed: () {
                       ref.read(rolProvider.notifier).state = "Invitado";
-                      context.push('/pets');
+                      context.go('/pets');
                       email.clear();
                       password.clear();
                     },

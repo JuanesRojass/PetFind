@@ -10,6 +10,6 @@ export 'package:mascotas_bga/views/content/screens/user/profiles/street_pets_pro
 export 'package:mascotas_bga/views/content/screens/user/profiles/refugio_profile.dart';
 export 'package:mascotas_bga/views/content/screens/user/refugios_screen.dart';
 export 'package:mascotas_bga/views/content/screens/user/street_pets_screen.dart';
-export 'package:mascotas_bga/views/content/screens/user/user_profile_screen.dart';
+
 
 export 'package:mascotas_bga/views/content/screens/upload_street_pets_screen.dart';

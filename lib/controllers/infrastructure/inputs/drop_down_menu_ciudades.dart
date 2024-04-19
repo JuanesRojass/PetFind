@@ -54,6 +54,8 @@ class DropdownCiudadesState extends ConsumerState<DropdownCiudades> {
         setState(() {
           selectedCiudad = newValue!;
           ref.read(idCiudadProvider.notifier).setId(newValue);
+          ref.read(nombreCiudadProvider.notifier).setName(ciudades
+          .firstWhere((ciudad) => ciudad['id_ciudad'] == newValue)['nombre_ciudad']);
         });
       },
       items: ciudades.map<DropdownMenuItem<String>>((ciudad) {

@@ -32,10 +32,6 @@ final GoRouter router = GoRouter(initialLocation: '/login', routes: [
     builder: (context, state) => const LostPetsScreen(),
   ),
   GoRoute(
-    path: '/user',
-    builder: (context, state) => const UserProfileScreen(),
-  ),
-  GoRoute(
     path: '/street',
     builder: (context, state) => const StreetPetsScreen(),
   ),
