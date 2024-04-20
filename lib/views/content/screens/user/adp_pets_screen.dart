@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mascotas_bga/config/connect/connect_server.dart';
 import 'package:mascotas_bga/controllers/infrastructure/inputs/inputs.dart';
-import 'package:mascotas_bga/controllers/providers/general/rol_provider.dart';
 import 'package:mascotas_bga/controllers/gets/adp_pets_controller.dart';
 import 'package:mascotas_bga/controllers/providers/providers.dart';
 
@@ -41,6 +40,7 @@ class AdpPetsScreenState extends ConsumerState<AdpPetsScreen> {
   @override
   Widget build(BuildContext context) {
     final rolActual = ref.watch(rolProvider);
+    final scaffoldKey = GlobalKey<ScaffoldState>();
 
     return Scaffold(
         appBar: AppBar(
@@ -79,8 +79,9 @@ class AdpPetsScreenState extends ConsumerState<AdpPetsScreen> {
                                         : null;
                                     String? edadValue =
                                         edad.text.isNotEmpty ? edad.text : null;
-                                    String? ciudadValue =
-                                        ciudad.text.isNotEmpty ? ciudad.text : null;
+                                    String? ciudadValue = ciudad.text.isNotEmpty
+                                        ? ciudad.text
+                                        : null;
 
                                     final mascotasFiltradas =
                                         await _controller.getMascotasAdp(
@@ -100,23 +101,30 @@ class AdpPetsScreenState extends ConsumerState<AdpPetsScreen> {
                                     sexo.clear();
                                     tamano.clear();
                                     edad.clear();
-                                    ref.read(nombreTipoProvider.notifier).setName("");
-                                    ref.read(nombreRazaProvider.notifier).setName("");
-                                    ref.read(idTipoMascotaProvider.notifier).setId("");
-                                    ref.read(idCiudadProvider.notifier).setId("");
+                                    ref
+                                        .read(nombreTipoProvider.notifier)
+                                        .setName("");
+                                    ref
+                                        .read(nombreRazaProvider.notifier)
+                                        .setName("");
+                                    ref
+                                        .read(idTipoMascotaProvider.notifier)
+                                        .setId("");
+                                    ref
+                                        .read(idCiudadProvider.notifier)
+                                        .setId("");
                                     context.pop();
                                   },
                                   label: const Text("Filtrar"),
                                   icon: const Icon(Icons.search_rounded))
                             ],
-                          )
-                        )
-                      );
+                          )));
                 },
                 icon: const Icon(Icons.search_rounded,
                     color: Colors.orange, size: 30))
           ],
         ),
+        drawer: SideMenu(scaffoldKey: scaffoldKey),
         body: mascotasadp.isEmpty
             ? const Center(
                 child: CircularProgressIndicator(),

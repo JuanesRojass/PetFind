@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mascotas_bga/controllers/post/post_adp_pets_controller.dart';
 import 'dart:io';
-import 'package:mascotas_bga/controllers/providers/general/id_refugio_provider.dart';
+import 'package:mascotas_bga/controllers/providers/refugio/id_refugio_provider.dart';
 import 'package:mascotas_bga/controllers/providers/general/id_tipo_mascota_provider.dart';
 import 'package:mascotas_bga/helpers/shared.dart';
 import '../../../controllers/infrastructure/inputs/inputs.dart';

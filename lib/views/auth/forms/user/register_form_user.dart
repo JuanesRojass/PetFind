@@ -52,7 +52,7 @@ class RegisterForm extends StatelessWidget {
           ),
           const SizedBox(height: 50),
           CustomTextFormField(
-            label: 'Número De Telefono',
+            label: 'Número De Teléfono',
             keyboardType: TextInputType.number,
             controller: telefonoController,
             onChanged: loginCubit.telefonoChanged,

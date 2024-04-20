@@ -76,7 +76,7 @@ class RegisterFormRefugio extends ConsumerWidget {
                 errorMessage: passwordCubit.errorMessage),
             const SizedBox(height: 30),
             CustomTextFormField(
-                label: 'Telefono Refugio',
+                label: 'Teléfono Refugio',
                 keyboardType: TextInputType.number,
                 controller: telefono,
                 onChanged: loginCubit.telefonoChanged,

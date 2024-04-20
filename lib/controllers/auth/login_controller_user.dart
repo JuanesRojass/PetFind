@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mascotas_bga/models/auth/login_model_user.dart';
@@ -19,11 +21,12 @@ class LoginController {
         ref.read(rolProvider.notifier).state = "Cliente";
         ref.read(idClienteProvider.notifier).state = dataUser[0]['id'];
         ref.read(idUsuarioProvider.notifier).state = dataUser[0]['id'];
-        print(idClienteProvider);
+        ref.read(dataUserProvider.notifier).state = jsonEncode(dataUser);
         // ignore: use_build_context_synchronously
         context.go('/pets');
       } else if (dataUser[0]['rol'] == 'administrador') {
         ref.read(rolProvider.notifier).state = "Administrador";
+        ref.read(dataUserProvider.notifier).state = jsonEncode(dataUser);
         // ignore: use_build_context_synchronously
         context.go('/pets');
       }

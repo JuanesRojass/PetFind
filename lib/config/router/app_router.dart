@@ -52,6 +52,10 @@ final GoRouter router = GoRouter(initialLocation: '/login', routes: [
     builder: (context, state) => const UploadStreetPets(),
   ),
   GoRoute(
+    path: '/editCliente',
+    builder: (context, state) => const UserEditProfile(),
+  ),
+  GoRoute(
     path: '/refugiosProfile',
     builder: (context, state) {
       final refugio = state.extra as Map<String, dynamic>? ?? {};

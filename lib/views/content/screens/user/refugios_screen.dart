@@ -99,8 +99,8 @@ class RefugiosScreenState extends ConsumerState<RefugiosScreen> {
                     },
                     child: Row(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
+                        const Padding(
+                          padding: EdgeInsets.all(8.0),
                           child: Icon(Icons.home, size: 100),
                         ),
                         Expanded(
