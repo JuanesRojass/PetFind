@@ -24,6 +24,8 @@ class AdpPetsScreenState extends ConsumerState<AdpPetsScreen> {
   final TextEditingController ciudad = TextEditingController();
   List<Map<String, dynamic>> mascotasadp = [];
 
+
+
   @override
   void initState() {
     getMascotasAdp();
@@ -41,6 +43,19 @@ class AdpPetsScreenState extends ConsumerState<AdpPetsScreen> {
   Widget build(BuildContext context) {
     final rolActual = ref.watch(rolProvider);
     final scaffoldKey = GlobalKey<ScaffoldState>();
+
+      Widget? drawerForRole;
+  switch (rolActual) {
+    case 'Cliente':
+      drawerForRole = SideMenu(scaffoldKey: scaffoldKey);
+      break;
+    case 'Refugio':
+      drawerForRole = SideMenuRefugio(scaffoldKey: scaffoldKey);
+      break;
+    // case 'Admin':
+    //   drawerForRole = AdminSideMenu(scaffoldKey: scaffoldKey);
+    //   break;
+  }
 
     return Scaffold(
         appBar: AppBar(
@@ -124,7 +139,7 @@ class AdpPetsScreenState extends ConsumerState<AdpPetsScreen> {
                     color: Colors.orange, size: 30))
           ],
         ),
-        drawer: SideMenu(scaffoldKey: scaffoldKey),
+        drawer: drawerForRole,
         body: mascotasadp.isEmpty
             ? const Center(
                 child: CircularProgressIndicator(),

@@ -1,44 +1,43 @@
-import 'dart:convert';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mascotas_bga/config/connect/connect_server.dart';
+import 'package:mascotas_bga/controllers/userEdit/user_edit_profile_controller.dart';
 import 'package:mascotas_bga/helpers/shared.dart';
 import 'package:mascotas_bga/controllers/providers/providers.dart';
-import 'package:http/http.dart' as http;
+import 'package:mascotas_bga/models/userEdit/user_edit_profile_model.dart';
 
 class UserEditProfile extends ConsumerStatefulWidget {
-  const UserEditProfile({super.key});
+  const UserEditProfile({super.key, required this.cliente});
 
   @override
   UserEditProfileState createState() => UserEditProfileState();
+  final Map<String, dynamic> cliente;
 }
 
 class UserEditProfileState extends ConsumerState<UserEditProfile> {
   final TextEditingController nombreInput = TextEditingController();
   final TextEditingController telefonoInput = TextEditingController();
 
+  final UserEditProfileController _controller =
+      UserEditProfileController(UserEditProfileModel());
+
   Future<void> updateUser() async {
-    String idCliente = '26';
+    String idCliente = ref.watch(idClienteProvider);
     String username = nombreInput.text;
     String telefono = telefonoInput.text;
 
-    var url = Uri.parse(
-        'http://$ipConnect/mascotas/update_user.php?idCliente=$idCliente&username=$username&telefono=$telefono');
-    var response = await http.get(url);
+    bool success = await _controller.updateUser(idCliente, username, telefono);
 
-    if (response.statusCode == 200) {
+    if (success) {
       // ignore: use_build_context_synchronously
       showDialog(
         context: context,
         builder: (_) => AlertDialog(
           title: const Text('Cambios guardados'),
-          content: const Text('Los cambios se guardaron de manera exitosa, Se recomienda Cerrar Sesión y volvir a iniciar para ver los cambios por completo.'),
+          content: const Text('Los cambios se guardaron de manera exitosa.'),
           actions: [
             TextButton(
               onPressed: () {
                 context.pop();
-                context.pop(); // Cerrar el AlertDialog // Cerrar la pantalla actual
               },
               child: const Text('OK'),
             ),
@@ -46,19 +45,28 @@ class UserEditProfileState extends ConsumerState<UserEditProfile> {
         ),
       );
     } else {
-      // Hubo un error en la solicitud HTTP, muestra un mensaje de error
-      print('Error al actualizar los datos: ${response.reasonPhrase}');
+      // ignore: use_build_context_synchronously
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: const Text('Error'),
+          content: const Text('No se pudieron guardar los cambios.'),
+          actions: [
+            TextButton(
+              onPressed: () => context.pop(),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final dataClienteJson = ref.watch(dataUserProvider);
+    final username = widget.cliente["username"];
+    final telefono = widget.cliente["telefono_usuario"];
 
-    final dataCliente = jsonDecode(dataClienteJson);
-    final username = dataCliente[0]["username"];
-
-    final telefono = dataCliente[0]["telefono_usuario"];
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());

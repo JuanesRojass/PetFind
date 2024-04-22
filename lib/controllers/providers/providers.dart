@@ -9,3 +9,4 @@ export 'package:mascotas_bga/controllers/providers/users/data_user_provider.dart
 export 'package:mascotas_bga/controllers/providers/general/nombre_tipo_provider.dart';
 export 'package:mascotas_bga/controllers/providers/general/nombre_raza_provider.dart';
 export 'package:mascotas_bga/controllers/providers/general/nombre_ciudad_provider.dart';
+export 'package:mascotas_bga/controllers/providers/general/nombre_barrio_provider.dart';

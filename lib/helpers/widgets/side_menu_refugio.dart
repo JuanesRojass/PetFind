@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mascotas_bga/controllers/sideMenu/side_menu_user_controller.dart';
+import 'package:mascotas_bga/controllers/sideMenu/side_menu_refugio_controller.dart';
 import 'package:mascotas_bga/helpers/shared.dart';
 import 'package:mascotas_bga/controllers/providers/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SideMenu extends ConsumerStatefulWidget {
+class SideMenuRefugio extends ConsumerStatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
 
-  const SideMenu({super.key, required this.scaffoldKey});
+  const SideMenuRefugio({super.key, required this.scaffoldKey});
 
   @override
-  SideMenuState createState() => SideMenuState();
+  SideMenuRefugioState createState() => SideMenuRefugioState();
 }
 
-class SideMenuState extends ConsumerState<SideMenu> {
-  final SideMenuUserController _controller = SideMenuUserController();
-  List<Map<String, dynamic>> datauser = [];
+class SideMenuRefugioState extends ConsumerState<SideMenuRefugio> {
+  final SideMenuRefugioController _controller = SideMenuRefugioController();
+  List<Map<String, dynamic>> datarefugio = [];
   int navDrawerIndex = 0;
 
   @override
@@ -27,15 +27,15 @@ class SideMenuState extends ConsumerState<SideMenu> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final idCliente = ref.watch(idClienteProvider);
-    final idClienteInt = int.parse(idCliente);
-    cargarUser(idClienteInt);
+    final idRefugio = ref.watch(idRefugioProvider);
+    final idRefugioInt = int.parse(idRefugio);
+    cargarUser(idRefugioInt);
   }
 
   Future<void> cargarUser(int idRefugio) async {
-    final dataUser = await _controller.getUser(idRefugio);
+    final dataRefugio = await _controller.getRefugio(idRefugio);
     setState(() {
-      datauser = dataUser;
+      datarefugio = dataRefugio;
     });
   }
 
@@ -46,7 +46,7 @@ class SideMenuState extends ConsumerState<SideMenu> {
     final textStyles = Theme.of(context).textTheme;
 
     final username =
-        datauser.isNotEmpty ? datauser[0]["username"] : "Usuario no encontrado";
+        datarefugio.isNotEmpty ? datarefugio[0]["nombre_refugio"] : "Refugio no encontrado";
 
     return NavigationDrawer(
         elevation: 1,
@@ -67,17 +67,20 @@ class SideMenuState extends ConsumerState<SideMenu> {
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 0, 16, 10),
-            child: Text('$username', style: textStyles.titleSmall),
+            child: Row(children: [
+             Text('$username', style: textStyles.titleSmall),
+             const Icon(Icons.verified_user_rounded, color: Colors.blue,)
+             ]),
           ),
           NavigationDrawerDestination(
             icon: InkWell(
                 onTap: () {
-                  context.push('/editCliente', extra: datauser[0]);
+                  context.push('/editRefugio', extra: datarefugio[0]);
                 },
                 child: const Icon(Icons.edit)),
             label: InkWell(
                 onTap: () {
-                  context.push('/editCliente', extra: datauser[0]);
+                  context.push('/editRefugio', extra: datarefugio[0]);
                 },
                 child: const Text('Editar Mis Datos')),
           ),
@@ -94,16 +97,16 @@ class SideMenuState extends ConsumerState<SideMenu> {
             child: CustomFilledButton(
                 buttonColor: Colors.orange,
                 onPressed: () {
-                  context.push("/publicacionesLostUser");
+                  context.push("/publicacionesAdpRefugio");
                 },
-                text: 'Mis Mascotas Perdidas'),
+                text: 'Mis Mascotas En Adopción'),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: CustomFilledButton(
                 buttonColor: Colors.orange,
                 onPressed: () {
-                  context.push("/publicacionesStreetUser");
+                  context.push("/publicacionesStreetRefugio");
                 },
                 text: 'Mascotas En Calle Publicadas', styleText: const TextStyle(fontSize: 15, ),),
           ),

@@ -53,8 +53,23 @@ class DropdownBarriosState extends ConsumerState<DropdownBarrios> {
       ),
       onChanged: (String? newValue) {
         setState(() {
-          selectedBarrios = newValue!;
-          ref.read(idBarrioProvider.notifier).setId(newValue);
+          if (newValue != null) {
+            var barrioEncontrado = barrios.firstWhere(
+                (barrio) => barrio['id_barrio'].toString() == newValue,
+                orElse: () => null);
+
+            if (barrioEncontrado != null) {
+              setState(() {
+                selectedBarrios = newValue;
+                ref.read(idBarrioProvider.notifier).setId(newValue);
+                ref
+                    .read(nombreBarrioProvider.notifier)
+                    .setName(barrioEncontrado['nombre_barrio']);
+              });
+            } else {
+              print("Barrio no encontrado para el id: $newValue");
+            }
+          }
         });
       },
       items: barrios.map<DropdownMenuItem<String>>((barrio) {

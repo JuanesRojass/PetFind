@@ -52,8 +52,34 @@ final GoRouter router = GoRouter(initialLocation: '/login', routes: [
     builder: (context, state) => const UploadStreetPets(),
   ),
   GoRoute(
+    path: '/publicacionesLostUser',
+    builder: (context, state) => const PublicacionesLostUserScreen(),
+  ),
+    GoRoute(
+    path: '/publicacionesStreetUser',
+    builder: (context, state) => const PublicacionesStreetUserScreen(),
+  ),
+    GoRoute(
+    path: '/publicacionesAdpRefugio',
+    builder: (context, state) => const PublicacionesAdpRefugioScreen(),
+  ),
+    GoRoute(
+    path: '/publicacionesStreetRefugio',
+    builder: (context, state) => const PublicacionesStreetRefugioScreen(),
+  ),
+  GoRoute(
     path: '/editCliente',
-    builder: (context, state) => const UserEditProfile(),
+    builder: (context, state) {
+      final cliente = state.extra as Map<String, dynamic>? ?? {};
+      return UserEditProfile(cliente: cliente);
+    },
+  ),
+    GoRoute(
+    path: '/editRefugio',
+    builder: (context, state) {
+      final refugio = state.extra as Map<String, dynamic>? ?? {};
+      return RefugioEditProfile(refugio: refugio);
+    },
   ),
   GoRoute(
     path: '/refugiosProfile',
@@ -81,6 +107,27 @@ final GoRouter router = GoRouter(initialLocation: '/login', routes: [
     builder: (context, state) {
       final mascotaStreet = state.extra as Map<String, dynamic>? ?? {};
       return PetsStreetProfile(petsStreet: mascotaStreet);
+    },
+  ),
+    GoRoute(
+    path: '/mascotaLostEdit',
+    builder: (context, state) {
+      final mascotaLostEdit = state.extra as Map<String, dynamic>? ?? {};
+      return MascotaLostEdit(mascotaLostEdit: mascotaLostEdit);
+    },
+  ),
+    GoRoute(
+    path: '/mascotaStreetEdit',
+    builder: (context, state) {
+      final mascotaStreetEdit = state.extra as Map<String, dynamic>? ?? {};
+      return MascotaStreetEdit(mascotaStreetEdit: mascotaStreetEdit);
+    },
+  ),
+      GoRoute(
+    path: '/mascotaAdpEdit',
+    builder: (context, state) {
+      final mascotaAdpEdit = state.extra as Map<String, dynamic>? ?? {};
+      return MascotaAdpEdit(mascotaAdpEdit: mascotaAdpEdit);
     },
   ),
 ]);
