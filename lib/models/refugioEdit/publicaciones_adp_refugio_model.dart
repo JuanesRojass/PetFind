@@ -16,4 +16,16 @@ class PublicacionesAdpRefugioModel {
       return [];
     }
   }
+
+
+    Future<bool> deletePublicacion(int idMascotaAdp) async {
+    final url = Uri.parse('http://$ipConnect/mascotas/delete_mascota_adp.php?idMascota=$idMascotaAdp');
+    final response = await http.delete(url);
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception('Error al borrar Mascota');
+    }
+  }
 }

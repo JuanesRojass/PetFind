@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mascotas_bga/config/connect/connect_server.dart';
 import 'package:mascotas_bga/controllers/providers/providers.dart';
+import 'package:mascotas_bga/controllers/utils/delete_message.dart';
 import 'package:mascotas_bga/models/refugioEdit/publicaciones_adp_refugio_model.dart';
 
 import '../../../../helpers/shared.dart';
@@ -210,7 +211,21 @@ class PublicacionesAdpRefugioScreenState
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  mostrarDialogoConfirmacion(
+                                  context: context,
+                                  idMascota: publicacion['id_mascota_adp'].toString(),
+                                  onDelete: (int id) async => await _controller.deletePublicacion(id),
+                                  onSuccessfulDelete: (String idMascota) {
+                                    setState(() {
+                                      publicaciones.removeWhere((pub) => pub['id_mascota_adp'].toString() == idMascota);
+                                    });
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(content: Text("Mascota eliminada con éxito")),
+                                    );
+                                  },
+                                );
+                                },
                                 child: const Text('Borrar'),
                               ),
                               const SizedBox(width: 20),

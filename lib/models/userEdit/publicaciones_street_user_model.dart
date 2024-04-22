@@ -16,4 +16,16 @@ class PublicacionesStreetUserModel {
       return [];
     }
   }
+
+
+    Future<bool> deletePublicacion(int idMascotaStreet) async {
+    final url = Uri.parse('http://$ipConnect/mascotas/delete_mascota_street.php?idMascota=$idMascotaStreet');
+    final response = await http.delete(url);
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception('Error al borrar Mascota');
+    }
+  }
 }

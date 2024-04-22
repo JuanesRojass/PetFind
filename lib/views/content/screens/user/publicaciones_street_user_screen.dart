@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mascotas_bga/config/connect/connect_server.dart';
 import 'package:mascotas_bga/controllers/providers/providers.dart';
 import 'package:mascotas_bga/controllers/userEdit/publicaciones_street_user_controller.dart';
+import 'package:mascotas_bga/controllers/utils/delete_message.dart';
 
 import '../../../../helpers/shared.dart';
 
@@ -199,7 +200,19 @@ Widget build(BuildContext context) {
                           children: [
                             ElevatedButton(
                               onPressed: () {
-                                
+                                mostrarDialogoConfirmacion(
+                                  context: context,
+                                  idMascota: publicacion['id_mascota_calle'].toString(),
+                                  onDelete: (int id) async => await _controller.deletePublicacion(id),
+                                  onSuccessfulDelete: (String idMascota) {
+                                    setState(() {
+                                      publicaciones.removeWhere((pub) => pub['id_mascota_calle'].toString() == idMascota);
+                                    });
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(content: Text("Mascota eliminada con éxito")),
+                                    );
+                                  },
+                                );
                               },
                               child: const Text('Borrar'),
                             ),

@@ -6,4 +6,9 @@ class PublicacionesAdpRefugioController {
   Future<List<Map<String, dynamic>>> getPublicaciones(int idRefugio) async {
     return await _model.getPublicaciones(idRefugio);
   }
+
+
+  Future<bool> deletePublicacion(int idMascotaAdp) async {
+    return await _model.deletePublicacion(idMascotaAdp);
+  }
 }

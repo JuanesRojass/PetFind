@@ -6,4 +6,8 @@ class PublicacionesLostUserController {
   Future<List<Map<String, dynamic>>> getUser(int idCliente) async {
     return await _model.getPublicaciones(idCliente);
   }
+
+  Future<bool> deletePublicacion(int idMascotaLost) async {
+    return await _model.deletePublicacion(idMascotaLost);
+  }
 }
