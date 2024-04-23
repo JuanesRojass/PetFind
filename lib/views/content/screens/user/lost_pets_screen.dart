@@ -43,6 +43,20 @@ class LostPetsScreenState extends ConsumerState<LostPetsScreen> {
   @override
   Widget build(BuildContext context) {
     final rolActual = ref.watch(rolProvider);
+    final scaffoldKey = GlobalKey<ScaffoldState>();
+
+          Widget? drawerForRole;
+  switch (rolActual) {
+    case 'Cliente':
+      drawerForRole = SideMenu(scaffoldKey: scaffoldKey);
+      break;
+    case 'Refugio':
+      drawerForRole = SideMenuRefugio(scaffoldKey: scaffoldKey);
+      break;
+    case 'Invitado':
+      drawerForRole = SideInvitadoMenu(scaffoldKey: scaffoldKey);
+      break;
+  }
 
     return Scaffold(
         appBar: AppBar(
@@ -114,6 +128,7 @@ class LostPetsScreenState extends ConsumerState<LostPetsScreen> {
                     color: Colors.orange, size: 30))
           ],
         ),
+        drawer: drawerForRole,
         body: mascotaslost.isEmpty
             ? const Center(
                 child: CircularProgressIndicator(),

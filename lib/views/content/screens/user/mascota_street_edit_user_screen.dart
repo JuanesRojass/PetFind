@@ -140,44 +140,43 @@ class MascotaStreetEditState extends ConsumerState<MascotaStreetEdit> {
         body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30),
             child: ListView(children: [
-              const SizedBox(height: 30),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-                Expanded(
-                    child: Column(children: [
-                  Wrap(alignment: WrapAlignment.spaceEvenly, children: [
-                    Image.network(
-                      // ignore: prefer_interpolation_to_compose_strings
-                      "http://$ipConnect/mascotas/" +
-                          widget.mascotaStreetEdit["imagen_mascota"],
-                      width: 100,
-                      height: 150,
-                      fit: BoxFit.cover,
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    if(widget.mascotaStreetEdit["imagen_mascota_dos"] != null)
-                    Image.network(
-                      // ignore: prefer_interpolation_to_compose_strings
-                      "http://$ipConnect/mascotas/" +
-                          widget.mascotaStreetEdit["imagen_mascota_dos"],
-                      width: 100,
-                      height: 150,
-                      fit: BoxFit.cover,
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    if(widget.mascotaStreetEdit["imagen_mascota_tres"] != null)
-                    Image.network(
-                      // ignore: prefer_interpolation_to_compose_strings
-                      "http://$ipConnect/mascotas/" +
-                          widget.mascotaStreetEdit["imagen_mascota_tres"],
-                      width: 100,
-                      height: 150,
-                      fit: BoxFit.cover,
-                    )
-                  ]),
+              // Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+              //   Expanded(
+              //       child: Column(children: [
+              //     Wrap(alignment: WrapAlignment.spaceEvenly, children: [
+              //       Image.network(
+              //         // ignore: prefer_interpolation_to_compose_strings
+              //         "http://$ipConnect/mascotas/" +
+              //             widget.mascotaStreetEdit["imagen_mascota"],
+              //         width: 100,
+              //         height: 150,
+              //         fit: BoxFit.cover,
+              //       ),
+              //       const SizedBox(
+              //         width: 10,
+              //       ),
+              //       if(widget.mascotaStreetEdit["imagen_mascota_dos"] != null)
+              //       Image.network(
+              //         // ignore: prefer_interpolation_to_compose_strings
+              //         "http://$ipConnect/mascotas/" +
+              //             widget.mascotaStreetEdit["imagen_mascota_dos"],
+              //         width: 100,
+              //         height: 150,
+              //         fit: BoxFit.cover,
+              //       ),
+              //       const SizedBox(
+              //         width: 10,
+              //       ),
+              //       if(widget.mascotaStreetEdit["imagen_mascota_tres"] != null)
+              //       Image.network(
+              //         // ignore: prefer_interpolation_to_compose_strings
+              //         "http://$ipConnect/mascotas/" +
+              //             widget.mascotaStreetEdit["imagen_mascota_tres"],
+              //         width: 100,
+              //         height: 150,
+              //         fit: BoxFit.cover,
+              //       )
+              //     ]),
                   const SizedBox(
                     height: 20,
                   ),
@@ -265,7 +264,6 @@ class MascotaStreetEditState extends ConsumerState<MascotaStreetEdit> {
                   ),
                   const SizedBox(height: 30),
                 ]))
-              ])
-            ])));
+            );
   }
 }

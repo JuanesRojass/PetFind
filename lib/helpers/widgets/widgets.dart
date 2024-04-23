@@ -5,4 +5,5 @@ export 'geometrical_background.dart';
 export 'side_menu.dart';
 export 'bottom_navigation_user.dart';
 export 'side_menu_refugio.dart';
+export 'side_menu_invitado.dart';
 

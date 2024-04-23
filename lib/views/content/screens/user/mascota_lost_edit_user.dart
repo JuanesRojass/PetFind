@@ -140,42 +140,42 @@ class MascotaLostEditState extends ConsumerState<MascotaLostEdit> {
         body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30),
             child: ListView(children: [
-              const SizedBox(height: 30),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-                Expanded(
-                    child: Column(children: [
-                  Wrap(alignment: WrapAlignment.spaceEvenly, children: [
-                    Image.network(
-                      // ignore: prefer_interpolation_to_compose_strings
-                      "http://$ipConnect/mascotas/" +
-                          widget.mascotaLostEdit["imagen_mascota"],
-                      width: 100,
-                      height: 150,
-                      fit: BoxFit.cover,
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Image.network(
-                      // ignore: prefer_interpolation_to_compose_strings
-                      "http://$ipConnect/mascotas/" +
-                          widget.mascotaLostEdit["imagen_mascota_dos"],
-                      width: 100,
-                      height: 150,
-                      fit: BoxFit.cover,
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Image.network(
-                      // ignore: prefer_interpolation_to_compose_strings
-                      "http://$ipConnect/mascotas/" +
-                          widget.mascotaLostEdit["imagen_mascota_tres"],
-                      width: 100,
-                      height: 150,
-                      fit: BoxFit.cover,
-                    )
-                  ]),
+              // const SizedBox(height: 30),
+              // Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+              //   Expanded(
+              //       child: Column(children: [
+              //     Wrap(alignment: WrapAlignment.spaceEvenly, children: [
+              //       Image.network(
+              //         // ignore: prefer_interpolation_to_compose_strings
+              //         "http://$ipConnect/mascotas/" +
+              //             widget.mascotaLostEdit["imagen_mascota"],
+              //         width: 100,
+              //         height: 150,
+              //         fit: BoxFit.cover,
+              //       ),
+              //       const SizedBox(
+              //         width: 10,
+              //       ),
+              //       Image.network(
+              //         // ignore: prefer_interpolation_to_compose_strings
+              //         "http://$ipConnect/mascotas/" +
+              //             widget.mascotaLostEdit["imagen_mascota_dos"],
+              //         width: 100,
+              //         height: 150,
+              //         fit: BoxFit.cover,
+              //       ),
+              //       const SizedBox(
+              //         width: 10,
+              //       ),
+              //       Image.network(
+              //         // ignore: prefer_interpolation_to_compose_strings
+              //         "http://$ipConnect/mascotas/" +
+              //             widget.mascotaLostEdit["imagen_mascota_tres"],
+              //         width: 100,
+              //         height: 150,
+              //         fit: BoxFit.cover,
+              //       )
+              //     ]),
                   const SizedBox(
                     height: 20,
                   ),
@@ -279,7 +279,6 @@ class MascotaLostEditState extends ConsumerState<MascotaLostEdit> {
                   ),
                   const SizedBox(height: 30),
                 ]))
-              ])
-            ])));
+              );
   }
 }

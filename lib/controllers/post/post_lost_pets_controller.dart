@@ -139,6 +139,15 @@ class PostLostPetsController {
     }
   }
 
+    Future<void> getImageCamera(ImagePicker imagePicker,
+      Function(File?, String?, String?) setImage) async {
+    var getimage = await imagePicker.pickImage(source: ImageSource.camera);
+    if (getimage != null) {
+      setImage(File(getimage.path), getimage.path.split('/').last,
+          base64Encode(File(getimage.path).readAsBytesSync()));
+    }
+  }
+
   Future<void> getImage2(ImagePicker imagePicker,
       Function(File?, String?, String?) setImage) async {
     var getimage = await imagePicker.pickImage(source: ImageSource.gallery);
@@ -148,9 +157,27 @@ class PostLostPetsController {
     }
   }
 
+      Future<void> getImageCamera2(ImagePicker imagePicker,
+      Function(File?, String?, String?) setImage) async {
+    var getimage = await imagePicker.pickImage(source: ImageSource.camera);
+    if (getimage != null) {
+      setImage(File(getimage.path), getimage.path.split('/').last,
+          base64Encode(File(getimage.path).readAsBytesSync()));
+    }
+  }
+
   Future<void> getImage3(ImagePicker imagePicker,
       Function(File?, String?, String?) setImage) async {
     var getimage = await imagePicker.pickImage(source: ImageSource.gallery);
+    if (getimage != null) {
+      setImage(File(getimage.path), getimage.path.split('/').last,
+          base64Encode(File(getimage.path).readAsBytesSync()));
+    }
+  }
+
+      Future<void> getImageCamera3(ImagePicker imagePicker,
+      Function(File?, String?, String?) setImage) async {
+    var getimage = await imagePicker.pickImage(source: ImageSource.camera);
     if (getimage != null) {
       setImage(File(getimage.path), getimage.path.split('/').last,
           base64Encode(File(getimage.path).readAsBytesSync()));

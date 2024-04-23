@@ -41,6 +41,21 @@ class StreetPetsScreenState extends ConsumerState<StreetPetsScreen> {
   @override
   Widget build(BuildContext context) {
     final rolActual = ref.watch(rolProvider);
+    final scaffoldKey = GlobalKey<ScaffoldState>();
+
+          Widget? drawerForRole;
+  switch (rolActual) {
+    case 'Cliente':
+      drawerForRole = SideMenu(scaffoldKey: scaffoldKey);
+      break;
+    case 'Refugio':
+      drawerForRole = SideMenuRefugio(scaffoldKey: scaffoldKey);
+      break;
+    case 'Invitado':
+      drawerForRole = SideInvitadoMenu(scaffoldKey: scaffoldKey);
+      break;
+  }
+
 
     return Scaffold(
         appBar: AppBar(
@@ -112,6 +127,7 @@ class StreetPetsScreenState extends ConsumerState<StreetPetsScreen> {
                     color: Colors.orange, size: 30))
           ],
         ),
+        drawer: drawerForRole,
         body: mascotasstreet.isEmpty
             ? const Center(
                 child: CircularProgressIndicator(),

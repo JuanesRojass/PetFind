@@ -49,6 +49,17 @@ class UploadStreetPetsState extends ConsumerState<UploadStreetPets> {
     });
   }
 
+    Future<void> getImageCamera() async {
+    await _controller.getImageCamera(imagePicker,
+        (File? file, String? name, String? data) {
+      setState(() {
+        imagepath = file;
+        imagename = name;
+        imagedata = data;
+      });
+    });
+  }
+
   Future<void> getImage2() async {
     await _controller.getImage2(imagePicker,
         (File? file, String? name, String? data) {
@@ -60,8 +71,30 @@ class UploadStreetPetsState extends ConsumerState<UploadStreetPets> {
     });
   }
 
+    Future<void> getImageCamera2() async {
+    await _controller.getImageCamera2(imagePicker,
+        (File? file, String? name, String? data) {
+      setState(() {
+        imagepath2 = file;
+        imagename2 = name;
+        imagedata2 = data;
+      });
+    });
+  }
+
   Future<void> getImage3() async {
     await _controller.getImage3(imagePicker,
+        (File? file, String? name, String? data) {
+      setState(() {
+        imagepath3 = file;
+        imagename3 = name;
+        imagedata3 = data;
+      });
+    });
+  }
+
+    Future<void> getImageCamera3() async {
+    await _controller.getImageCamera3(imagePicker,
         (File? file, String? name, String? data) {
       setState(() {
         imagepath3 = file;
@@ -85,32 +118,128 @@ class UploadStreetPetsState extends ConsumerState<UploadStreetPets> {
               Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
                 Expanded(
                   child: Column(
+                    //Imagen 1 y Widgets
                     children: [
                       imagepath != null
                           ? Image.file(
                               imagepath!,
                               width: 100,
-                              height: 100,
+                              height: 120,
+                            )
+                          : const Icon(
+                              Icons.image_search_rounded,
+                              size: 50,
+
+                            ),
+                            const SizedBox(height: 30),
+                      
+                        
+                        
+                          ElevatedButton(
+                          onPressed: () {
+                            getImage();
+                          },
+                          style: ButtonStyle(
+                            minimumSize: MaterialStateProperty.all(const Size(60,
+                                40),),
+                                 
+                          ),
+                          child: const Icon(Icons.photo_library),  
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            getImageCamera();
+                          },
+                          style: ButtonStyle(
+                            minimumSize: MaterialStateProperty.all(const Size(60,
+                                40)),
+                          ),
+                          child: const Icon(Icons.camera_alt),  
+                        ),
+                    
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  width: 7,
+                ),
+                Expanded(
+                  //Imagen 2 y Widgets
+                  child: Column(
+                    children: [
+                      imagepath2 != null
+                          ? Image.file(
+                              imagepath2!,
+                              width: 100,
+                              height: 120,
                             )
                           : const Icon(
                               Icons.image_search_rounded,
                               size: 50,
                             ),
                       const SizedBox(height: 30),
-                      ElevatedButton(
-                        onPressed: () {
-                          getImage();
-                        },
-                        style: ButtonStyle(
-                          minimumSize: MaterialStateProperty.all(const Size(120,
-                              50)), // Ajusta el ancho según tus necesidades
+                      imagepath != null
+                          ? Column(
+                            children: [
+                              ElevatedButton(
+                          onPressed: () {
+                            getImage2();
+                          },
+                          style: ButtonStyle(
+                            minimumSize: MaterialStateProperty.all(const Size(60,
+                                40),),
+                                 
+                          ),
+                          child: const Icon(Icons.photo_library),  
                         ),
-                        child: const Text(
-                          "Agregar imagen 1",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 12),
+                        ElevatedButton(
+                          onPressed: () {
+                            getImageCamera2();
+                          },
+                          style: ButtonStyle(
+                            minimumSize: MaterialStateProperty.all(const Size(60,
+                                40)),
+                          ),
+                          child: const Icon(Icons.camera_alt),  
                         ),
-                      ),
+                    ])
+                          : Column(
+                            children: [
+                              ElevatedButton(
+                                onPressed: () {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                          'Selecciona Imagen 1 para agregar mas'),
+                                    ),
+                                  );
+                                },
+                              style: ButtonStyle(
+                              minimumSize: MaterialStateProperty.all(const Size(60,
+                                  40),),     
+                              ),
+                                child: const Icon(
+                                  Icons.photo_library,
+                                ),
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                          'Selecciona Imagen 1 para agregar mas'),
+                                    ),
+                                  );
+                                },
+                              style: ButtonStyle(
+                              minimumSize: MaterialStateProperty.all(const Size(60,
+                                  40),),     
+                              ),
+                                child: const Icon(
+                                  Icons.camera_alt,
+                                ),
+                              ),
+                    ]),
                     ],
                   ),
                 ),
@@ -119,67 +248,13 @@ class UploadStreetPetsState extends ConsumerState<UploadStreetPets> {
                 ),
                 Expanded(
                   child: Column(
+                    //Imagen 3 y Widgets
                     children: [
-                      imagepath2 != null
-                          ? Image.file(
-                              imagepath2!,
-                              width: 100,
-                              height: 100,
-                            )
-                          : const Icon(
-                              Icons.image_search_rounded,
-                              size: 50,
-                            ),
-                      const SizedBox(height: 30),
-                      imagepath != null
-                          ? ElevatedButton(
-                              onPressed: () {
-                                getImage2();
-                              },
-                              style: ButtonStyle(
-                                minimumSize: MaterialStateProperty.all(const Size(
-                                    120,
-                                    50)), // Ajusta el ancho según tus necesidades
-                              ),
-                              child: const Text(
-                                "Agregar imagen 2",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 12),
-                              ),
-                            )
-                          : ElevatedButton(
-                              onPressed: () {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                        'Selecciona Imagen 1 para agregar mas'),
-                                  ),
-                                );
-                              },
-                              style: ButtonStyle(
-                                minimumSize: MaterialStateProperty.all(const Size(
-                                    120,
-                                    50)), // Ajusta el ancho según tus necesidades
-                              ),
-                              child: const Text(
-                                "Agregar imagen 2",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 12),
-                              ),
-                            ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  width: 7,
-                ),
-                Expanded(
-                  child: Column(children: [
                     imagepath3 != null
                         ? Image.file(
                             imagepath3!,
                             width: 100,
-                            height: 100,
+                            height: 120,
                           )
                         : const Icon(
                             Icons.image_search_rounded,
@@ -187,44 +262,70 @@ class UploadStreetPetsState extends ConsumerState<UploadStreetPets> {
                           ),
                     const SizedBox(height: 30),
                     imagepath2 != null
-                        ? ElevatedButton(
-                            onPressed: () {
-                              getImage3();
-                            },
-                            style: ButtonStyle(
-                              minimumSize: MaterialStateProperty.all(const Size(
-                                  120,
-                                  50)), // Ajusta el ancho según tus necesidades
-                            ),
-                            child: const Text(
-                              "Agregar imagen 3",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 12),
-                            ),
-                          )
-                        : ElevatedButton(
-                            onPressed: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                      'Selecciona imagen 1 y 2 para agregar mas'),
-                                ),
-                              );
-                            },
-                            style: ButtonStyle(
-                              minimumSize: MaterialStateProperty.all(const Size(
-                                  120,
-                                  50)), // Ajusta el ancho según tus necesidades
-                            ),
-                            child: const Text(
-                              "Agregar imagen 3",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 12),
-                            ),
+                        ? Column(
+                          children: [
+                           ElevatedButton(
+                          onPressed: () {
+                            getImage3();
+                          },
+                          style: ButtonStyle(
+                            minimumSize: MaterialStateProperty.all(const Size(60,
+                                40),),      
                           ),
+                          child: const Icon(Icons.photo_library),  
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            getImageCamera3();
+                          },
+                          style: ButtonStyle(
+                            minimumSize: MaterialStateProperty.all(const Size(60,
+                                40)),
+                          ),
+                          child: const Icon(Icons.camera_alt),  
+                        ),
+                  ])
+                        : Column(
+                          children: [
+                            ElevatedButton(
+                                onPressed: () {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                          'Selecciona Imagen 1 y 2 para agregar mas'),
+                                    ),
+                                  );
+                                },
+                              style: ButtonStyle(
+                              minimumSize: MaterialStateProperty.all(const Size(60,
+                                  40),),     
+                              ),
+                                child: const Icon(
+                                  Icons.photo_library,
+                                ),
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                          'Selecciona Imagen 1 y 2 para agregar mas'),
+                                    ),
+                                  );
+                                },
+                              style: ButtonStyle(
+                              minimumSize: MaterialStateProperty.all(const Size(60,
+                                  40),),     
+                              ),
+                                child: const Icon(
+                                  Icons.camera_alt,
+                                ),
+                              ),
+                    ]),
                   ]),
                 ),
               ]),
+              const SizedBox(height: 25,),
               SizedBox(
                   width: double.infinity,
                   height: 60,

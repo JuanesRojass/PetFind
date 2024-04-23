@@ -87,7 +87,7 @@ class SideMenuState extends ConsumerState<SideMenu> {
           ),
           const Padding(
             padding: EdgeInsets.fromLTRB(28, 10, 16, 10),
-            child: Text('Otras opciones'),
+            child: Text('Mis Publicaciones'),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -106,6 +106,14 @@ class SideMenuState extends ConsumerState<SideMenu> {
                   context.push("/publicacionesStreetUser");
                 },
                 text: 'Mascotas En Calle Publicadas', styleText: const TextStyle(fontSize: 15, ),),
+          ),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(28, 16, 28, 10),
+            child: Divider(),
+          ),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(28, 10, 16, 10),
+            child: Text('Otras Opciones'),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),

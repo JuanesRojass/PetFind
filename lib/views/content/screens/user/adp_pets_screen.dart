@@ -52,14 +52,14 @@ class AdpPetsScreenState extends ConsumerState<AdpPetsScreen> {
     case 'Refugio':
       drawerForRole = SideMenuRefugio(scaffoldKey: scaffoldKey);
       break;
-    // case 'Admin':
-    //   drawerForRole = AdminSideMenu(scaffoldKey: scaffoldKey);
-    //   break;
+    case 'Invitado':
+      drawerForRole = SideInvitadoMenu(scaffoldKey: scaffoldKey);
+      break;
   }
 
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Mascotas en Adopción'),
+          title: const Text('Mascotas En Adopción', style: TextStyle(fontSize: 20)),
           actions: [
             IconButton(
                 onPressed: () {
