@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mascotas_bga/config/connect/connect_server.dart';
+import 'package:mascotas_bga/controllers/delete/delete_street_pets_profile_controller.dart';
+import 'package:mascotas_bga/controllers/providers/general/rol_provider.dart';
+import 'package:mascotas_bga/controllers/utils/delete_message.dart';
 import 'package:mascotas_bga/views/content/screens/user/profiles/adp_pets_profile.dart';
 
-class PetsStreetProfile extends StatefulWidget {
+class PetsStreetProfile extends ConsumerStatefulWidget {
   const PetsStreetProfile({super.key, required this.petsStreet});
 
   @override
-  State<PetsStreetProfile> createState() => _PetsStreetProfileState();
+  PetsStreetProfileState createState() => PetsStreetProfileState();
   final Map<String, dynamic> petsStreet;
 }
 
-class _PetsStreetProfileState extends State<PetsStreetProfile> {
+class PetsStreetProfileState extends ConsumerState<PetsStreetProfile> {
+  final DeleteStreetPetsProfileController _controller = DeleteStreetPetsProfileController();
   @override
   Widget build(BuildContext context) {
+    final rolUsuario = ref.watch(rolProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Mascota En Calle"),
@@ -30,13 +36,28 @@ class _PetsStreetProfileState extends State<PetsStreetProfile> {
                 children: [
                   widget.petsStreet["id_usuario_fk"] != null
                       ? Row(children: [
-                        const Text("Subido Por: ",style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
-                        Text("${widget.petsStreet["username"]}", style: const TextStyle(fontSize: 16, color: Colors.grey),)
+                          const Text(
+                            "Subido Por: ",
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            "${widget.petsStreet["username"]}",
+                            style: const TextStyle(
+                                fontSize: 16, color: Colors.grey),
+                          )
                         ])
                       : Row(children: [
-                          const Text("Subido Por: ",style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                          const Text(
+                            "Subido Por: ",
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
                           Text(
-                              "${widget.petsStreet["nombre_refugio"]}",style: const TextStyle(fontSize: 16, color: Colors.grey),),
+                            "${widget.petsStreet["nombre_refugio"]}",
+                            style: const TextStyle(
+                                fontSize: 16, color: Colors.grey),
+                          ),
                           const Icon(
                             Icons.verified_user_rounded,
                             color: Colors.blue,
@@ -44,22 +65,38 @@ class _PetsStreetProfileState extends State<PetsStreetProfile> {
                         ])
                 ],
               ),
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               widget.petsStreet["id_usuario_fk"] != null
                   ? Row(children: [
                       const Icon(Icons.phone, size: 20),
-                      Text(" ${widget.petsStreet["telefono_usuario"]}", style: const TextStyle(fontSize: 16, color: Colors.grey),),
+                      Text(
+                        " ${widget.petsStreet["telefono_usuario"]}",
+                        style:
+                            const TextStyle(fontSize: 16, color: Colors.grey),
+                      ),
                     ])
                   : Row(children: [
                       const Icon(Icons.phone, size: 20),
-                      Text(" ${widget.petsStreet["telefono_refugio"]}",style: const TextStyle(fontSize: 16, color: Colors.grey),),
+                      Text(
+                        " ${widget.petsStreet["telefono_refugio"]}",
+                        style:
+                            const TextStyle(fontSize: 16, color: Colors.grey),
+                      ),
                       widget.petsStreet["telefono_refugio_dos"] != null
                           ? Text(
-                              "  •${widget.petsStreet["telefono_refugio_dos"]}",style: const TextStyle(fontSize: 16, color: Colors.grey),)
+                              "  •${widget.petsStreet["telefono_refugio_dos"]}",
+                              style: const TextStyle(
+                                  fontSize: 16, color: Colors.grey),
+                            )
                           : const Text(""),
                       widget.petsStreet["telefono_refugio_tres"] != null
                           ? Text(
-                              "  •${widget.petsStreet["telefono_refugio_tres"]}", style: const TextStyle(fontSize: 16, color: Colors.grey),)
+                              "  •${widget.petsStreet["telefono_refugio_tres"]}",
+                              style: const TextStyle(
+                                  fontSize: 16, color: Colors.grey),
+                            )
                           : const Text("")
                     ]),
               const SizedBox(
@@ -166,6 +203,7 @@ class _PetsStreetProfileState extends State<PetsStreetProfile> {
               const SizedBox(
                 height: 10,
               ),
+              if(rolUsuario == "Cliente" || rolUsuario == "Refugio" || rolUsuario == "Invitado")
               Align(
                 alignment: Alignment.center,
                 child: ElevatedButton(
@@ -181,21 +219,21 @@ class _PetsStreetProfileState extends State<PetsStreetProfile> {
                             actions: [
                               TextButton(
                                 onPressed: () {
-                                  Navigator.of(context)
-                                      .pop(); 
+                                  Navigator.of(context).pop();
                                 },
                                 child: const Text("Cerrar"),
                               ),
                               TextButton(
                                 onPressed: () {
                                   Clipboard.setData(ClipboardData(
-                                      text: widget.petsStreet[
-                                          'telefono_usuario']));
-                                          ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text("Teléfono copiado al portapapeles")),
-                              ); 
-                                  Navigator.of(context)
-                                      .pop(); 
+                                      text: widget
+                                          .petsStreet['telefono_usuario']));
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text(
+                                            "Teléfono copiado al portapapeles")),
+                                  );
+                                  Navigator.of(context).pop();
                                 },
                                 child: const Text("Copiar"),
                               ),
@@ -204,7 +242,8 @@ class _PetsStreetProfileState extends State<PetsStreetProfile> {
                         },
                       );
                     } else {
-                      context.push("/refugiosProfile", extra: widget.petsStreet);
+                      context.push("/refugiosProfile",
+                          extra: widget.petsStreet);
                     }
                   },
                   style: ElevatedButton.styleFrom(
@@ -217,7 +256,39 @@ class _PetsStreetProfileState extends State<PetsStreetProfile> {
                   ),
                   child: const Text("Es Mi Mascota!"),
                 ),
-              )
+              ),
+              if(rolUsuario == "Administrador")
+              Align(
+                alignment: Alignment.center,
+                child: ElevatedButton(
+                  onPressed: () {
+                    mostrarDialogoConfirmacion(
+                        context: context,
+                        idMascota: widget.petsStreet['id_mascota_calle'].toString(),
+                        onDelete: (int id) async =>
+                            await _controller.deletePublicacion(id),
+                        onSuccessfulDelete: (String idMascota) {
+                          setState(() {});
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text("Mascota eliminada con éxito")),
+                          );
+                        },
+                      );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 50, vertical: 20),
+                    textStyle: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                  ),
+                  child: const Text("ELIMINAR PUBLICACIÓN"),
+                ),
+              ),
             ]),
           )),
     );

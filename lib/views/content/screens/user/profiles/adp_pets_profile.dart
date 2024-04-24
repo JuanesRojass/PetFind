@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mascotas_bga/config/connect/connect_server.dart';
+import 'package:mascotas_bga/controllers/delete/delete_adp_pets_profile_controller.dart';
+import 'package:mascotas_bga/controllers/providers/general/rol_provider.dart';
+import 'package:mascotas_bga/controllers/utils/delete_message.dart';
 
-class PetsAdoptProfile extends StatefulWidget {
+
+class PetsAdoptProfile extends ConsumerStatefulWidget {
   const PetsAdoptProfile({super.key, required this.petsAdp});
 
   @override
-  State<PetsAdoptProfile> createState() => _PetsAdoptProfileState();
+  PetsAdoptProfileState createState() => PetsAdoptProfileState();
   final Map<String, dynamic> petsAdp;
 }
 
-class _PetsAdoptProfileState extends State<PetsAdoptProfile> {
+class PetsAdoptProfileState extends ConsumerState<PetsAdoptProfile> {
+  final DeleteAdpPetsProfileController _controller = DeleteAdpPetsProfileController();
   @override
   Widget build(BuildContext context) {
+    final rolUsuario = ref.watch(rolProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('${widget.petsAdp["nombre_mascota_adp"] ?? "Mascota"}'),
@@ -54,23 +62,24 @@ class _PetsAdoptProfileState extends State<PetsAdoptProfile> {
                     ),
                 ],
               ),
-              
-               if (widget.petsAdp["imagen_mascota_dos"] != null)
-          const Column(
-            children: [
-              SizedBox(height: 10),
-              Center(
-
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+              if (widget.petsAdp["imagen_mascota_dos"] != null)
+                const Column(
                   children: [
-                    Icon(Icons.arrow_left_rounded),
-                    Text("Deslizar",style: TextStyle(fontWeight: FontWeight.bold),),
-                    Icon(Icons.arrow_right_rounded),
-            ]),
-              ),
-            ],
-          ),
+                    SizedBox(height: 10),
+                    Center(
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.arrow_left_rounded),
+                            Text(
+                              "Deslizar",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Icon(Icons.arrow_right_rounded),
+                          ]),
+                    ),
+                  ],
+                ),
               const SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -115,23 +124,74 @@ class _PetsAdoptProfileState extends State<PetsAdoptProfile> {
               const SizedBox(
                 height: 10,
               ),
-              Align(
-                alignment: Alignment.center,
-                child: ElevatedButton(
-                  onPressed: () {
-                    context.push("/refugiosProfile", extra: widget.petsAdp);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 50, vertical: 20),
-                    textStyle: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
+              if (rolUsuario == "Cliente" || rolUsuario == "Invitado")
+                Align(
+                  alignment: Alignment.center,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      context.push("/refugiosProfile", extra: widget.petsAdp);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 50, vertical: 20),
+                      textStyle: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                    ),
+                    child: const Text("ADOPTAR"),
                   ),
-                  child: const Text("ADOPTAR"),
                 ),
-              )
+              if (rolUsuario == "Refugio")
+                Align(
+                  alignment: Alignment.center,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      context.push("/refugiosProfile", extra: widget.petsAdp);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 50, vertical: 20),
+                      textStyle: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                    ),
+                    child: const Text("VER REFUGIO"),
+                  ),
+                ),
+              if (rolUsuario == "Administrador")
+                Align(
+                  alignment: Alignment.center,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      mostrarDialogoConfirmacion(
+                        context: context,
+                        idMascota: widget.petsAdp['id_mascota_adp'].toString(),
+                        onDelete: (int id) async =>
+                            await _controller.deletePublicacion(id),
+                        onSuccessfulDelete: (String idMascota) {
+                          setState(() {});
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text("Mascota eliminada con éxito")),
+                          );
+                        },
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 50, vertical: 20),
+                      textStyle: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                    ),
+                    child: const Text("ELIMINAR PUBLICACIÓN"),
+                  ),
+                ),
             ]),
           )),
     );
