@@ -55,6 +55,9 @@ class AdpPetsScreenState extends ConsumerState<AdpPetsScreen> {
     case 'Invitado':
       drawerForRole = SideInvitadoMenu(scaffoldKey: scaffoldKey);
       break;
+    case 'Administrador':
+      drawerForRole = SideAdminMenu(scaffoldKey: scaffoldKey);
+      break;
   }
 
     return Scaffold(

@@ -18,6 +18,7 @@ export 'package:mascotas_bga/views/content/screens/user/profiles/user_edit_profi
 export 'package:mascotas_bga/views/content/screens/user/mascota_lost_edit_user.dart';
 export 'package:mascotas_bga/views/content/screens/user/mascota_street_edit_user_screen.dart';
 export 'package:mascotas_bga/views/content/screens/user/publicaciones_street_user_screen.dart';
+export 'package:mascotas_bga/views/content/screens/admin/solicitud_refugios.dart';
 
 
 export 'package:mascotas_bga/views/content/screens/upload_street_pets_screen.dart';

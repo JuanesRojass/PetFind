@@ -67,6 +67,10 @@ final GoRouter router = GoRouter(initialLocation: '/login', routes: [
     path: '/publicacionesStreetRefugio',
     builder: (context, state) => const PublicacionesStreetRefugioScreen(),
   ),
+    GoRoute(
+    path: '/solicitudRefugios',
+    builder: (context, state) => const SolicitudRefugiosScreen(),
+  ),
   GoRoute(
     path: '/editCliente',
     builder: (context, state) {

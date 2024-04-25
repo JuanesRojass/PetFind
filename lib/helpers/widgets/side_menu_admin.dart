@@ -4,16 +4,16 @@ import 'package:mascotas_bga/helpers/shared.dart';
 import 'package:mascotas_bga/controllers/providers/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SideInvitadoMenu extends ConsumerStatefulWidget {
+class SideAdminMenu extends ConsumerStatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
 
-  const SideInvitadoMenu({super.key, required this.scaffoldKey});
+  const SideAdminMenu({super.key, required this.scaffoldKey});
 
   @override
-  SideInvitadoMenuState createState() => SideInvitadoMenuState();
+  SideAdminMenuState createState() => SideAdminMenuState();
 }
 
-class SideInvitadoMenuState extends ConsumerState<SideInvitadoMenu> {
+class SideAdminMenuState extends ConsumerState<SideAdminMenu> {
   int navDrawerIndex = 0;
 
 
@@ -44,9 +44,34 @@ class SideInvitadoMenuState extends ConsumerState<SideInvitadoMenu> {
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 0, 16, 10),
-            child: Flexible(child: Text('Debes Iniciar Sesión o Registrarte Para Registrar Mascotas y Ver tus Registros', style: textStyles.titleSmall)),
+            child: Flexible(child: Text('Admin', style: textStyles.titleSmall)),
           ),
           const SizedBox(height: 20,),
+           const Padding(
+            padding: EdgeInsets.fromLTRB(28, 16, 28, 10),
+            child: Divider(),
+          ),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(28, 10, 16, 10),
+            child: Text('Administrar'),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: CustomFilledButton(
+                buttonColor: Colors.orange,
+                onPressed: () {
+                  context.push("/solicitudRefugios");
+                },
+                text: 'Solicitudes de Refugios'),
+          ),
+           const Padding(
+            padding: EdgeInsets.fromLTRB(28, 16, 28, 10),
+            child: Divider(),
+          ),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(28, 10, 16, 10),
+            child: Text('Otras Opciones'),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: CustomFilledButton(
@@ -58,7 +83,7 @@ class SideInvitadoMenuState extends ConsumerState<SideInvitadoMenu> {
                   ref.read(nombreTipoProvider.notifier).setName("");
                   context.go('/login');
                 },
-                text: 'Ingresar o Registrase'),
+                text: 'Cerrar Sesión'),
           ),
         ]);
   }
