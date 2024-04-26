@@ -152,53 +152,84 @@ class PublicacionesAdpRefugioScreenState
                                     )
                                   ],
                                 ),
-                                const SizedBox(height: 10),
+                                const SizedBox(height: 20),
                                 Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
                                     children: [
-                                      Text(
-                                        'Tipo: ${publicacion["tipo_mascota_adp"]}',
-                                        style: const TextStyle(fontSize: 14),
-                                      ),
-                                      Text(
-                                        'Raza: ${publicacion["raza_mascota_adp"]}',
-                                        style: const TextStyle(fontSize: 14),
-                                      )
+                                      Row(
+                                        children: [
+                                          const Text('Tipo:',
+                                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(" ${publicacion["tipo_mascota_adp"]}",
+                                        style: const TextStyle(fontSize: 16, color: Colors.grey))
+                                    ]),
+                                      Row(
+                                        children: [
+                                          const Text(
+                                          'Raza:',
+                                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(" ${publicacion["raza_mascota_adp"]}",
+                                        style: const TextStyle(fontSize: 16, color: Colors.grey))
+                                    ])
                                     ]),
                                 Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
                                     children: [
-                                      Text(
-                                        'Tamaño: ${publicacion["tamano_mascota_adp"]}',
-                                        style: const TextStyle(fontSize: 14),
-                                      ),
-                                      Text(
-                                        'Color: ${publicacion["color_mascota_adp"]}',
-                                        style: const TextStyle(fontSize: 14),
-                                      )
+                                      Row(
+                                        children: [
+                                          const Text('Tamaño:',
+                                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(" ${publicacion["tamano_mascota_adp"]}",
+                                        style: const TextStyle(fontSize: 16, color: Colors.grey))
+                                    ]),
+                                      Row(
+                                        children: [
+                                          const Text('Color:',
+                                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(" ${publicacion["color_mascota_adp"]}",
+                                        style: const TextStyle(fontSize: 16, color: Colors.grey))
+
+                                    ])
                                     ]),
                                 Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
                                     children: [
-                                      Text(
-                                        'Sexo: ${publicacion["sexo_mascota_adp"]}',
-                                        style: const TextStyle(fontSize: 14),
-                                      ),
-                                      Text(
-                                        'Edad: ${publicacion["edad_mascota_adp"]}',
-                                        style: const TextStyle(fontSize: 14),
-                                      )
+                                      Row(
+                                        children: [const Text(
+                                          'Sexo:',
+                                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(" ${publicacion["sexo_mascota_adp"]}",
+                                        style: const TextStyle(fontSize: 16, color: Colors.grey))
+                                    ]),
+                                      Row(
+                                        children: [const Text(
+                                          'Edad:',
+                                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(" ${publicacion["edad_mascota_adp"]}",
+                                        style: const TextStyle(fontSize: 16, color: Colors.grey))
+                                    ])
                                     ]),
                                 const SizedBox(
                                   height: 10,
                                 ),
-                                Text(
-                                  'Descripción: ${publicacion["desc_mascota_adp"]}',
-                                  style: const TextStyle(fontSize: 14),
-                                ),
+                                Column(
+                                  children: [
+                                    const Text('Descripción:',
+                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(" ${publicacion["desc_mascota_adp"]}",
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(fontSize: 16, color: Colors.grey))
+                              ]),
                                 const SizedBox(
                                   height: 10,
                                 ),

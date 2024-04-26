@@ -139,58 +139,100 @@ Widget build(BuildContext context) {
                                   )
                                 ],
                               ),
-                              const SizedBox(height: 10),
+                              const SizedBox(height: 20),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceAround, 
                               children: [
-                              Text(
-                                'Tipo: ${publicacion["tipo_mascota_calle"]}',
-                                style: const TextStyle(fontSize: 14),
-                              ),
-                              Text(
-                                'Raza: ${publicacion["raza_mascota_calle"]}',
-                                style: const TextStyle(fontSize: 14),
-                              )]),
+                              Row(
+                                children: [
+                                  const Text('Tipo:',
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                                Text(" ${publicacion["tipo_mascota_calle"]}",
+                                style: const TextStyle(fontSize: 16, color: Colors.grey))
+                              ]),
+                              Row(
+                                children: [
+                                  const Text('Raza:',
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                                Text(" ${publicacion["raza_mascota_calle"]}",
+                                style: const TextStyle(fontSize: 16, color: Colors.grey))
+                            ])]),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
-                              Text(
-                                'Tamaño: ${publicacion["tamano_mascota_calle"]}',
-                                style: const TextStyle(fontSize: 14),
-                              ),
-                              Text(
-                                'Color: ${publicacion["color_mascota_calle"]}',
-                                style: const TextStyle(fontSize: 14),
-                              )]),
+                              Row(
+                                children: [
+                                  const Text('Tamaño:',
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                                Text(" ${publicacion["tamano_mascota_calle"]}",
+                                style: const TextStyle(fontSize: 16, color: Colors.grey))
+                                ]),
+                              Row(
+                                children: [
+                                  const Text('Color:',
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                                Text(" ${publicacion["color_mascota_calle"]}",
+                                style: const TextStyle(fontSize: 16, color: Colors.grey))
+                            ])]),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
-                              Text(
-                                'Sexo: ${publicacion["sexo_mascota_calle"]}',
-                                style: const TextStyle(fontSize: 14),
-                              ),
+                              Row(
+                                children: [
+                                  const Text('Sexo:',
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                                Text(" ${publicacion["sexo_mascota_calle"]}",
+                                style: const TextStyle(fontSize: 16, color: Colors.grey))
+                                ]),
                               ]),
                               const SizedBox(height: 10,),
-                              Text(
-                                'Descripción: ${publicacion["desc_mascota_calle"]}',
-                                style: const TextStyle(fontSize: 14),
-                              ),
+                              Column(
+                                children: [
+                                  const Text('Descripción',
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(height: 10),
+                                Text(" ${publicacion["desc_mascota_calle"]}",
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(fontSize: 16, color: Colors.grey))
+                            ]),
                               const SizedBox(height: 10,),
                               const Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: [Text("Mascota Vista En")],),
-                              Text(
-                                'Ciudad: ${publicacion["ciudad_mascota_calle"]}',
-                                style: const TextStyle(fontSize: 14),
-                              ),
-                              Text(
-                                'Barrio: ${publicacion["barrio_mascota_calle"]}',
-                                style: const TextStyle(fontSize: 14),
-                              ),
-                              Text(
-                                'Dirección: ${publicacion["direccion_mascota_calle"]}',
-                                style: const TextStyle(fontSize: 14),
-                              ),
+                                children: [
+                                  Text("Mascota Vista En",
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          )],),
+                              const SizedBox(height: 10,),
+                              Row(
+                                children: [
+                                  const Text('Ciudad:',
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                                Text(" ${publicacion["ciudad_mascota_calle"]}",
+                                style: const TextStyle(fontSize: 16, color: Colors.grey))
+                            ]),
+                              Row(
+                                children: [
+                                  const Text('Barrio:',
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                                Text(" ${publicacion["barrio_mascota_calle"]}",
+                                style: const TextStyle(fontSize: 16, color: Colors.grey))
+                            ]),
+                              Row(
+                                children: [
+                                  const Text( 'Dirección:',
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                                Text(" ${publicacion["direccion_mascota_calle"]}",
+                                style: const TextStyle(fontSize: 16, color: Colors.grey))
+                            ]),
                               
                             ],
                           ),

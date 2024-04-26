@@ -69,78 +69,109 @@ class SolicitudRefugiosScreenState
                                                   publicacion["nombre_refugio"],
                                                   style: const TextStyle(
                                                     fontWeight: FontWeight.bold,
-                                                    fontSize: 16,
+                                                    fontSize: 20,
                                                   ),
                                                 ),
                                                 const Icon(
-                                                  Icons.warehouse_outlined,
+                                                  Icons.house_rounded,
                                                   color: Colors.purple,
                                                 )
                                               ],
                                             ),
-                                            const SizedBox(height: 10),
+                                            const SizedBox(height: 20),
                                             Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
                                                         .spaceAround,
                                                 children: [
-                                                  Text(
-                                                    'Tipo: ${publicacion["email_refugio"]}',
-                                                    style: const TextStyle(
-                                                        fontSize: 14),
-                                                  ),
-                                                  Text(
-                                                    'Raza: ${publicacion["ciudad_refugio"]}',
-                                                    style: const TextStyle(
-                                                        fontSize: 14),
-                                                  )
+                                                  Row(
+                                                    children: [
+                                                      const Text('Email:',
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.bold),),
+                                                    Text(" ${publicacion["email_refugio"]}",
+                                                    style: const TextStyle(fontWeight: FontWeight.w400),)  
+                                                ]),
+                                                  Row(
+                                                    children: [
+                                                      const Text(
+                                                      'Ciudad:', style: TextStyle(
+                                                        fontSize: 14, fontWeight: FontWeight.bold),
+                                                    ),
+                                                    Text(" ${publicacion["ciudad_refugio"]}",
+                                                    style: const TextStyle(fontWeight: FontWeight.w400),)
+                                                ])
                                                 ]),
                                             Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
                                                         .spaceAround,
                                                 children: [
-                                                  Text(
-                                                    'Tamaño: ${publicacion["barrio_refugio"]}',
-                                                    style: const TextStyle(
-                                                        fontSize: 14),
-                                                  ),
-                                                  Text(
-                                                    'Color: ${publicacion["direccion_refugio"]}',
-                                                    style: const TextStyle(
-                                                        fontSize: 14),
-                                                  )
+                                                  Row(
+                                                    children: [
+                                                      const Text('Barrio:',
+                                                      style: TextStyle(
+                                                        fontSize: 14, fontWeight: FontWeight.bold),
+                                                    ),
+                                                    Text(" ${publicacion["barrio_refugio"]}",
+                                                    style: const TextStyle(fontWeight: FontWeight.w400),)
                                                 ]),
+                                                  Row(
+                                                    children: [
+                                                      const Text(
+                                                      'Dirección:', style: TextStyle(
+                                                        fontSize: 14, fontWeight: FontWeight.bold),
+                                                    ),
+                                                    Text(" ${publicacion["direccion_refugio"]}",
+                                                    style: const TextStyle(fontWeight: FontWeight.w400),)
+                                                ])
+                                                ]),
+                                                const SizedBox(height: 10,),
                                             Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
                                                         .spaceAround,
                                                 children: [
-                                                  Text(
-                                                    'Sexo: ${publicacion["telefono_refugio"]}',
-                                                    style: const TextStyle(
-                                                        fontSize: 14),
-                                                  ),
+                                                  Column(
+                                                    children: [
+                                                      const Text('Telefono:', style: TextStyle(
+                                                        fontSize: 14, fontWeight: FontWeight.bold),
+                                                    ),
+                                                    Text(" ${publicacion["telefono_refugio"]}")
+                                                ]),
                                                 ]),
                                             const SizedBox(
                                               height: 10,
                                             ),
-                                            Text(
-                                              'Descripción: ${publicacion["desc_refugio"]}',
-                                              style:
-                                                  const TextStyle(fontSize: 14),
-                                            ),
+                                            Column(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                              const Text('Descripción:',
+                                                style:
+                                                TextStyle(fontSize: 14, fontWeight: FontWeight.bold),),
+                                                const SizedBox(height: 5),
+                                              Text(" ${publicacion["desc_refugio"]}",
+                                              style: const TextStyle(fontWeight: FontWeight.w400),
+                                              textAlign: TextAlign.center,)
+                                          ]),
                                             const SizedBox(
                                               height: 10,
                                             ),
-                                            Text(
-                                              'Descripción: ${publicacion["mision_refugio"]}',
-                                              style:
-                                                  const TextStyle(fontSize: 14),
-                                            ),
+                                            Column(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                const Text('Misión:', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                              ),
+                                              const SizedBox(height: 5,),
+                                              Text("${publicacion["mision_refugio"]}",
+                                              style: const TextStyle(fontWeight: FontWeight.w400,),
+                                              textAlign: TextAlign.center,)
+                                          ]),
                                           ],
                                         ),
                                       ),
+                                      const SizedBox(height: 15,),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
@@ -168,6 +199,7 @@ class SolicitudRefugiosScreenState
                                                           cargarRefugios();
                                                         },
                                                         child: const Text("Aceptar"),
+                                                        
                                                       ),
                                                     ],
                                                   );
