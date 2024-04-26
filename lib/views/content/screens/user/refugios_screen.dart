@@ -107,6 +107,7 @@ class RefugiosScreenState extends ConsumerState<RefugiosScreen> {
               itemBuilder: (context, index) {
                 final refugio = refugios[index];
                 return Card(
+                  elevation: 4,
                   margin: const EdgeInsets.all(10),
                   child: InkWell(
                     onTap: (){
@@ -116,7 +117,7 @@ class RefugiosScreenState extends ConsumerState<RefugiosScreen> {
                       children: [
                         const Padding(
                           padding: EdgeInsets.all(8.0),
-                          child: Icon(Icons.home, size: 100),
+                          child: Icon(Icons.home_outlined, size: 100, color: Color.fromARGB(204, 173, 55, 194)),
                         ),
                         Expanded(
                           child: Column(

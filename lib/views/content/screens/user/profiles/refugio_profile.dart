@@ -1,6 +1,6 @@
+import 'dart:core';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mascotas_bga/config/connect/connect_server.dart';
 import 'package:mascotas_bga/controllers/gets/adp_pets_refugio.controller.dart';
@@ -65,12 +65,17 @@ class _RefugioProfileState extends State<RefugioProfile> {
                             child: Text(widget.refugio["telefono_refugio"], style: const TextStyle(fontSize: 16, color: Colors.grey)),
                           ),
                           IconButton(
-                            icon: const Icon(Icons.copy),
-                            onPressed: () {
-                              Clipboard.setData(ClipboardData(text: widget.refugio["telefono_refugio"]));
+                            icon: const Icon(Icons.phone, color: Colors.purple,),
+                            onPressed: () async{
+                                final Uri url = Uri.parse('tel:${widget.refugio["telefono_refugio"]}');
+                            if (await canLaunchUrl(url)) {
+                              await launchUrl(url);
+                            } else {
+                              // ignore: use_build_context_synchronously
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text("Teléfono copiado al portapapeles")),
+                                const SnackBar(content: Text("No se pudo realizar la llamada")),
                               );
+                            }
                             },
                           ),
                         ],
@@ -82,12 +87,17 @@ class _RefugioProfileState extends State<RefugioProfile> {
                             child: Text(widget.refugio["telefono_refugio_dos"], style: const TextStyle(fontSize: 16, color: Colors.grey)),
                           ),
                           IconButton(
-                            icon: const Icon(Icons.copy),
-                            onPressed: () {
-                              Clipboard.setData(ClipboardData(text: widget.refugio["telefono_refugio_dos"]));
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text("Teléfono copiado al portapapeles")),
-                              );
+                            icon: const Icon(Icons.phone, color: Colors.purple,),
+                            onPressed: () async{
+                              final Uri url = Uri.parse('tel:${widget.refugio["telefono_refugio_dos"]}');
+                          if (await canLaunchUrl(url)) {
+                            await launchUrl(url);
+                          } else {
+                            // ignore: use_build_context_synchronously
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text("No se pudo realizar la llamada")),
+                            );
+                          }
                             },
                           ),
                         ],
@@ -99,13 +109,18 @@ class _RefugioProfileState extends State<RefugioProfile> {
                             child: Text(widget.refugio["telefono_refugio_tres"], style: const TextStyle(fontSize: 16, color: Colors.grey)),
                           ),
                           IconButton(
-                            icon: const Icon(Icons.copy),
-                            onPressed: () {
-                              Clipboard.setData(ClipboardData(text: widget.refugio["telefono_refugio_tres"]));
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text("Teléfono copiado al portapapeles")),
-                              );
-                            },
+                            icon: const Icon(Icons.phone, color: Colors.purple,),
+                            onPressed: () async {
+                               final Uri url = Uri.parse('tel:${widget.refugio["telefono_refugio_tres"]}');
+                        if (await canLaunchUrl(url)) {
+                          await launchUrl(url);
+                        } else {
+                          // ignore: use_build_context_synchronously
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text("No se pudo realizar la llamada")),
+                          );
+                        }
+                        }     
                           ),
                         ],
                       ),
@@ -155,8 +170,9 @@ class _RefugioProfileState extends State<RefugioProfile> {
                                 },
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
-                                  child: Image.network(
-                                    "http://$ipConnect/mascotas/${mascota["imagen_mascota"]}",
+                                  child: FadeInImage.assetNetwork(
+                                    placeholder: 'assets/images/gifCargando.gif',
+                                    image: "http://$ipConnect/mascotas/${mascota["imagen_mascota"]}",
                                     fit: BoxFit.cover,
                                   ),
                                 ),

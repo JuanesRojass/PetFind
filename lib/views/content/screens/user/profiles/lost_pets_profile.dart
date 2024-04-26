@@ -1,3 +1,5 @@
+import 'dart:core';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/services.dart';
@@ -77,24 +79,21 @@ class PetsLostProfileState extends ConsumerState<PetsLostProfile> {
                 ),
                 items: [
                   if (widget.petsLost["imagen_mascota"] != null)
-                    Image.network(
-                      // ignore: prefer_interpolation_to_compose_strings
-                      "http://$ipConnect/mascotas/" +
-                          widget.petsLost["imagen_mascota"],
+                    FadeInImage.assetNetwork(
+                      placeholder: 'assets/images/gifCargando.gif',
+                      image: "http://$ipConnect/mascotas/${widget.petsLost["imagen_mascota"]}",
                       fit: BoxFit.cover,
                     ),
                   if (widget.petsLost["imagen_mascota_dos"] != null)
-                    Image.network(
-                      // ignore: prefer_interpolation_to_compose_strings
-                      "http://$ipConnect/mascotas/" +
-                          widget.petsLost["imagen_mascota_dos"],
+                    FadeInImage.assetNetwork(
+                      placeholder: 'assets/images/gifCargando.gif',
+                      image: "http://$ipConnect/mascotas/${widget.petsLost["imagen_mascota_dos"]}",
                       fit: BoxFit.cover,
                     ),
                   if (widget.petsLost["imagen_mascota_tres"] != null)
-                    Image.network(
-                      // ignore: prefer_interpolation_to_compose_strings
-                      "http://$ipConnect/mascotas/" +
-                          widget.petsLost["imagen_mascota_tres"],
+                    FadeInImage.assetNetwork(
+                      placeholder: 'assets/images/gifCargando.gif',
+                      image: "http://$ipConnect/mascotas/${widget.petsLost["imagen_mascota_tres"]}",
                       fit: BoxFit.cover,
                     ),
                 ],
@@ -189,18 +188,18 @@ class PetsLostProfileState extends ConsumerState<PetsLostProfile> {
                               child: const Text("Cerrar"),
                             ),
                             TextButton(
-                              onPressed: () {
-                                Clipboard.setData(ClipboardData(
-                                    text: widget.petsLost[
-                                        'telefono_usuario'])); // Copiar el texto al portapapeles
-                                Navigator.of(context).pop();
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text(
-                                          "Teléfono copiado al portapapeles")),
-                                );
+                              onPressed: () async{
+                                final Uri url = Uri.parse('tel:${widget.petsLost["telefono_usuario"]}');
+                                  if (await canLaunchUrl(url)) {
+                                    await launchUrl(url);
+                                  } else {
+                                  // ignore: use_build_context_synchronously
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text("No se pudo realizar la llamada")),
+                                  );
+                                }
                               },
-                              child: const Text("Copiar"),
+                              child: const Text("Llamar"),
                             ),
                           ],
                         );

@@ -1,12 +1,11 @@
-import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mascotas_bga/config/connect/connect_server.dart';
 import 'package:mascotas_bga/controllers/providers/providers.dart';
 import 'package:mascotas_bga/controllers/userEdit/publicaciones_street_user_controller.dart';
 import 'package:mascotas_bga/controllers/utils/delete_message.dart';
+
 
 import '../../../../helpers/shared.dart';
 

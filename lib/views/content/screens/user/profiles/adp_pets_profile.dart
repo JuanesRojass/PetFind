@@ -40,24 +40,21 @@ class PetsAdoptProfileState extends ConsumerState<PetsAdoptProfile> {
                 ),
                 items: [
                   if (widget.petsAdp["imagen_mascota"] != null)
-                    Image.network(
-                      // ignore: prefer_interpolation_to_compose_strings
-                      "http://$ipConnect/mascotas/" +
-                          widget.petsAdp["imagen_mascota"],
+                    FadeInImage.assetNetwork(
+                      placeholder: 'assets/images/gifCargando.gif',
+                      image: "http://$ipConnect/mascotas/${widget.petsAdp["imagen_mascota"]}",
                       fit: BoxFit.cover,
                     ),
                   if (widget.petsAdp["imagen_mascota_dos"] != null)
-                    Image.network(
-                      // ignore: prefer_interpolation_to_compose_strings
-                      "http://$ipConnect/mascotas/" +
-                          widget.petsAdp["imagen_mascota_dos"],
+                    FadeInImage.assetNetwork(
+                      placeholder: 'assets/images/gifCargando.gif',
+                      image: "http://$ipConnect/mascotas/${widget.petsAdp["imagen_mascota_dos"]}",
                       fit: BoxFit.cover,
                     ),
                   if (widget.petsAdp["imagen_mascota_tres"] != null)
-                    Image.network(
-                      // ignore: prefer_interpolation_to_compose_strings
-                      "http://$ipConnect/mascotas/" +
-                          widget.petsAdp["imagen_mascota_tres"],
+                    FadeInImage.assetNetwork(
+                      placeholder: 'assets/images/gifCargando.gif',
+                      image: "http://$ipConnect/mascotas/${widget.petsAdp["imagen_mascota_tres"]}",
                       fit: BoxFit.cover,
                     ),
                 ],

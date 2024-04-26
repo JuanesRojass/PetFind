@@ -154,6 +154,7 @@ class AdpPetsScreenState extends ConsumerState<AdpPetsScreen> {
                   return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Card(
+                        elevation: 8,
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -245,10 +246,9 @@ class AdpPetsScreenState extends ConsumerState<AdpPetsScreen> {
                                               child: ClipRRect(
                                                 borderRadius:
                                                     BorderRadius.circular(9.0),
-                                                child: Image.network(
-                                                  // ignore: prefer_interpolation_to_compose_strings
-                                                  "http://$ipConnect/mascotas/" +
-                                                      pet["imagen_mascota"],
+                                                child: FadeInImage.assetNetwork(
+                                                  placeholder: 'assets/images/gifCargando.gif',
+                                                 image: "http://$ipConnect/mascotas/${pet["imagen_mascota"]}",
                                                   width: 120,
                                                   height: 200,
                                                   fit: BoxFit.cover,

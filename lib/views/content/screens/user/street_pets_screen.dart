@@ -1,3 +1,5 @@
+import 'dart:core';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -5,7 +7,7 @@ import 'package:mascotas_bga/config/connect/connect_server.dart';
 import 'package:mascotas_bga/controllers/gets/street_pets_controller.dart';
 import 'package:mascotas_bga/controllers/infrastructure/inputs/inputs.dart';
 import 'package:mascotas_bga/controllers/providers/providers.dart';
-import 'package:mascotas_bga/controllers/providers/general/rol_provider.dart';
+
 
 import 'package:mascotas_bga/helpers/shared.dart';
 
@@ -139,6 +141,7 @@ class StreetPetsScreenState extends ConsumerState<StreetPetsScreen> {
                   return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Card(
+                        elevation: 7,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -163,19 +166,18 @@ class StreetPetsScreenState extends ConsumerState<StreetPetsScreen> {
                                       child: const Text("Cerrar"),
                                     ),
                                     TextButton(
-                                      onPressed: () {
-                                        Clipboard.setData(
-                                          ClipboardData(
-                                            text: pet['telefono_usuario']
-                                          )
-                                          
-                                        );
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text("Teléfono copiado al portapapeles")),
-                              );
-                                        Navigator.of(context).pop();
+                                      onPressed: () async{
+                                        final Uri url = Uri.parse('tel:${pet["telefono_usuario"]}');
+                                          if (await canLaunchUrl(url)) {
+                                            await launchUrl(url);
+                                          } else {
+                                          // ignore: use_build_context_synchronously
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                          const SnackBar(content: Text("No se pudo realizar la llamada")),
+                                          );
+                                        }
                                       },
-                                      child: const Text("Copiar"),
+                                      child: const Text("Llamar"),
                                     ),
                                   ],
                                 );
@@ -278,8 +280,9 @@ class StreetPetsScreenState extends ConsumerState<StreetPetsScreen> {
                             Expanded(
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(9.0),
-                                child: Image.network(
-                                  "http://$ipConnect/mascotas/${pet["imagen_mascota"]}",
+                                child: FadeInImage.assetNetwork(
+                                  placeholder: 'assets/images/gifCargando.gif',
+                                  image: "http://$ipConnect/mascotas/${pet["imagen_mascota"]}",
                                   width: 120,
                                   height: 200,
                                   fit: BoxFit.cover,
