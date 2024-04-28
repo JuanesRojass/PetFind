@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mascotas_bga/controllers/post/post_street_pets_controller.dart';
 import 'dart:io';
@@ -25,7 +26,6 @@ class UploadStreetPetsState extends ConsumerState<UploadStreetPets> {
   TextEditingController barrioMascota = TextEditingController();
   TextEditingController direccionMascota = TextEditingController();
 
-
   File? imagepath;
   String? imagename;
   String? imagedata;
@@ -49,7 +49,7 @@ class UploadStreetPetsState extends ConsumerState<UploadStreetPets> {
     });
   }
 
-    Future<void> getImageCamera() async {
+  Future<void> getImageCamera() async {
     await _controller.getImageCamera(imagePicker,
         (File? file, String? name, String? data) {
       setState(() {
@@ -71,7 +71,7 @@ class UploadStreetPetsState extends ConsumerState<UploadStreetPets> {
     });
   }
 
-    Future<void> getImageCamera2() async {
+  Future<void> getImageCamera2() async {
     await _controller.getImageCamera2(imagePicker,
         (File? file, String? name, String? data) {
       setState(() {
@@ -93,7 +93,7 @@ class UploadStreetPetsState extends ConsumerState<UploadStreetPets> {
     });
   }
 
-    Future<void> getImageCamera3() async {
+  Future<void> getImageCamera3() async {
     await _controller.getImageCamera3(imagePicker,
         (File? file, String? name, String? data) {
       setState(() {
@@ -129,34 +129,29 @@ class UploadStreetPetsState extends ConsumerState<UploadStreetPets> {
                           : const Icon(
                               Icons.image_search_rounded,
                               size: 50,
-
                             ),
-                            const SizedBox(height: 30),
-                      
-                        
-                        
-                          ElevatedButton(
-                          onPressed: () {
-                            getImage();
-                          },
-                          style: ButtonStyle(
-                            minimumSize: MaterialStateProperty.all(const Size(60,
-                                40),),
-                                 
+                      const SizedBox(height: 30),
+                      ElevatedButton(
+                        onPressed: () {
+                          getImage();
+                        },
+                        style: ButtonStyle(
+                          minimumSize: MaterialStateProperty.all(
+                            const Size(60, 40),
                           ),
-                          child: const Icon(Icons.photo_library),  
                         ),
-                        ElevatedButton(
-                          onPressed: () {
-                            getImageCamera();
-                          },
-                          style: ButtonStyle(
-                            minimumSize: MaterialStateProperty.all(const Size(60,
-                                40)),
-                          ),
-                          child: const Icon(Icons.camera_alt),  
+                        child: const Icon(Icons.photo_library),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          getImageCamera();
+                        },
+                        style: ButtonStyle(
+                          minimumSize:
+                              MaterialStateProperty.all(const Size(60, 40)),
                         ),
-                    
+                        child: const Icon(Icons.camera_alt),
+                      ),
                     ],
                   ),
                 ),
@@ -179,32 +174,30 @@ class UploadStreetPetsState extends ConsumerState<UploadStreetPets> {
                             ),
                       const SizedBox(height: 30),
                       imagepath != null
-                          ? Column(
-                            children: [
+                          ? Column(children: [
                               ElevatedButton(
-                          onPressed: () {
-                            getImage2();
-                          },
-                          style: ButtonStyle(
-                            minimumSize: MaterialStateProperty.all(const Size(60,
-                                40),),
-                                 
-                          ),
-                          child: const Icon(Icons.photo_library),  
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            getImageCamera2();
-                          },
-                          style: ButtonStyle(
-                            minimumSize: MaterialStateProperty.all(const Size(60,
-                                40)),
-                          ),
-                          child: const Icon(Icons.camera_alt),  
-                        ),
-                    ])
-                          : Column(
-                            children: [
+                                onPressed: () {
+                                  getImage2();
+                                },
+                                style: ButtonStyle(
+                                  minimumSize: MaterialStateProperty.all(
+                                    const Size(60, 40),
+                                  ),
+                                ),
+                                child: const Icon(Icons.photo_library),
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  getImageCamera2();
+                                },
+                                style: ButtonStyle(
+                                  minimumSize: MaterialStateProperty.all(
+                                      const Size(60, 40)),
+                                ),
+                                child: const Icon(Icons.camera_alt),
+                              ),
+                            ])
+                          : Column(children: [
                               ElevatedButton(
                                 onPressed: () {
                                   ScaffoldMessenger.of(context).showSnackBar(
@@ -214,10 +207,11 @@ class UploadStreetPetsState extends ConsumerState<UploadStreetPets> {
                                     ),
                                   );
                                 },
-                              style: ButtonStyle(
-                              minimumSize: MaterialStateProperty.all(const Size(60,
-                                  40),),     
-                              ),
+                                style: ButtonStyle(
+                                  minimumSize: MaterialStateProperty.all(
+                                    const Size(60, 40),
+                                  ),
+                                ),
                                 child: const Icon(
                                   Icons.photo_library,
                                 ),
@@ -231,15 +225,16 @@ class UploadStreetPetsState extends ConsumerState<UploadStreetPets> {
                                     ),
                                   );
                                 },
-                              style: ButtonStyle(
-                              minimumSize: MaterialStateProperty.all(const Size(60,
-                                  40),),     
-                              ),
+                                style: ButtonStyle(
+                                  minimumSize: MaterialStateProperty.all(
+                                    const Size(60, 40),
+                                  ),
+                                ),
                                 child: const Icon(
                                   Icons.camera_alt,
                                 ),
                               ),
-                    ]),
+                            ]),
                     ],
                   ),
                 ),
@@ -248,84 +243,87 @@ class UploadStreetPetsState extends ConsumerState<UploadStreetPets> {
                 ),
                 Expanded(
                   child: Column(
-                    //Imagen 3 y Widgets
-                    children: [
-                    imagepath3 != null
-                        ? Image.file(
-                            imagepath3!,
-                            width: 100,
-                            height: 120,
-                          )
-                        : const Icon(
-                            Icons.image_search_rounded,
-                            size: 50,
-                          ),
-                    const SizedBox(height: 30),
-                    imagepath2 != null
-                        ? Column(
-                          children: [
-                           ElevatedButton(
-                          onPressed: () {
-                            getImage3();
-                          },
-                          style: ButtonStyle(
-                            minimumSize: MaterialStateProperty.all(const Size(60,
-                                40),),      
-                          ),
-                          child: const Icon(Icons.photo_library),  
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            getImageCamera3();
-                          },
-                          style: ButtonStyle(
-                            minimumSize: MaterialStateProperty.all(const Size(60,
-                                40)),
-                          ),
-                          child: const Icon(Icons.camera_alt),  
-                        ),
-                  ])
-                        : Column(
-                          children: [
-                            ElevatedButton(
-                                onPressed: () {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                          'Selecciona Imagen 1 y 2 para agregar mas'),
+                      //Imagen 3 y Widgets
+                      children: [
+                        imagepath3 != null
+                            ? Image.file(
+                                imagepath3!,
+                                width: 100,
+                                height: 120,
+                              )
+                            : const Icon(
+                                Icons.image_search_rounded,
+                                size: 50,
+                              ),
+                        const SizedBox(height: 30),
+                        imagepath2 != null
+                            ? Column(children: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    getImage3();
+                                  },
+                                  style: ButtonStyle(
+                                    minimumSize: MaterialStateProperty.all(
+                                      const Size(60, 40),
                                     ),
-                                  );
-                                },
-                              style: ButtonStyle(
-                              minimumSize: MaterialStateProperty.all(const Size(60,
-                                  40),),     
-                              ),
-                                child: const Icon(
-                                  Icons.photo_library,
+                                  ),
+                                  child: const Icon(Icons.photo_library),
                                 ),
-                              ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                          'Selecciona Imagen 1 y 2 para agregar mas'),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    getImageCamera3();
+                                  },
+                                  style: ButtonStyle(
+                                    minimumSize: MaterialStateProperty.all(
+                                        const Size(60, 40)),
+                                  ),
+                                  child: const Icon(Icons.camera_alt),
+                                ),
+                              ])
+                            : Column(children: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                            'Selecciona Imagen 1 y 2 para agregar mas'),
+                                      ),
+                                    );
+                                  },
+                                  style: ButtonStyle(
+                                    minimumSize: MaterialStateProperty.all(
+                                      const Size(60, 40),
                                     ),
-                                  );
-                                },
-                              style: ButtonStyle(
-                              minimumSize: MaterialStateProperty.all(const Size(60,
-                                  40),),     
-                              ),
-                                child: const Icon(
-                                  Icons.camera_alt,
+                                  ),
+                                  child: const Icon(
+                                    Icons.photo_library,
+                                  ),
                                 ),
-                              ),
-                    ]),
-                  ]),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                            'Selecciona Imagen 1 y 2 para agregar mas'),
+                                      ),
+                                    );
+                                  },
+                                  style: ButtonStyle(
+                                    minimumSize: MaterialStateProperty.all(
+                                      const Size(60, 40),
+                                    ),
+                                  ),
+                                  child: const Icon(
+                                    Icons.camera_alt,
+                                  ),
+                                ),
+                              ]),
+                      ]),
                 ),
               ]),
-              const SizedBox(height: 25,),
+              const SizedBox(
+                height: 25,
+              ),
               SizedBox(
                   width: double.infinity,
                   height: 60,
@@ -377,6 +375,12 @@ class UploadStreetPetsState extends ConsumerState<UploadStreetPets> {
                 // onChanged: loginCubit.misionChanged,
                 // errorMessage: misionCubit.errorMessage,
               ),
+              const SizedBox(height: 10),
+              TextButton(
+                  onPressed: () {
+                    context.push("/maps");
+                  },
+                  child: const Text("Marcar Ubicación")),
               const SizedBox(height: 30),
               SizedBox(
                 width: double.infinity,
@@ -395,6 +399,7 @@ class UploadStreetPetsState extends ConsumerState<UploadStreetPets> {
                         ciudadMascota: ref.watch(idCiudadProvider),
                         barrioMascota: ref.watch(idBarrioProvider),
                         direccionMascota: direccionMascota.text,
+                        ubicacionMascota: ref.watch(selectUbicacionProvider),
                         idUsuario: idUsuario,
                         nombreRol: nombreRol,
                         imagedata: imagedata,

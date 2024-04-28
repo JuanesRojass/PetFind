@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:mascotas_bga/views/auth/screens/screens.dart';
 import 'package:mascotas_bga/views/content/screens/screens.dart';
+import 'package:mascotas_bga/controllers/utils/google_maps.dart';
 
 final GoRouter router = GoRouter(initialLocation: '/login', routes: [
   GoRoute(
@@ -70,6 +71,10 @@ final GoRouter router = GoRouter(initialLocation: '/login', routes: [
     GoRoute(
     path: '/solicitudRefugios',
     builder: (context, state) => const SolicitudRefugiosScreen(),
+  ),
+    GoRoute(
+    path: '/maps',
+    builder: (context, state) => const GoogleMapsScreen(),
   ),
   GoRoute(
     path: '/editCliente',

@@ -3,6 +3,8 @@
         android:label="mascotas_bga"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyCup1HEMdW1jZ_UFuPX-NtgYF03BCIpM3c"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

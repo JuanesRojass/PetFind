@@ -8,6 +8,7 @@ import 'package:mascotas_bga/controllers/delete/delete_street_pets_profile_contr
 import 'package:mascotas_bga/controllers/providers/general/rol_provider.dart';
 import 'package:mascotas_bga/controllers/utils/delete_message.dart';
 import 'package:mascotas_bga/views/content/screens/user/profiles/adp_pets_profile.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class PetsStreetProfile extends ConsumerStatefulWidget {
   const PetsStreetProfile({super.key, required this.petsStreet});
@@ -21,6 +22,12 @@ class PetsStreetProfileState extends ConsumerState<PetsStreetProfile> {
   final DeleteStreetPetsProfileController _controller = DeleteStreetPetsProfileController();
   @override
   Widget build(BuildContext context) {
+    String ubicacion = widget.petsStreet["ubicacion_mascota_calle"];
+    List<String> coordenadas = ubicacion.split(','); // Divido la cadena por la coma
+
+    double lat = double.parse(coordenadas[0]); // Obtener la latitud de la primera parte
+    double lng = double.parse(coordenadas[1]); // Obtener la longitud de la segunda parte
+  
     final rolUsuario = ref.watch(rolProvider);
     return Scaffold(
       appBar: AppBar(
@@ -196,6 +203,36 @@ class PetsStreetProfileState extends ConsumerState<PetsStreetProfile> {
                 "Descripción",
                 widget.petsStreet["desc_mascota_calle"],
               ),
+              const SizedBox(height: 10,),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Ubicación Mascota",  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))
+                ]),
+                const SizedBox(height: 10,),
+                SizedBox(
+                  height: 300, 
+                  child: GoogleMap(
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(lat, lng),
+                      zoom: 15,
+                    ),
+                    markers: {
+                      Marker(
+                        markerId: const MarkerId('mascota_calle'),
+                        position: LatLng(lat, lng),
+                        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
+                        infoWindow: const InfoWindow(
+                          title: 'Ubicación de la mascota callejera',
+                          snippet: 'Aquí se Vio por última vez la mascota callejera',
+                        ),
+                      ),
+                    },
+                    onMapCreated: (GoogleMapController controller) {
+                      
+                    },
+                  ),
+                ),
               const SizedBox(height: 40),
               const SizedBox(
                 height: 10,
