@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mascotas_bga/controllers/auth/admin/solicitud_refugios_controller.dart';
+import 'package:mascotas_bga/controllers/admin/solicitud_refugios_controller.dart';
 
 import '../../../../helpers/shared.dart';
 

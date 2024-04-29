@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mascotas_bga/controllers/auth/blocs/all_blocs.dart';
-import 'package:mascotas_bga/controllers/infrastructure/inputs/inputs.dart';
+import 'package:mascotas_bga/controllers/infrastructure/inputs.dart';
 import 'package:mascotas_bga/helpers/shared.dart';
 
 class RegisterFormRefugio extends ConsumerWidget {

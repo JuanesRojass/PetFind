@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mascotas_bga/controllers/auth/blocs/all_blocs.dart';
-import 'package:mascotas_bga/controllers/register/register_controller.dart';
+import 'package:mascotas_bga/controllers/register/register_controller_user.dart';
 import 'package:mascotas_bga/views/auth/forms/forms.dart';
 import '../../../../helpers/widgets/widgets.dart';
 

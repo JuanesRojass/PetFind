@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 
 import 'package:formz/formz.dart';
 // import 'package:mascotas_bga/controllers/infrastructure/inputs/description_refugio.dart';
-import 'package:mascotas_bga/controllers/infrastructure/inputs/inputs.dart';
+import 'package:mascotas_bga/controllers/infrastructure/inputs.dart';
 // import 'package:mascotas_bga/controllers/infrastructure/inputs/mision_refugio.dart';
 
 import 'package:meta/meta.dart';

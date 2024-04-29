@@ -24,10 +24,10 @@ final GoRouter router = GoRouter(initialLocation: '/login', routes: [
     path: '/pets',
     builder: (context, state) => const AdpPetsScreen(),
   ),
-  GoRoute(
-    path: '/petsRefugio',
-    builder: (context, state) => const PetsRefugioScreen(),
-  ),
+  // GoRoute(
+  //   path: '/petsRefugio',
+  //   builder: (context, state) => const PetsRefugioScreen(),
+  // ),
   GoRoute(
     path: '/lost',
     builder: (context, state) => const LostPetsScreen(),
