@@ -24,7 +24,7 @@ class GoogleMapsScreenState extends ConsumerState<GoogleMapsScreen> {
 void initState() {
   super.initState();
   // Inicializar la cámara con las coordenadas predeterminadas
-  initialCameraPosition = CameraPosition(
+  initialCameraPosition = const CameraPosition(
     target: LatLng(7.12539, -73.1198),
     zoom: 15,
   );
@@ -44,17 +44,17 @@ Widget build(BuildContext context) {
           googleAPIKey: "AIzaSyCup1HEMdW1jZ_UFuPX-NtgYF03BCIpM3c",
           inputDecoration: InputDecoration(
             
-           hintText: " Buscar Dirección", hintStyle: TextStyle(fontSize: 20),
-            contentPadding: EdgeInsets.symmetric(vertical: 2.0), // Ajusta el padding vertical
+           hintText: " Buscar Dirección", hintStyle: const TextStyle(fontSize: 20),
+            contentPadding: const EdgeInsets.symmetric(vertical: 2.0), // Ajusta el padding vertical
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.0),
-              borderSide: BorderSide(color: Colors.grey), // Color del borde
+              borderSide: const BorderSide(color: Colors.grey), // Color del borde
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.0),
-              borderSide: BorderSide(color: Colors.grey), // Color del borde
+              borderSide: const BorderSide(color: Colors.grey), // Color del borde
             ),
-            suffixIcon: Icon(Icons.search),
+            suffixIcon: const Icon(Icons.search),
           ),
           debounceTime: 400,
               isLatLngRequired: true,
@@ -70,11 +70,11 @@ Widget build(BuildContext context) {
                     });
 
                     // Esperar un momento antes de animar la cámara para asegurar que el mapa se haya centrado
-                    Future.delayed(Duration(milliseconds: 500), () {
+                    Future.delayed(const Duration(milliseconds: 500), () {
                       // Animar la cámara para que se centre en la nueva ubicación
                       mapController.animateCamera(CameraUpdate.newLatLng(selectedLocation!));
                     });
-                print("placeDetails" + prediction.lat.toString() + prediction.lng.toString());
+                // print("placeDetails" + prediction.lat.toString() + prediction.lng.toString());
                 },
               itemClick: (Prediction prediction) {
                 print("Prediction: ${prediction.lat}");
@@ -87,17 +87,17 @@ Widget build(BuildContext context) {
                   },
           itemBuilder: (context, index, Prediction prediction) {
             return Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: Row(
                 children: [
-                  Icon(Icons.location_on),
-                  SizedBox(width: 7),
-                  Expanded(child: Text("${prediction.description ?? ""}")),
+                  const Icon(Icons.location_on),
+                  const SizedBox(width: 7),
+                  Expanded(child: Text(prediction.description ?? "")), //revisar
                 ],
               ),
             );
           },
-          seperatedBuilder: Divider(),
+          seperatedBuilder: const Divider(),
           isCrossBtnShown: true,
           containerHorizontalPadding: 10,
         ),

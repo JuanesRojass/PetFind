@@ -9,6 +9,7 @@ import 'package:mascotas_bga/controllers/providers/general/rol_provider.dart';
 import 'package:mascotas_bga/controllers/utils/delete_message.dart';
 import 'package:mascotas_bga/views/content/screens/user/profiles/adp_pets_profile.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PetsStreetProfile extends ConsumerStatefulWidget {
   const PetsStreetProfile({super.key, required this.petsStreet});
@@ -22,11 +23,17 @@ class PetsStreetProfileState extends ConsumerState<PetsStreetProfile> {
   final DeleteStreetPetsProfileController _controller = DeleteStreetPetsProfileController();
   @override
   Widget build(BuildContext context) {
-    String ubicacion = widget.petsStreet["ubicacion_mascota_calle"];
-    List<String> coordenadas = ubicacion.split(','); // Divido la cadena por la coma
+    
+        double? lat;
+        double? lng;
 
-    double lat = double.parse(coordenadas[0]); // Obtener la latitud de la primera parte
-    double lng = double.parse(coordenadas[1]); // Obtener la longitud de la segunda parte
+    // Verificar si la ubicación está disponible
+    String? ubicacion = widget.petsStreet["ubicacion_mascota_calle"];
+    if (ubicacion != null) {
+      List<String> coordenadas = ubicacion.split(','); // Dividir la cadena por la coma
+      lat = double.tryParse(coordenadas[0].trim()); // Intentar convertir la latitud
+      lng = double.tryParse(coordenadas[1].trim()); // Intentar convertir la longitud
+    }// Obtener la longitud de la segunda parte
   
     final rolUsuario = ref.watch(rolProvider);
     return Scaffold(
@@ -210,28 +217,30 @@ class PetsStreetProfileState extends ConsumerState<PetsStreetProfile> {
                   Text("Ubicación Mascota",  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))
                 ]),
                 const SizedBox(height: 10,),
-                SizedBox(
-                  height: 300, 
-                  child: GoogleMap(
-                    initialCameraPosition: CameraPosition(
-                      target: LatLng(lat, lng),
-                      zoom: 15,
-                    ),
-                    markers: {
-                      Marker(
-                        markerId: const MarkerId('mascota_calle'),
-                        position: LatLng(lat, lng),
-                        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
-                        infoWindow: const InfoWindow(
-                          title: 'Ubicación de la mascota callejera',
-                          snippet: 'Aquí se Vio por última vez la mascota callejera',
-                        ),
+                (lat == null || lng == null) ? 
+                  const Center(child: Text("Ubicación no disponible")) :
+                  SizedBox(
+                    height: 300,
+                    child: GoogleMap(
+                      initialCameraPosition: CameraPosition(
+                        target: LatLng(lat, lng),
+                        zoom: 15,
                       ),
-                    },
-                    onMapCreated: (GoogleMapController controller) {
-                      
-                    },
-                  ),
+                      markers: {
+                        Marker(
+                          markerId: const MarkerId('mascota_calle'),
+                          position: LatLng(lat, lng),
+                          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
+                          infoWindow: const InfoWindow(
+                            title: 'Ubicación de la mascota callejera',
+                            snippet: 'Aquí se vio por última vez la mascota callejera',
+                          ),
+                        ),
+                      },
+                      onMapCreated: (GoogleMapController controller) {
+                        // Configuración adicional del mapa, si es necesario
+                      },
+                    ),
                 ),
               const SizedBox(height: 40),
               const SizedBox(
@@ -258,18 +267,18 @@ class PetsStreetProfileState extends ConsumerState<PetsStreetProfile> {
                                 child: const Text("Cerrar"),
                               ),
                               TextButton(
-                                onPressed: () {
-                                  Clipboard.setData(ClipboardData(
-                                      text: widget
-                                          .petsStreet['telefono_usuario']));
+                                onPressed: () async{
+                                  final Uri url = Uri.parse('tel:${widget.petsStreet["telefono_usuario"]}');
+                                  if (await canLaunchUrl(url)) {
+                                    await launchUrl(url);
+                                  } else {
+                                  // ignore: use_build_context_synchronously
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text(
-                                            "Teléfono copiado al portapapeles")),
+                                    const SnackBar(content: Text("No se pudo realizar la llamada")),
                                   );
-                                  Navigator.of(context).pop();
+                                }
                                 },
-                                child: const Text("Copiar"),
+                                child: const Text("Llamar"),
                               ),
                             ],
                           );

@@ -109,7 +109,7 @@ class UploadAdpPetsState extends ConsumerState<UploadAdpPets> {
     final idCliente = ref.watch(idRefugioProvider);
 
     return Scaffold(
-        appBar: AppBar(title: const Text("Registrar Mascota en Adopción")),
+        appBar: AppBar(title: const Text("Registrar Mascota en Adopción", style: TextStyle(fontSize: 18),)),
         body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30),
             child: ListView(children: [

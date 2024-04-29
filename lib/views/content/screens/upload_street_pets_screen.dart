@@ -110,7 +110,7 @@ class UploadStreetPetsState extends ConsumerState<UploadStreetPets> {
     final nombreRol = ref.watch(rolProvider);
 
     return Scaffold(
-        appBar: AppBar(title: const Text("Registrar Mascota en Adopción")),
+        appBar: AppBar(title: const Text("Registrar Mascota en Calle", style: TextStyle(fontSize: 20),)),
         body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30),
             child: ListView(children: [
@@ -380,7 +380,12 @@ class UploadStreetPetsState extends ConsumerState<UploadStreetPets> {
                   onPressed: () {
                     context.push("/maps");
                   },
-                  child: const Text("Marcar Ubicación")),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                    Text("Marcar Ubicación", style: TextStyle(fontSize: 18),),
+                    Icon(Icons.add_location_alt_outlined)
+                    ])),
               const SizedBox(height: 30),
               SizedBox(
                 width: double.infinity,
