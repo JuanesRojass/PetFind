@@ -31,15 +31,6 @@ class MascotaLostEditState extends ConsumerState<MascotaLostEdit> {
   TextEditingController barrioMascota = TextEditingController();
   TextEditingController dirMascota = TextEditingController();
 
-  // File? imagepath;
-  // String? imagename;
-  // String? imagedata;
-  // File? imagepath2;
-  // String? imagename2;
-  // String? imagedata2;
-  // File? imagepath3;
-  // String? imagename3;
-  // String? imagedata3;
 
   ImagePicker imagePicker = ImagePicker();
 
@@ -95,87 +86,16 @@ class MascotaLostEditState extends ConsumerState<MascotaLostEdit> {
         ),
       );
     }
-
-    // Future<void> getImage() async {
-    //   await _controller.getImage(imagePicker,
-    //       (File? file, String? name, String? data) {
-    //     setState(() {
-    //       imagepath = file;
-    //       imagename = name;
-    //       imagedata = data;
-    //     });
-    //   });
-    // }
-
-    // Future<void> getImage2() async {
-    //   await _controller.getImage2(imagePicker,
-    //       (File? file, String? name, String? data) {
-    //     setState(() {
-    //       imagepath2 = file;
-    //       imagename2 = name;
-    //       imagedata2 = data;
-    //     });
-    //   });
-    // }
-
-    // Future<void> getImage3() async {
-    //   await _controller.getImage3(imagePicker,
-    //       (File? file, String? name, String? data) {
-    //     setState(() {
-    //       imagepath3 = file;
-    //       imagename3 = name;
-    //       imagedata3 = data;
-    //     });
-    //   });
-    // }
   }
-
   @override
   Widget build(BuildContext context) {
-    // final idUsuario = ref.watch(idUsuarioProvider);
-    // final nombreRol = ref.watch(rolProvider);
+
 
     return Scaffold(
         appBar: AppBar(title: const Text("Modificar Datos")),
         body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30),
             child: ListView(children: [
-              // const SizedBox(height: 30),
-              // Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-              //   Expanded(
-              //       child: Column(children: [
-              //     Wrap(alignment: WrapAlignment.spaceEvenly, children: [
-              //       Image.network(
-              //         // ignore: prefer_interpolation_to_compose_strings
-              //         "http://$ipConnect/mascotas/" +
-              //             widget.mascotaLostEdit["imagen_mascota"],
-              //         width: 100,
-              //         height: 150,
-              //         fit: BoxFit.cover,
-              //       ),
-              //       const SizedBox(
-              //         width: 10,
-              //       ),
-              //       Image.network(
-              //         // ignore: prefer_interpolation_to_compose_strings
-              //         "http://$ipConnect/mascotas/" +
-              //             widget.mascotaLostEdit["imagen_mascota_dos"],
-              //         width: 100,
-              //         height: 150,
-              //         fit: BoxFit.cover,
-              //       ),
-              //       const SizedBox(
-              //         width: 10,
-              //       ),
-              //       Image.network(
-              //         // ignore: prefer_interpolation_to_compose_strings
-              //         "http://$ipConnect/mascotas/" +
-              //             widget.mascotaLostEdit["imagen_mascota_tres"],
-              //         width: 100,
-              //         height: 150,
-              //         fit: BoxFit.cover,
-              //       )
-              //     ]),
                   const SizedBox(
                     height: 20,
                   ),
