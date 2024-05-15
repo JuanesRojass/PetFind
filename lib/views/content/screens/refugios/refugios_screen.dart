@@ -49,6 +49,9 @@ class RefugiosScreenState extends ConsumerState<RefugiosScreen> {
     case 'Invitado':
       drawerForRole = SideInvitadoMenu(scaffoldKey: scaffoldKey);
       break;
+    case 'Administrador':
+      drawerForRole = SideAdminMenu(scaffoldKey: scaffoldKey);
+      break;
   }
 
     return Scaffold(

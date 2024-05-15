@@ -56,6 +56,9 @@ class StreetPetsScreenState extends ConsumerState<StreetPetsScreen> {
     case 'Invitado':
       drawerForRole = SideInvitadoMenu(scaffoldKey: scaffoldKey);
       break;
+    case 'Administrador':
+      drawerForRole = SideAdminMenu(scaffoldKey: scaffoldKey);
+      break;
   }
 
 

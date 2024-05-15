@@ -15,7 +15,7 @@ class Telefono extends FormzInput<String, TelefonoError> {
     if (isValid || isPure) return null;
 
     if (displayError == TelefonoError.empty) return 'El campo es requerido';
-    if (displayError == TelefonoError.length) return 'No existe numero de telefono con mas de 20 numeros';
+    if (displayError == TelefonoError.length) return 'No existe telefonos con mas de 10 numeros';
     return null;
   }
 
@@ -23,7 +23,7 @@ class Telefono extends FormzInput<String, TelefonoError> {
   @override
   TelefonoError? validator(String value) {
     if (value.isEmpty || value.trim().isEmpty) return TelefonoError.empty;
-    if (value.length > 20) return TelefonoError.length;
+    if (value.length > 10) return TelefonoError.length;
 
     return null;
   }

@@ -1,10 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mascotas_bga/controllers/providers/providers.dart';
 import 'package:mascotas_bga/controllers/upload/upload_lost_pets_controller.dart';
 import 'dart:io';
-import 'package:mascotas_bga/controllers/providers/general/id_cliente_provider.dart';
-import 'package:mascotas_bga/controllers/providers/general/id_ciudad_provider.dart';
-import 'package:mascotas_bga/controllers/providers/general/id_tipo_mascota_provider.dart';
 import 'package:mascotas_bga/helpers/shared.dart';
 import '../../../../controllers/infrastructure/inputs.dart';
 
@@ -112,7 +110,7 @@ class UploadLostPetsState extends ConsumerState<UploadLostPets> {
     final idCliente = ref.watch(idClienteProvider);
 
     return Scaffold(
-        appBar: AppBar(title: const Text("Registrar Mascota Perdida")),
+        appBar: AppBar(title: const Text("Registrar Mascota Perdida", style: TextStyle(fontSize: 19))),
         body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30),
             child: ListView(children: [
@@ -427,6 +425,9 @@ class UploadLostPetsState extends ConsumerState<UploadLostPets> {
 
                     ref.read(idTipoMascotaProvider.notifier).setId("");
                     ref.read(idCiudadProvider.notifier).setId("");
+                    ref.read(nombreTipoProvider.notifier).setName("");
+                    ref.read(nombreRazaProvider.notifier).setName("");
+          
                   },
                   
                 ),

@@ -1,9 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mascotas_bga/controllers/providers/providers.dart';
 import 'package:mascotas_bga/controllers/upload/upload_adp_pets_controller.dart';
 import 'dart:io';
-import 'package:mascotas_bga/controllers/providers/refugio/id_refugio_provider.dart';
-import 'package:mascotas_bga/controllers/providers/general/id_tipo_mascota_provider.dart';
 import 'package:mascotas_bga/helpers/shared.dart';
 import '../../../../controllers/infrastructure/inputs.dart';
 
@@ -403,6 +402,9 @@ class UploadAdpPetsState extends ConsumerState<UploadAdpPets> {
                         context: context);
                     // loginCubit.onSubmit();
                         ref.read(idTipoMascotaProvider.notifier).setId("");
+                        ref.read(nombreTipoProvider.notifier).setName("");
+                        ref.read(nombreRazaProvider.notifier).setName("");
+                        ref.read(idCiudadProvider.notifier).setId("");
                   },
                 ),
               ),

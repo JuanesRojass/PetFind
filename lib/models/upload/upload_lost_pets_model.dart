@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:mascotas_bga/config/connect/connect_server.dart';
 
-
 class PostLostPetsModel {
   Future<void> registrarMascotaPerdida({
     required String nombreMascota,
@@ -55,6 +54,7 @@ class PostLostPetsModel {
         } else {
           print("some issue");
         }
+        return response;
       } catch (e) {
         print(e);
       }
